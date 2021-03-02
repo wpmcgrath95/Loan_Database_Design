@@ -1,4 +1,4 @@
-# PythonProject
+# Designing a Logical Database Using Loan Data
 
 # Setup for developement:
 
