@@ -1,4 +1,5 @@
 # Designing a Logical Database Using Loan Data
+## Note: All data used is created and for educational purposes
 
 # Setup for developement:
 
