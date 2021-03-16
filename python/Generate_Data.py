@@ -1,12 +1,24 @@
+import sys
 import os
 import pandas as pd
 import random
+from datetime import datetime, timedelta
+import uuid
+import re
+import itertools
+import json
 
 class GenerateFakeData(object):
     def __init__(self):
         self.this_dir = os.path.dirname(os.path.realpath(__file__))
 
-    def generate_dates(self):
+    def read_csv(self):
+        pass
+
+    def generate_dates(self, **kwargs):
+        pass
+
+    def generate_nums(self, **kwargs):
         pass
 
     def generate_int(self, length, start, stop, **kwargs):
@@ -22,7 +34,7 @@ class GenerateFakeData(object):
 
     def generate_ids(self, start, stop, **kwargs):
         ids = [hash(i)**2 for i in range(start, stop)]
-        
+
         return ids
 
     def main(self):
