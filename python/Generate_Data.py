@@ -8,11 +8,13 @@ import re
 import itertools
 import json
 
-class GenerateFakeData(object):
-    def __init__(self):
+class GenerateRawData(object):
+    def __init__(self, data_model_file=None):
         self.this_dir = os.path.dirname(os.path.realpath(__file__))
+        self.data_model_file = os.path.join(self.this_dir, "../data/loan_data_model.xlsx")
+        self.data_model = pd.read_excel(self.data_model_file, sheet_name="Raw_Table", engine='openpyxl').dropna(how="all")
 
-    def read_csv(self):
+    def read_sheet(self):
         pass
 
     def generate_dates(self, **kwargs):
@@ -41,4 +43,4 @@ class GenerateFakeData(object):
         pass
     
 if __name__ == "__main__":
-    sys.exit(GenerateFakeData().main())
+    sys.exit(GenerateRawData().main())
