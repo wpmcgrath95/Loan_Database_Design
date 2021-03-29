@@ -1,3 +1,7 @@
+"""
+- create sql database with sql
+- create docker container that creates sql database and lets user query through database
+"""
 import sys
 import os
 import pandas as pd
@@ -14,7 +18,7 @@ class GenerateRawData(object):
         self.data_model_file = os.path.join(self.this_dir, "../data/loan_data_model.xlsx")
         self.data_model = pd.read_excel(self.data_model_file, sheet_name="Raw_Table", engine='openpyxl').dropna(how="all")
 
-    def read_sheet(self):
+    def generate_names(self, **kwargs):
         pass
 
     def generate_dates(self, **kwargs):
