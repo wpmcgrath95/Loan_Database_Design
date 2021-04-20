@@ -50,10 +50,10 @@ INSERT INTO tblPeople VALUES
 /*------------------------------------------------------------*/
 CREATE TABLE tblRealEstateAgent
 (
-	AgentID 	int             PRIMARY KEY            REFERENCES tblPEOPLE, -- Setup a column and designate it as primary key
-	RSLicenseNo	varchar (64)    UNIQUE NOT NULL                            , -- Alternative Key
-	Region 	    varchar (128)	                                           , 
-	CompanyID   int	                                  REFERENCES tblCOMPANY		
+	AgentID 	int              PRIMARY KEY        REFERENCES tblPEOPLE  , -- Setup a column and designate it as primary key
+	RSLicenseNo	varchar (64)     UNIQUE NOT NULL                          , -- Alternative Key
+	Region 	    varchar (128)	                                          , 
+	CompanyID   int	                                 REFERENCES tblCOMPANY		
 );
 
 INSERT INTO tblRealEstateAgent VALUES   
