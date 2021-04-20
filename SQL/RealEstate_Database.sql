@@ -56,7 +56,6 @@ CREATE TABLE tblRealEstateAgent
 	CompanyID   int	                                  REFERENCES tblCOMPANY		
 );
 
-
 INSERT INTO tblRealEstateAgent VALUES   
 (1001, '#20004559'  ,   'Northeast'    , 10001),  
 (1002, '#30908579'  ,   'Southwest'    , 10001),    
@@ -69,29 +68,42 @@ INSERT INTO tblRealEstateAgent VALUES
 (1009, '#80007411'  ,   'Central'     ,  10005);    
 
 /*------------------------------------------------------------*/
+/*            Create the BUYING OR SELLING table	          */
+/*------------------------------------------------------------*/
+CREATE TABLE tblBuyingOrSelling
+(
+	AgentID 				int 			 PRIMARY KEY REFERENCES tblRealEstateAgent,
+	ClientID 				int 			 REFERENCES tblClients					  ,
+	BuyingOrSellingInd  	varchar(64)
+); 
+
+INSERT INTO tblBuyingOrSelling VALUES
+(); 
+
+/*------------------------------------------------------------*/
 /*              Create the CLIENTS table	          		  */
 /*------------------------------------------------------------*/
 CREATE TABLE tblClients
 (
-	ClientID	           int			PRIMARY KEY REFERENCES tblPEOPLE,
-	DOB                    varchar(64)                                  ,
-	Street       		   varchar(64)									,
-	City                   varchar(64)                                  ,
-	State                  varchar(64)                                  ,
-	ZipCode                varchar(64)                                  ,
-	Region          	   varchar(64)                                  ,
-	Gender                 varchar(64)                                  ,
-	SSN                    varchar(64)  UNIQUE                          ,
-	Income                 int                                          ,
-	PrimaryEmployer        varchar(64)                                  ,
-	JobTitle               varchar(64)                                  ,
-	BuyingIndicator        varchar(64)                                  ,
-	PriceRange             varchar(64)                                  ,
-	CurrentHouseholdSize   int                                          ,
-	TypeofHome             varchar(64)                                  ,
-	PoolInd                varchar(64)                                  ,
-	HOAInd	               varchar(64)                                  ,
-	StageID                int         /*  REFERENCES tblBuying/Selling	*/
+	ClientID	           int			   PRIMARY KEY REFERENCES tblPEOPLE,
+	DOB                    varchar(64)                                     ,
+	Street       		   varchar(64)									   ,
+	City                   varchar(64)                                     ,
+	State                  varchar(64)                                     ,
+	ZipCode                varchar(64)                                     ,  
+	Region          	   varchar(64)                                     ,
+	Gender                 varchar(64)                                     ,
+	SSN                    varchar(64)     UNIQUE                          ,
+	Income                 int                                             ,
+	PrimaryEmployer        varchar(64)                                     ,
+	JobTitle               varchar(64)                                     ,
+	BuyingIndicator        varchar(64)                                     ,
+	PriceRange             varchar(64)                                     ,
+	CurrentHouseholdSize   int                                             ,
+	TypeofHome             varchar(64)                                     ,
+	PoolInd                varchar(64)                                     ,
+	HOAInd	               varchar(64)                                     ,
+	StageID                int             REFERENCES tblBuyingOrSelling 
 );
 
 INSERT INTO tblClients VALUES
@@ -297,18 +309,5 @@ CREATE TABLE tblCreditReports
 
 INSERT INTO tblCreditReports VALUES
 (30001, '100000', '55000', '777', '0', '3000', '1000','', 1010, 20001);
-
-/*------------------------------------------------------------*/
-/*            Create the BUYING OR SELLING table	          */
-/*------------------------------------------------------------*/
-CREATE TABLE BuyingOrSelling
-(
-	AgentID 				int 			 PRIMARY KEY REFERENCES tblRealEstateAgent,
-	ClientID 				int 			 REFERENCES tblClients					  ,
-	BuyingOrSellingInd  	varchar(64)
-); 
-
-INSERT INTO tbBuyingOrSelling VALUES
-(); 
 
 GO
