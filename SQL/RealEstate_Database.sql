@@ -206,7 +206,7 @@ INSERT INTO tblLocationsOfInterest VALUES
 /*------------------------------------------------------------*/
 CREATE TABLE tblLocationOfInterestsForClients
 (
-	ClientID	               int		      PRIMARY KEY REFERENCES tblClients,
+	ClientID	               int		      PRIMARY KEY REFERENCES tblClients            ,
 	LocationofInterestID       int            PRIMARY KEY REFERENCES tblLocationsOfInterest,
 	InterestRank               varchar(64)    NOT NULL
 );
@@ -297,10 +297,10 @@ CREATE TABLE tblLoans
 	InterestRate          decimal(4,2)              				  ,
 	TypeofLoan            varchar(64)     NOT NULL   				  , --Business Rules state must be fully documented
 	Amount                int             NOT NULL   				  , --Business Rules state must be fully documented
-	ExpirationDate        Date            NOT NULL   				  , --Business Rules state must be fully documented
+	ExpirationDate        date            NOT NULL   				  , --Business Rules state must be fully documented
 	MortgageType          varchar(64)     NOT NULL   				  , --Business Rules state must be fully documented
-	DateOfSanction        Date            NOT NULL   				  , --Business Rules state must be fully documented
-	DateOfDisbursement    Date            NOT NULL   				  , --Business Rules state must be fully documented
+	DateOfSanction        date            NOT NULL   				  , --Business Rules state must be fully documented
+	DateOfDisbursement    date            NOT NULL   				  , --Business Rules state must be fully documented
 	DownPayment           int             NOT NULL   				  , --Business Rules state must be fully documented
 	PMI                   int                           			  ,
 	SalesContractID       int             REFERENCES tblSalesContracts,
