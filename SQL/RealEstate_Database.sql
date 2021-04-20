@@ -125,7 +125,6 @@ CREATE TABLE tblCompany
 	Zipcode		    varchar(128)				,
 );
 
-
 INSERT INTO tblCompany VALUES
 (1, 'California''s Best', '15746 Star Ave',	'Fremont', 'CA', '85748'),
 (2, 'Best Homes', '75847 Home St', 'Burbank', 'CA', '84547'), 
@@ -227,7 +226,25 @@ INSERT INTO tblSalesContracts VALUES
 (01007, 'Bank Transfer'),   
 (01008, 'Check'), 
 (01009, 'Bank Transfer'),
-(01010, 'Bank Transfer');    
+(01010, 'Bank Transfer');
+
+/*------------------------------------------------------------*/
+/*             	  Create the LENDERS table	              	  */
+/*------------------------------------------------------------*/
+CREATE TABLE tblLenders
+(
+	LenderID 	   		 int              PRIMARY KEY,
+	LoanOfficerName		 varchar(64) 				 ,
+	BankName	         varchar(64)      NOT NULL   ,
+	Street       		 varchar(64)			     ,
+	City                 varchar(64)                 ,
+	State                varchar(64)                 ,
+	ZipCode              varchar(64)                 ,
+	BankType			 varchar(64)	  NOT NULL   ,
+);
+
+INSERT INTO tblLenders VALUES
+(); 
 
 /*------------------------------------------------------------*/
 /*              Create the LOANS table	          			  */
@@ -235,7 +252,7 @@ INSERT INTO tblSalesContracts VALUES
 CREATE TABLE tblLoans 
 (
 	LoanID	              int			  PRIMARY KEY				  ,
-	InterestRate          decimal (4,2)              				  ,
+	InterestRate          decimal(4,2)              				  ,
 	TypeofLoan            varchar(64)     NOT NULL   				  , --Business Rules state must be fully documented
 	Amount                int             NOT NULL   				  , --Business Rules state must be fully documented
 	ExpirationDate        Date            NOT NULL   				  , --Business Rules state must be fully documented
@@ -284,11 +301,14 @@ INSERT INTO tblCreditReports VALUES
 /*------------------------------------------------------------*/
 /*            Create the BUYING OR SELLING table	          */
 /*------------------------------------------------------------*/
-CREATE TABLE  BuyingOrSelling
+CREATE TABLE BuyingOrSelling
 (
 	AgentID 				int 			 PRIMARY KEY REFERENCES tblRealEstateAgent,
 	ClientID 				int 			 REFERENCES tblClients					  ,
 	BuyingOrSellingInd  	varchar(64)
 ); 
+
+INSERT INTO tbBuyingOrSelling VALUES
+(); 
 
 GO
