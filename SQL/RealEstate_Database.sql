@@ -29,12 +29,12 @@ USE RealEstate;
 CREATE TABLE tblPeople
 (
 	PersonID	int             PRIMARY KEY,
-	FirstName	varchar (64)    NOT NULL,
-	LastName	varchar (64)	NOT NULL,
+	FirstName	varchar (64)    NOT NULL   ,
+	LastName	varchar (64)	NOT NULL   ,
 	PhoneNumber varchar (64)	
 );
 
-INSERT INTO tblPEOPLE VALUES   
+INSERT INTO tblPeople VALUES   
 (1001, 'Phil'    ,   'Collins'    ,     '6195559900'),
 (1002, 'Ted'     ,   'Mosley'     ,     '2125554000'),
 (1003, 'Elvis'   ,   'Costello'   ,     '4205550000'),
@@ -51,7 +51,7 @@ INSERT INTO tblPEOPLE VALUES
 CREATE TABLE tblRealEstateAgent
 (
 	AgentID 	int             PRIMARY KEY            REFERENCES tblPEOPLE, -- Setup a column and designate it as primary key
-	RSLicenseNo	varchar (64)    UNIQUE NOT NULL                            , --Alternative Key
+	RSLicenseNo	varchar (64)    UNIQUE NOT NULL                            , -- Alternative Key
 	Region 	    varchar (128)	                                           , 
 	CompanyID   int	                                  REFERENCES tblCOMPANY		
 );
@@ -65,31 +65,61 @@ INSERT INTO tblRealEstateAgent VALUES
 (1006, '#10002233'  ,   'Northeast'    , 10004),    
 (1007, '#20003455'  ,   'Mid-Atlantic' , 10010),   
 (1008, '#34556459'  ,   'Northwast'    , 10009), 
-(1009, '#80007411'  ,   'Central'     ,  10005);    
+(1009, '#80007411'  ,   'Central'     ,  10005);  
 
 /*------------------------------------------------------------*/
-/*            Create the BUYING OR SELLING table	          */
+/*          Create the BUYING SELLING STAGES table	     	  */
 /*------------------------------------------------------------*/
-CREATE TABLE tblBuyingOrSelling
-(
-	AgentID 				int 			 PRIMARY KEY REFERENCES tblRealEstateAgent,
-	ClientID 				int 			 REFERENCES tblClients					  ,
-	BuyingOrSellingInd  	varchar(64)
-); 
+CREATE TABLE tblBuyingSellingStages
+(   
+	StageID		  int		        PRIMARY KEY,
+	Stage         varchar(64)
+);
 
-INSERT INTO tblBuyingOrSelling VALUES
-(); 
+INSERT INTO tblBuyingSellingStages VALUES
+(1000, 'Started'),
+(2000, 'Processing'),
+(3000, 'Approved');
 
 /*------------------------------------------------------------*/
-/*              Create the CLIENTS table	          		  */
+/*               Create the LISTINGS table	     	 		  */
+/*------------------------------------------------------------*/
+CREATE TABLE tblListings
+(	
+	ListingID		   int  			 PRIMARY KEY							  ,
+	AgentID            int               FOREIGN KEY REFERENCES tblRealEstateAgent,
+	Street             varchar(64)		 UNIQUE	NOT NULL						  ,
+	City               varchar(64)                                                ,
+	TheState           varchar(64)                                                ,
+	ZipCode            varchar(64)                                                ,  
+	NoBedrooms		   varchar(64)											      ,
+	NoBaths			   varchar(64)												  ,
+	SquareFt           int														  ,
+	PropetyTax		   int														  ,
+	HOAFee			   int														  ,
+	EstClosingCost     int														  ,
+	AppraisalAmount    int
+);
+
+INSERT INTO tblListings VALUES
+(1111, 1001, '1111 Banana Avenue, San Diego, 92222', '4', '2', 120, 7000, 1000, 18000, 500),
+(1112, 1002, '2222 Apple Avenue, San Diego, 92212', '5', '3', 200, 7500, 1500, 20500, 517),
+(1113, 1003, '2232 Cat Avenue, San Diego, 92112', '2', '1', 100, 2000, 950, 16000, 450),
+(1114, 1004, '2332 Peach Avenue, San Diego, 91112', '6', '3', 400, 10000, 3000, 30000, 650),
+(1115, 1005, '3000 Pet Avenue, San Diego, 90002', '4', '1',  100, 6000, 990, 16500, 480),
+(1116, 1006, '4200 PPP Avenue, San Diego, 91002', '6', '2', 300, 9500, 2800, 29000, 620),
+(1117, 1007, '3333 Holiday Avenue, San Diego, 91000', '2', '2', 120, 4900, 1100, 18500, 475);
+
+/*------------------------------------------------------------*/
+/*               Create the CLIENTS table	          		  */
 /*------------------------------------------------------------*/
 CREATE TABLE tblClients
 (
 	ClientID	           int			   PRIMARY KEY REFERENCES tblPEOPLE,
 	DOB                    varchar(64)                                     ,
-	Street       		   varchar(64)									   ,
+	Street       		   varchar(64)	   UNIQUE NOT NULL			       ,
 	City                   varchar(64)                                     ,
-	State                  varchar(64)                                     ,
+	TheState               varchar(64)                                     ,
 	ZipCode                varchar(64)                                     ,  
 	Region          	   varchar(64)                                     ,
 	Gender                 varchar(64)                                     ,
@@ -129,12 +159,12 @@ INSERT INTO tblClients VALUES
 /*------------------------------------------------------------*/
 CREATE TABLE tblCompany	
 (
-	CompanyID		int				 PRIMARY KEY,	
-	CompanyName		varchar(128)				,	
-	Street			varchar(128)				,
-	City			varchar(128)				,
-	State			varchar(128)				,
-	Zipcode		    varchar(128)				,
+	CompanyID		int				 PRIMARY KEY    ,	
+	CompanyName		varchar(128)				    ,	
+	Street   		varchar(128)	 UNIQUE	NOT NULL,
+	City			varchar(128)				    ,
+	TheState	    varchar(128)				    ,
+	Zipcode		    varchar(128)				    ,
 );
 
 INSERT INTO tblCompany VALUES
@@ -245,14 +275,14 @@ INSERT INTO tblSalesContracts VALUES
 /*------------------------------------------------------------*/
 CREATE TABLE tblLenders
 (
-	LenderID 	   		 int              PRIMARY KEY,
-	LoanOfficerName		 varchar(64) 				 ,
-	BankName	         varchar(64)      NOT NULL   ,
-	Street       		 varchar(64)			     ,
-	City                 varchar(64)                 ,
-	State                varchar(64)                 ,
-	ZipCode              varchar(64)                 ,
-	BankType			 varchar(64)	  NOT NULL   ,
+	LenderID 	   		 int              PRIMARY KEY    ,
+	LoanOfficerName		 varchar(64) 				     ,
+	BankName	         varchar(64)      NOT NULL       ,
+	Street       		 varchar(64)	  UNIQUE NOT NULL,
+	City                 varchar(64)                     ,
+	TheState             varchar(64)                     ,
+	ZipCode              varchar(64)                     ,
+	BankType			 varchar(64)	  NOT NULL       ,
 );
 
 INSERT INTO tblLenders VALUES
@@ -309,5 +339,18 @@ CREATE TABLE tblCreditReports
 
 INSERT INTO tblCreditReports VALUES
 (30001, '100000', '55000', '777', '0', '3000', '1000','', 1010, 20001);
+
+/*------------------------------------------------------------*/
+/*            Create the BUYING OR SELLING table	          */
+/*------------------------------------------------------------*/
+CREATE TABLE tblBuyingOrSelling
+(
+	AgentID 				int 			 PRIMARY KEY REFERENCES tblRealEstateAgent,
+	ClientID 				int 			 REFERENCES tblClients					  ,
+	BuyingOrSellingInd  	varchar(64)
+); 
+
+INSERT INTO tblBuyingOrSelling VALUES
+(); 
 
 GO
