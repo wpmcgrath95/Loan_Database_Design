@@ -16,7 +16,7 @@ DROP DATABASE RealEstate;
 GO
 
 /*------------------------------------------------------------*/
-/*              Create the RealEstate Database                */
+/*             Create the REAL ESTATE Database                */
 /*------------------------------------------------------------*/
 CREATE DATABASE RealEstate;
 GO 
@@ -46,7 +46,7 @@ INSERT INTO tblPeople VALUES
 (1009, 'Robert'  ,   'Briggs'     ,     '8585555401');
 
 /*------------------------------------------------------------*/
-/*              Create the REALESTATEAGENT table	          */
+/*             Create the REAL ESTATE AGENT table	          */
 /*------------------------------------------------------------*/
 CREATE TABLE tblRealEstateAgent
 (
