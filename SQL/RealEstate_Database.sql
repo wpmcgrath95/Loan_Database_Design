@@ -26,18 +26,14 @@ USE RealEstate;
 /*------------------------------------------------------------*/
 /*              Create the PEOPLE table						  */
 /*------------------------------------------------------------*/
-CREATE TABLE tblPeople -- Create the PEOPLE Table
+CREATE TABLE tblPeople
 (
 	PersonID	int             PRIMARY KEY,
 	FirstName	varchar (64)    NOT NULL,
 	LastName	varchar (64)	NOT NULL,
 	PhoneNumber varchar (64)	
 );
-GO
 
-/*------------------------------------------------------------*/
-/*         Insert more data into the PEOPLE table             */
-/* -----------------------------------------------------------*/
 INSERT INTO tblPEOPLE VALUES   
 (1001, 'Phil'    ,   'Collins'    ,     '6195559900'),
 (1002, 'Ted'     ,   'Mosley'     ,     '2125554000'),
@@ -48,12 +44,11 @@ INSERT INTO tblPEOPLE VALUES
 (1007, 'Bill'    ,   'Ernie'      ,     '3455559123'),
 (1008, 'Beyance' ,   'Johnson'    ,     '3345559031'),
 (1009, 'Robert'  ,   'Briggs'     ,     '8585555401');
-GO
 
 /*------------------------------------------------------------*/
 /*              Create the REALESTATEAGENT table	          */
 /*------------------------------------------------------------*/
-CREATE TABLE tblRealEstateAgent -- Create the Real Estate Agent table
+CREATE TABLE tblRealEstateAgent
 (
 	AgentID 	int             PRIMARY KEY            REFERENCES tblPEOPLE, -- Setup a column and designate it as primary key
 	RSLicenseNo	varchar (64)    UNIQUE NOT NULL                            , --Alternative Key
@@ -76,7 +71,7 @@ INSERT INTO tblRealEstateAgent VALUES
 /*------------------------------------------------------------*/
 /*              Create the CLIENTS table	          		  */
 /*------------------------------------------------------------*/
-CREATE TABLE tblClients --Create the Clients Table
+CREATE TABLE tblClients
 (
 	ClientID	           int			PRIMARY KEY REFERENCES tblPEOPLE,
 	DOB                    varchar(64)                                  ,
@@ -191,7 +186,7 @@ INSERT INTO tblLocationOfInterestsForClients VALUES
 /*------------------------------------------------------------*/
 /*              Create the OFFERS table	          			  */
 /*------------------------------------------------------------*/
-CREATE TABLE tblOffers
+CREATE TABLE tblOffers 
 (
 	ClientID      		int   			PRIMARY KEY REFERENCES  	   tblClients, 
 	ListingID     		int   			REFERENCES               	  tblListings, 
@@ -214,9 +209,9 @@ INSERT INTO tblOffers VALUES
 (1019, 0131, '320000', 'IDK',11010);
 
 /*------------------------------------------------------------*/
-/*              Create the SALES_CONTRACTS table	          */
+/*             Create the SALES CONTRACTS table	              */
 /*------------------------------------------------------------*/
-CREATE TABLE tblSalesContracts -- Create the Sales Contracts table
+CREATE TABLE tblSalesContracts 
 (
 	SalesContractID 	int               PRIMARY KEY,
 	PaymentMethod	    varchar (64)      NOT NULL,
@@ -237,7 +232,7 @@ INSERT INTO tblSalesContracts VALUES
 /*------------------------------------------------------------*/
 /*              Create the LOANS table	          			  */
 /*------------------------------------------------------------*/
-CREATE TABLE tblLoans --Create the Loans Table
+CREATE TABLE tblLoans 
 (
 	LoanID	              int			  PRIMARY KEY				  ,
 	InterestRate          decimal (4,2)              				  ,
@@ -264,5 +259,36 @@ INSERT INTO tblLoans VALUES
 (10112, 03.25, 'Mortgage', 945000, 2050-07-28, 'Fixed Rate', 2020-07-28, 2020-08-21, 9450, 1200, 01008, 103),
 (10113, 05.00, 'Mortgage', 600000, 2050-10-25, 'VA', 2020-10-24, 2020-12-01, 30000, 0, 01009, 109),
 (10114, 03.00, 'Mortgage', 250000, 2051-01-04, 'FHA', 2021-01-04, 2021-04-01, 62500, 0, 01010, 102);
+
+/*------------------------------------------------------------*/
+/*              Create the CREDIT REPORTS table	              */
+/*------------------------------------------------------------*/
+CREATE TABLE tblCreditReports 
+(
+	CreditReportID	       int		 		 PRIMARY KEY          ,
+	Creditline             varchar(64)                            ,
+	DebtInfo               varchar(64)                            ,
+	Creditscore            varchar(64)                            ,
+	CurrentMortgage        varchar(64)                            ,
+	Childsupport           varchar(64)       NULL                 ,
+	Otherlinesofsupport    varchar(64) 		 NULL                 ,
+	TradeLines             varchar(64)                            ,
+	ClientID               int  			 REFERENCES tblClients,
+	LenderID               int  			 REFERENCES tblLender ,
+
+);
+
+INSERT INTO tblCreditReports VALUES
+(30001, '100000', '55000', '777', '0', '3000', '1000','', 1010, 20001);
+
+/*------------------------------------------------------------*/
+/*            Create the BUYING OR SELLING table	          */
+/*------------------------------------------------------------*/
+CREATE TABLE  BuyingOrSelling
+(
+	AgentID 				int 			 PRIMARY KEY REFERENCES tblRealEstateAgent,
+	ClientID 				int 			 REFERENCES tblClients					  ,
+	BuyingOrSellingInd  	varchar(64)
+); 
 
 GO
