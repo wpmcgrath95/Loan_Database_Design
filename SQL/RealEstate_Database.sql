@@ -55,10 +55,10 @@ GO
 /*------------------------------------------------------------*/
 CREATE TABLE tblRealEstateAgent -- Create the Real Estate Agent table
 (
-	AgentID 	int             PRIMARY KEY            REFERENCES tblPEOPLE,
+	AgentID 	int             PRIMARY KEY            REFERENCES tblPEOPLE, -- Setup a column and designate it as primary key
 	RSLicenseNo	varchar (64)    UNIQUE NOT NULL                            , --Alternative Key
-	Region 	    varchar (128)	                                           ,
-	CompanyID   int	                                   --REFERENCES tblCOMPANY		
+	Region 	    varchar (128)	                                           , 
+	CompanyID   int	                                  REFERENCES tblCOMPANY		
 );
 
 
@@ -103,6 +103,54 @@ INSERT INTO tblClients VALUES
 'Buy','500,000-650,000', 2, 'Townhome', 1, 0,  10010);
 
 /*------------------------------------------------------------*/
+/*              Create the COMPANY table	          		  */
+/*------------------------------------------------------------*/
+CREATE TABLE tblCompany	
+(
+	CompanyID		int				 PRIMARY KEY,	
+	CompanyName		varchar(128)				,	
+	Street			varchar(128)				,
+	City			varchar(128)				,
+	State			varchar(128)				,
+	Zipcode		    varchar(128)				,
+);
+
+
+INSERT INTO tblCompany VALUES
+(1, 'California''s Best', '15746 Star Ave',	'Fremont', 'CA', '85748'),
+(2, 'Best Homes', '75847 Home St', 'Burbank', 'CA', '84547'), 
+(3, 'Corn Housing', '64520 Mask Blvd', 'Houston', 'TX', '18446'),
+(4, 'Housing for Free', '45712 Great Ave', 'Miami',	'FL', '75487'),
+(5, 'Forever Homes', '74126 Up St', 'Seattle', 'WA', '74581'),
+(6, 'No More Paying Rent', '65849 Roof Blvd', 'Portland', 'OR', '84751'),
+(7, 'San Diego Homes', '5500 Camp St', 'San Diego',	'CA', '95219'),
+(8, 'Roof Over', '54154 Oregon Ave', 'Phoenix',	'AZ', '95421'),
+(9, 'Agency For You', '24812 Bat St', 'Sedona', 'AZ', '94572'),
+(10, 'Balloon Homes', '22750 Part Blvd', 'Las Vegas', 'NV', '78421');
+
+/*------------------------------------------------------------*/
+/*     Create the LOCATION OF INTEREST FOR CLIENTS table	  */
+/*------------------------------------------------------------*/
+CREATE TABLE tblLocations_of_Interest_For_Clients
+(
+	LocationOfInterestID		int				PRIMARY KEY,	
+	City						varchar(128)	NOT NULL,	
+	Zipcode						int				NOT NULL
+);
+
+INSERT INTO tblLocations_of_Interest_For_Clients VALUES
+(2001, 'Seattle', '58125'),
+(2002, 'San Diego', '91282'), 
+(2003, 'Riverside',	'92154'),		
+(2004, 'Portland', '51248'),		
+(2005, 'Burbank', '44571'),
+(2006, 'Miami', '21054'),	
+(2007, 'Las Vegas', '57521'), 	
+(2008, 'Sedona', '51672'),		
+(2009, 'Phoenix', '51214'),		
+(2010, 'San Diego', '92414');
+
+/*------------------------------------------------------------*/
 /*              Create the OFFERS table	          			  */
 /*------------------------------------------------------------*/
 CREATE TABLE tblOffers
@@ -111,7 +159,7 @@ CREATE TABLE tblOffers
 	ListingID     		int   			REFERENCES               	  tblListings, 
 	OfferAmount   		varchar(64)        							     		 , 
 	OfferStatus   		varchar(64)		NOT NULL								 ,
-	SalesContractID		int  			REFERENCES 				tblSalesContracts, 
+	SalesContractID		int  			REFERENCES 				tblSalesContracts
 );
 	 	
 -- NEED TO CHANGE VALUES
