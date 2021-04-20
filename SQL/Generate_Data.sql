@@ -1,4 +1,0 @@
-/*
-create sql database with sql
-create docker container that creates sql database and lets user query through database
-*/
