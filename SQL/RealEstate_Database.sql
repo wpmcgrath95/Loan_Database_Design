@@ -80,6 +80,7 @@ CREATE TABLE tblClients --Create the Clients Table
 (
 	ClientID	           int			PRIMARY KEY REFERENCES tblPEOPLE,
 	DOB                    varchar(64)                                  ,
+	Street       		   varchar(64)									,
 	City                   varchar(64)                                  ,
 	State                  varchar(64)                                  ,
 	ZipCode                varchar(64)                                  ,
@@ -99,8 +100,22 @@ CREATE TABLE tblClients --Create the Clients Table
 );
 
 INSERT INTO tblClients VALUES
-(1010, '01/10/1990', 'San Diego', 'CA', '92101', 'San Diego', 'F', '000-12-0000', 50000, 'County of SD', 'Social Worker',
-'Buy','500,000-650,000', 2, 'Townhome', 1, 0,  10010);
+(1010, '01/10/1990', '123 Olive St’, ’San Diego', 'CA', '92101', 'San Diego', 'F', '000-12-0000', 50000, 
+'County of SD', 'Social Worker','Buy', '500,000-650,000', 2, 'Townhome', 1, 0,  10010),
+(1011, '07/28/1982', '733 Grand Ave’, ‘Chula Vista', 'CA', '91910', 'San Diego', 'F', '000-13-0000', 120000, 
+'Amazon', 'Data Analyst', 'Buy', '700,000-800,000', 3, 'Full Size Home', 1, 1,  10011),
+(1012, '07/04/1967', '3940 Emerald Ln #304', 'Yuma', 'AZ', '85364', 'Yuma', 'M', '000-14-0000', 60000, 
+'Yuma Medical Center', 'Patient Rep', 'Rent', '2,000-2,500', 2, 'Apartment’', 0, 0,  10012),
+(1013, '12/27/1998', '134 Manhattan Ave', 'New York', 'NY', '10001', 'New York', 'F', '000-15-0000', 70000, 
+'Northwell Health', 'Registered Nurse', 'Rent', '2,000-2,500', 1, 'Apartment', 0, 0,  10013),
+(1014, '08/28/1977', '589 Harmony Grove', 'Portland', 'OR', '97219', 'Portland', 'F', '000-16-0000', 50000, 
+'Lewis and Clark College', 'Research Assistant', 'Rent', '1,800-2,000', 1, 'Apartment', 1, 0,  10014),
+(1015, '04/20/1970', '1546 Homan Ave', 'Chicago', 'IL', '60623', 'Chicago', 'F', '000-17-0000', 150000, 
+'Chicago Family Health', 'Physician Assistant', 'Buy', '750,000-850,000', 4, 'Full Size Home', 1, 0,  10015),
+(1016, '04/03/1980', '435 Hummingbird Ln', 'Carlsbad', 'CA', '92009', 'San Diego', 'M', '000-18-0000', 90000, 
+'ViaSat', 'UX Designer', 'Buy', '600,000-700,000', 5, 'Full Size Home', 1, 1,  10016),
+(1017, '03/05/1960', '5031 Richardson Dr', 'Portland', 'OR', '97239', 'Portland', 'M', '000-19-0000', 180000, 
+'Microsoft', 'Hardware Engineer', 'Buy', '800,000-950,000', 3, 'Full Size Home', 1, 1,  10017);
 
 /*------------------------------------------------------------*/
 /*              Create the COMPANY table	          		  */
@@ -129,16 +144,16 @@ INSERT INTO tblCompany VALUES
 (10, 'Balloon Homes', '22750 Part Blvd', 'Las Vegas', 'NV', '78421');
 
 /*------------------------------------------------------------*/
-/*     Create the LOCATION OF INTEREST FOR CLIENTS table	  */
+/*     	  	Create the LOCATION OF INTEREST table	          */
 /*------------------------------------------------------------*/
-CREATE TABLE tblLocations_of_Interest_For_Clients
+CREATE TABLE tblLocationsOfInterest
 (
 	LocationOfInterestID		int				PRIMARY KEY,	
 	City						varchar(128)	NOT NULL,	
 	Zipcode						int				NOT NULL
 );
 
-INSERT INTO tblLocations_of_Interest_For_Clients VALUES
+INSERT INTO tblLocationsOfInterest VALUES
 (2001, 'Seattle', '58125'),
 (2002, 'San Diego', '91282'), 
 (2003, 'Riverside',	'92154'),		
@@ -149,6 +164,17 @@ INSERT INTO tblLocations_of_Interest_For_Clients VALUES
 (2008, 'Sedona', '51672'),		
 (2009, 'Phoenix', '51214'),		
 (2010, 'San Diego', '92414');
+
+/*------------------------------------------------------------*/
+/*     Create the LOCATION OF INTEREST FOR CLIENTS table	  */
+/*------------------------------------------------------------*/
+CREATE TABLE tblLocationOfInterestsForClients
+(
+	ClientID	               int		      PRIMARY KEY REFERENCES tblClients,
+	LocationofInterestID       int            PRIMARY KEY REFERENCES tblLocationsOfInterest,
+	InterestRank               varchar(64)    NOT NULL
+);
+
 
 /*------------------------------------------------------------*/
 /*              Create the OFFERS table	          			  */
