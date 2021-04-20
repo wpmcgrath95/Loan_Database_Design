@@ -65,7 +65,7 @@ INSERT INTO tblRealEstateAgent VALUES
 (1006, '#10002233'  ,   'Northeast'    , 10004),    
 (1007, '#20003455'  ,   'Mid-Atlantic' , 10010),   
 (1008, '#34556459'  ,   'Northwast'    , 10009), 
-(1009, '#80007411'  ,   'Central'     ,  10005);  
+(1009, '#80007411'  ,   'Central'      ,  10005);  
 
 /*------------------------------------------------------------*/
 /*          Create the BUYING SELLING STAGES table	     	  */
