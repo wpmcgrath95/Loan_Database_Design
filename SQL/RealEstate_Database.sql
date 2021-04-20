@@ -175,6 +175,18 @@ CREATE TABLE tblLocationOfInterestsForClients
 	InterestRank               varchar(64)    NOT NULL
 );
 
+INSERT INTO tblLocationOfInterestsForClients VALUES
+(1010, 2001, 'Primary Choice'),
+(1001, 2005, 'Primary Choice'),
+(1008, 2007, 'Primary Choice'),
+(1008, 2001, 'Secondary Choice'),
+(1006, 2009, 'Primary Choice'),
+(1003, 2006, 'Primary Choice'),
+(1003, 2008, 'Secondary Choice'),
+(1003, 2002, 'Third Choice'),
+(1017, 2003, 'Primary Choice'),
+(1017, 2001, 'Secondary Choice'),
+(1014, 2004, 'Primary Choice');
 
 /*------------------------------------------------------------*/
 /*              Create the OFFERS table	          			  */
@@ -200,5 +212,57 @@ INSERT INTO tblOffers VALUES
 (1017, 2314, '670000', 'IDK', 11008),
 (1018, 8683, '830000', 'In Progress', 11009),
 (1019, 0131, '320000', 'IDK',11010);
+
+/*------------------------------------------------------------*/
+/*              Create the SALES_CONTRACTS table	          */
+/*------------------------------------------------------------*/
+CREATE TABLE tblSalesContracts -- Create the Sales Contracts table
+(
+	SalesContractID 	int               PRIMARY KEY,
+	PaymentMethod	    varchar (64)      NOT NULL,
+);
+
+INSERT INTO tblSalesContracts VALUES   
+(01001, 'Bank Transfer'),  
+(01002, 'Check'),    
+(01003, 'Wire Transfer'),   
+(01004, 'Cash'),  
+(01005, 'Bank Transfer'),    
+(01006, 'Credit Card'),    
+(01007, 'Bank Transfer'),   
+(01008, 'Check'), 
+(01009, 'Bank Transfer'),
+(01010, 'Bank Transfer');    
+
+/*------------------------------------------------------------*/
+/*              Create the LOANS table	          			  */
+/*------------------------------------------------------------*/
+CREATE TABLE tblLoans --Create the Loans Table
+(
+	LoanID	              int			  PRIMARY KEY				  ,
+	InterestRate          decimal (4,2)              				  ,
+	TypeofLoan            varchar(64)     NOT NULL   				  , --Business Rules state must be fully documented
+	Amount                int             NOT NULL   				  , --Business Rules state must be fully documented
+	ExpirationDate        Date            NOT NULL   				  , --Business Rules state must be fully documented
+	MortgageType          varchar(64)     NOT NULL   				  , --Business Rules state must be fully documented
+	DateOfSanction        Date            NOT NULL   				  , --Business Rules state must be fully documented
+	DateOfDisbursement    Date            NOT NULL   				  , --Business Rules state must be fully documented
+	DownPayment           int             NOT NULL   				  , --Business Rules state must be fully documented
+	PMI                   int                           			  ,
+	SalesContractID       int             REFERENCES tblSalesContracts,
+	LenderID              int             REFERENCES tblLender
+);
+
+INSERT INTO tblLoans VALUES
+(10105, 08.25, 'Mortgage', 550000, 2049-02-04, 'Fixed Rate', 2019-02-04, 2019-04-01, 110000, 0, 01001, 103),
+(10106, 06.50, 'Mortgage', 300000, 2049-03-21, 'Fixed Rate', 2019-03-20, 2019-05-20, 75000, 0, 01002, 101),
+(10107, 07.45, 'Mortgage', 1225000, 2049-06-14, 'Fixed Rate', 2019-06-14, 2019-07-20, 183750, 500, 01003, 108),
+(10108, 06.50, 'Mortgage', 650000, 2034-06-20, 'FHA', 2019-06-18, 2019-08-25, 110000, 0, 01004, 107),
+(10109, 10.00, 'Mortgage', 825000, 2034-08-15, 'Interest Only', 2019-08-15, 2019-09-15, 0, 0, 01005, 108),
+(10110, 04.25, 'Mortgage', 250000, 2050-01-05, 'Fixed Rate', 2020-01-04, 2020-04-01, 12500, 1000, 01006, 102),
+(10111, 04.50, 'Mortgage', 750000, 2050-04-20, 'Fixed Rate', 2020-04-17, 2020-05-08, 150000, 0, 01007, 105),
+(10112, 03.25, 'Mortgage', 945000, 2050-07-28, 'Fixed Rate', 2020-07-28, 2020-08-21, 9450, 1200, 01008, 103),
+(10113, 05.00, 'Mortgage', 600000, 2050-10-25, 'VA', 2020-10-24, 2020-12-01, 30000, 0, 01009, 109),
+(10114, 03.00, 'Mortgage', 250000, 2051-01-04, 'FHA', 2021-01-04, 2021-04-01, 62500, 0, 01010, 102);
 
 GO
