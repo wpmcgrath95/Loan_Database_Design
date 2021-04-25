@@ -53,7 +53,7 @@ CREATE TABLE tblRealEstateAgent
 	AgentID 	int              PRIMARY KEY        REFERENCES tblPEOPLE  , -- Setup a column and designate it as primary key
 	RSLicenseNo	varchar (64)     UNIQUE NOT NULL                          , -- Alternative Key
 	Region 	    varchar (128)	                                          , 
-	CompanyID   int	                                 REFERENCES tblCOMPANY		
+	CompanyID   int	                                REFERENCES tblCOMPANY		
 );
 
 INSERT INTO tblRealEstateAgent VALUES   
@@ -65,7 +65,7 @@ INSERT INTO tblRealEstateAgent VALUES
 (1006, '#10002233'  ,   'Northeast'    , 10004),    
 (1007, '#20003455'  ,   'Mid-Atlantic' , 10010),   
 (1008, '#34556459'  ,   'Northwast'    , 10009), 
-(1009, '#80007411'  ,   'Central'      ,  10005);  
+(1009, '#80007411'  ,   'Central'      , 10005);  
 
 /*------------------------------------------------------------*/
 /*          Create the BUYING SELLING STAGES table	     	  */
@@ -102,13 +102,13 @@ CREATE TABLE tblListings
 );
 
 INSERT INTO tblListings VALUES
-(1111, 1001, '1111 Banana Avenue, San Diego, 92222', '4', '2', 120, 7000, 1000, 18000, 500),
-(1112, 1002, '2222 Apple Avenue, San Diego, 92212', '5', '3', 200, 7500, 1500, 20500, 517),
-(1113, 1003, '2232 Cat Avenue, San Diego, 92112', '2', '1', 100, 2000, 950, 16000, 450),
-(1114, 1004, '2332 Peach Avenue, San Diego, 91112', '6', '3', 400, 10000, 3000, 30000, 650),
-(1115, 1005, '3000 Pet Avenue, San Diego, 90002', '4', '1',  100, 6000, 990, 16500, 480),
-(1116, 1006, '4200 PPP Avenue, San Diego, 91002', '6', '2', 300, 9500, 2800, 29000, 620),
-(1117, 1007, '3333 Holiday Avenue, San Diego, 91000', '2', '2', 120, 4900, 1100, 18500, 475);
+(1111, 1001, '1111 Banana Avenue, San Diego, 92222'  , '4', '2', 120, 7000 , 1000, 18000, 500),
+(1112, 1002, '2222 Apple Avenue, San Diego, 92212'   , '5', '3', 200, 7500 , 1500, 20500, 517),
+(1113, 1003, '2232 Cat Avenue, San Diego, 92112'     , '2', '1', 100, 2000 , 950 , 16000, 450),
+(1114, 1004, '2332 Peach Avenue, San Diego, 91112'   , '6', '3', 400, 10000, 700 , 30000, 650),
+(1115, 1005, '3000 Pet Avenue, San Diego, 90002'     , '4', '1', 100, 6000 , 990 , 16500, 480),
+(1116, 1006, '4200 PPP Avenue, San Diego, 91002'     , '6', '2', 300, 9500 , 1000, 29000, 620),
+(1117, 1007, '3333 Holiday Avenue, San Diego, 91000' , '2', '2', 120, 4900 , 1100, 18500, 475);
 
 /*------------------------------------------------------------*/
 /*               Create the CLIENTS table	          		  */
@@ -168,16 +168,16 @@ CREATE TABLE tblCompany
 );
 
 INSERT INTO tblCompany VALUES
-(1, 'California''s Best', '15746 Star Ave',	'Fremont', 'CA', '85748'),
-(2, 'Best Homes', '75847 Home St', 'Burbank', 'CA', '84547'), 
-(3, 'Corn Housing', '64520 Mask Blvd', 'Houston', 'TX', '18446'),
-(4, 'Housing for Free', '45712 Great Ave', 'Miami',	'FL', '75487'),
-(5, 'Forever Homes', '74126 Up St', 'Seattle', 'WA', '74581'),
-(6, 'No More Paying Rent', '65849 Roof Blvd', 'Portland', 'OR', '84751'),
-(7, 'San Diego Homes', '5500 Camp St', 'San Diego',	'CA', '95219'),
-(8, 'Roof Over', '54154 Oregon Ave', 'Phoenix',	'AZ', '95421'),
-(9, 'Agency For You', '24812 Bat St', 'Sedona', 'AZ', '94572'),
-(10, 'Balloon Homes', '22750 Part Blvd', 'Las Vegas', 'NV', '78421');
+(1, 'Best Real Estate'   , '15746 Star Ave'  , 'Fremont'  , 'CA', '85748'),
+(2, 'Best Homes'         , '75847 Home St'   , 'Burbank'  , 'CA', '84547'), 
+(3, 'Corn Housing'       , '64520 Mask Blvd' , 'Houston'  , 'TX', '18446'),
+(4, 'Housing for Free'   , '45712 Great Ave' , 'Miami'    ,	'FL', '75487'),
+(5, 'Forever Homes'      , '74126 Up St'     , 'Seattle'  , 'WA', '74581'),
+(6, 'No More Paying Rent', '65849 Roof Blvd' , 'Portland' , 'OR', '84751'),
+(7, 'San Diego Homes'    , '5500 Camp St'    , 'San Diego',	'CA', '95219'),
+(8, 'Roof Over'          , '54154 Oregon Ave', 'Phoenix'  ,	'AZ', '95421'),
+(9, 'Agency For You'     , '24812 Bat St'    , 'Sedona'   , 'AZ', '94572'),
+(10, 'Balloon Homes'     , '22750 Part Blvd' , 'Las Vegas', 'NV', '78421');
 
 /*------------------------------------------------------------*/
 /*     	  	Create the LOCATION OF INTEREST table	          */
@@ -190,15 +190,15 @@ CREATE TABLE tblLocationsOfInterest
 );
 
 INSERT INTO tblLocationsOfInterest VALUES
-(2001, 'Seattle', '58125'),
+(2001, 'Seattle'  , '58125'),
 (2002, 'San Diego', '91282'), 
 (2003, 'Riverside',	'92154'),		
-(2004, 'Portland', '51248'),		
-(2005, 'Burbank', '44571'),
-(2006, 'Miami', '21054'),	
+(2004, 'Portland' , '51248'),		
+(2005, 'Burbank'  , '44571'),
+(2006, 'Miami'    , '21054'),	
 (2007, 'Las Vegas', '57521'), 	
-(2008, 'Sedona', '51672'),		
-(2009, 'Phoenix', '51214'),		
+(2008, 'Sedona'   , '51672'),		
+(2009, 'Phoenix'  , '51214'),		
 (2010, 'San Diego', '92414');
 
 /*------------------------------------------------------------*/
@@ -240,14 +240,14 @@ CREATE TABLE tblOffers
 INSERT INTO tblOffers VALUES
 (1010, 1234, '300000', 'In Progress', 11001),
 (1011, 5678, '350000', 'In Progress', 11002),
-(1012, 1324, '600000', 'Closed', 11003),
+(1012, 1324, '600000', 'Closed'     , 11003),
 (1013, 4352, '430000', 'In Progress', 11004),
-(1014, 4897, '250000', 'IDK', 11005),
-(1015, 9074, '700000', 'IDK', 11006),
-(1016, 0901, '900000', 'IDK', 11007),
-(1017, 2314, '670000', 'IDK', 11008),
+(1014, 4897, '250000', 'Closed'     , 11005),
+(1015, 9074, '700000', 'Submitted'  , 11006),
+(1016, 0901, '900000', 'Submitted'  , 11007),
+(1017, 2314, '670000', 'Submitted'  , 11008),
 (1018, 8683, '830000', 'In Progress', 11009),
-(1019, 0131, '320000', 'IDK',11010);
+(1019, 0131, '320000', 'Accepted'   , 11010);
 
 /*------------------------------------------------------------*/
 /*             Create the SALES CONTRACTS table	              */
@@ -308,16 +308,16 @@ CREATE TABLE tblLoans
 );
 
 INSERT INTO tblLoans VALUES
-(10105, 08.25, 'Mortgage', 550000, 2049-02-04, 'Fixed Rate', 2019-02-04, 2019-04-01, 110000, 0, 01001, 103),
-(10106, 06.50, 'Mortgage', 300000, 2049-03-21, 'Fixed Rate', 2019-03-20, 2019-05-20, 75000, 0, 01002, 101),
-(10107, 07.45, 'Mortgage', 1225000, 2049-06-14, 'Fixed Rate', 2019-06-14, 2019-07-20, 183750, 500, 01003, 108),
-(10108, 06.50, 'Mortgage', 650000, 2034-06-20, 'FHA', 2019-06-18, 2019-08-25, 110000, 0, 01004, 107),
-(10109, 10.00, 'Mortgage', 825000, 2034-08-15, 'Interest Only', 2019-08-15, 2019-09-15, 0, 0, 01005, 108),
-(10110, 04.25, 'Mortgage', 250000, 2050-01-05, 'Fixed Rate', 2020-01-04, 2020-04-01, 12500, 1000, 01006, 102),
-(10111, 04.50, 'Mortgage', 750000, 2050-04-20, 'Fixed Rate', 2020-04-17, 2020-05-08, 150000, 0, 01007, 105),
-(10112, 03.25, 'Mortgage', 945000, 2050-07-28, 'Fixed Rate', 2020-07-28, 2020-08-21, 9450, 1200, 01008, 103),
-(10113, 05.00, 'Mortgage', 600000, 2050-10-25, 'VA', 2020-10-24, 2020-12-01, 30000, 0, 01009, 109),
-(10114, 03.00, 'Mortgage', 250000, 2051-01-04, 'FHA', 2021-01-04, 2021-04-01, 62500, 0, 01010, 102);
+(10105, 08.25, 'Mortgage', 550000 , 2049-02-04, 'Fixed Rate'   , 2019-02-04, 2019-04-01, 110000, 0   , 01001, 103),
+(10106, 06.50, 'Mortgage', 300000 , 2049-03-21, 'Fixed Rate'   , 2019-03-20, 2019-05-20, 75000 , 0   , 01002, 101),
+(10107, 07.45, 'Mortgage', 1225000, 2049-06-14, 'Fixed Rate'   , 2019-06-14, 2019-07-20, 183750, 500 , 01003, 108),
+(10108, 06.50, 'Mortgage', 650000 , 2034-06-20, 'FHA'          , 2019-06-18, 2019-08-25, 110000, 0   , 01004, 107),
+(10109, 10.00, 'Mortgage', 825000 , 2034-08-15, 'Interest Only', 2019-08-15, 2019-09-15, 0     , 0   , 01005, 108),
+(10110, 04.25, 'Mortgage', 250000 , 2050-01-05, 'Fixed Rate'   , 2020-01-04, 2020-04-01, 12500 , 1000, 01006, 102),
+(10111, 04.50, 'Mortgage', 750000 , 2050-04-20, 'Fixed Rate'   , 2020-04-17, 2020-05-08, 150000, 0   , 01007, 105),
+(10112, 03.25, 'Mortgage', 945000 , 2050-07-28, 'Fixed Rate'   , 2020-07-28, 2020-08-21, 9450  , 1200, 01008, 103),
+(10113, 05.00, 'Mortgage', 600000 , 2050-10-25, 'VA'           , 2020-10-24, 2020-12-01, 30000 , 0   , 01009, 109),
+(10114, 03.00, 'Mortgage', 250000 , 2051-01-04, 'FHA'          , 2021-01-04, 2021-04-01, 62500 , 0   , 01010, 102);
 
 /*------------------------------------------------------------*/
 /*              Create the CREDIT REPORTS table	              */
