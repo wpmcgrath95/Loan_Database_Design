@@ -312,7 +312,8 @@ INSERT INTO tblOffers VALUES
 CREATE TABLE tblLenders
 (
 	LenderID 	   		 int              PRIMARY KEY    ,
-	LoanOfficerName		 varchar(64) 				     ,
+	LoanFirstName		 varchar(64) 				     ,
+	LoanLasttName		 varchar(64) 				     ,
 	BankName	         varchar(64)      NOT NULL       ,
 	Street       		 varchar(64)	  UNIQUE NOT NULL,
 	City                 varchar(64)                     ,
@@ -322,10 +323,10 @@ CREATE TABLE tblLenders
 );
 
 INSERT INTO tblLenders VALUES
-(1101, ),
-(1102, ),
-(1103, ),
-(1104, ),
+(1101, 'Bill' , 'Myers'   , 'Bank Of America', '111 Fig Ave.'   , 'San Diego'  , 'CA', '91913', 'Commercial'),
+(1102, 'John' , 'Newman'  , 'Old Bank'       , '100 Old Road'   , 'San Diego'  , 'CA', '91910', 'Commercial'),
+(1103, 'Sarah', 'Johnson' , 'Chase'          , '320 New Road'   , 'Los Angeles', 'CA', '90001', 'Commercial'),
+(1104, 'Liana', 'McMan'   , 'New Bank'       , '823 Banana Ave.', 'San Diego'  , 'CA', '91913', 'Private'),
 (1105, ),
 (1106, ),
 (1107, ),
