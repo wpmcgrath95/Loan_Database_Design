@@ -29,9 +29,9 @@ USE RealEstate;
 CREATE TABLE tblPeople
 (
 	PersonID	int             PRIMARY KEY,
-	FirstName	varchar (64)    NOT NULL   ,
-	LastName	varchar (64)	NOT NULL   ,
-	PhoneNumber varchar (64)	
+	FirstName	varchar(64)     NOT NULL   ,
+	LastName	varchar(64)	    NOT NULL   ,
+	PhoneNumber varchar(64)	
 );
 
 INSERT INTO tblPeople VALUES   
@@ -62,8 +62,8 @@ INSERT INTO tblPeople VALUES
 CREATE TABLE tblRealEstateAgent
 (
 	AgentID 	int              PRIMARY KEY        REFERENCES tblPEOPLE  , -- Setup a column and designate it as primary key
-	RSLicenseNo	varchar (64)     UNIQUE NOT NULL                          , -- Alternative Key
-	Region 	    varchar (128)	                                          , 
+	RSLicenseNo	varchar(64)      UNIQUE NOT NULL                          , -- Alternative Key
+	Region 	    varchar(128)	                                          , 
 	CompanyID   int	                                REFERENCES tblCOMPANY		
 );
 
@@ -266,7 +266,7 @@ INSERT INTO tblLocationOfInterestsForClients VALUES
 CREATE TABLE tblSalesContracts 
 (
 	SalesContractID 	int               PRIMARY KEY,
-	PaymentMethod	    varchar (64)      NOT NULL,
+	PaymentMethod	    varchar(64)       NOT NULL,
 );
 
 INSERT INTO tblSalesContracts VALUES   
@@ -312,8 +312,8 @@ INSERT INTO tblOffers VALUES
 CREATE TABLE tblLenders
 (
 	LenderID 	   		 int              PRIMARY KEY    ,
-	LoanFirstName		 varchar(64) 				     ,
-	LoanLasttName		 varchar(64) 				     ,
+	LenderFirstName		 varchar(64) 				     ,
+	LenderLasttName		 varchar(64) 				     ,
 	BankName	         varchar(64)      NOT NULL       ,
 	Street       		 varchar(64)	  UNIQUE NOT NULL,
 	City                 varchar(64)                     ,
@@ -323,15 +323,16 @@ CREATE TABLE tblLenders
 );
 
 INSERT INTO tblLenders VALUES
-(1101, 'Bill' , 'Myers'   , 'Bank Of America', '111 Fig Ave.'   , 'San Diego'  , 'CA', '91913', 'Commercial'),
-(1102, 'John' , 'Newman'  , 'Old Bank'       , '100 Old Road'   , 'San Diego'  , 'CA', '91910', 'Commercial'),
-(1103, 'Sarah', 'Johnson' , 'Chase'          , '320 New Road'   , 'Los Angeles', 'CA', '90001', 'Commercial'),
-(1104, 'Liana', 'McMan'   , 'New Bank'       , '823 Banana Ave.', 'San Diego'  , 'CA', '91913', 'Private'),
-(1105, ),
-(1106, ),
-(1107, ),
-(1108, ),
-(1109, ); 
+(1101, 'Bill'   , 'Myers'    , 'Bank Of America'   , '111 Fig Ave'       , 'San Diego'  , 'CA', '91913', 'Commercial'),
+(1102, 'John'   , 'Newman'   , 'Old Bank'          , '100 Old Rd'        , 'San Diego'  , 'CA', '91910', 'Commercial'),
+(1103, 'Sarah'  , 'Johnson'  , 'Chase'             , '320 New Rd'        , 'Los Angeles', 'CA', '90001', 'Commercial'),
+(1104, 'Liana'  , 'McMan'    , 'New Bank'          , '823 Banana Ave'    , 'San Diego'  , 'CA', '91913', 'Private'),
+(1105, 'Michael', 'Jordan'   , 'Wells Fargo'       , '145 Adams Ave'     , 'San Diego'  , 'CA', '91913', 'Commercial'),
+(1106, 'Chris'  , 'Murphy'   , 'US Bank'           , '1654 Ranch Dr'     , 'San Diego'  , 'CA', '91913', 'Commercial'),
+(1107, 'Adam'   , 'Gilchrist','Silicon Valley Bank', '971 Ryan Dr'       , 'San Diego'  , 'CA', '91913', 'Private'),
+(1108, 'Ian'    , 'Healy'    , 'Chase'             , '747 Calaveras Blvd', 'San Diego'  , 'CA', '91915', 'Commercial'),
+(1109, 'Kayla'  , 'Wright'   , 'Bank of America'   , '111 Fig Ave'       , 'San Diego'  , 'CA', '91913', 'Commercial'),
+(1110, 'Joana'  , 'Quiles'   , 'Chase'             , '320 New Rd'        , 'Los Angeles', 'CA', '90001', 'Commercial');
 
 /*------------------------------------------------------------*/
 /*              Create the LOANS table	          			  */
@@ -371,18 +372,27 @@ CREATE TABLE tblCreditReports
 (
 	CreditReportID	       int		 		 PRIMARY KEY          ,
 	Creditline             varchar(64)                            ,
-	DebtInfo               varchar(64)                            ,
+	TotalDebt              int                                    ,
 	Creditscore            varchar(64)                            ,
 	CurrentMortgage        varchar(64)                            ,
 	Childsupport           varchar(64)       NULL                 ,
 	Otherlinesofsupport    varchar(64) 		 NULL                 ,
-	TradeLines             varchar(64)                            ,
+	CurrentBalance         int                                    ,
 	ClientID               int  			 REFERENCES tblClients,
 	LenderID               int  			 REFERENCES tblLender ,
 
 );
 
 INSERT INTO tblCreditReports VALUES
-(30001, '100000', '55000', '777', '0', '3000', '1000','', 1010, 1101);
+(30001, '100000', 55000, '777', '0'    , '3000', '1000', 10000, 1011, 1101),
+(30002, '200000', 15000, '790', '20000', '0'   , '500' , 2000 , 1012, 1108),
+(30003, '150000', 50000, '700', '0'    , '1000', '700' , 15000, 1013, 1102),
+(30004, '400000', 40000, '792', '10000', '500' , '1000', 25000, 1014, 1104),
+(30005, '125000', 25000, '698', '0'    , '0'   , '0'   , 7000 , 1015, 1105),
+(30006, '500000', 45000, '715', '50000', '0'   , '600' , 17000, 1016, 1107),
+(30007, '650000', 30000, '780', '25000', '0'   , '200' , 5500 , 1017, 1109),
+(30008, '650000', 30000, '780', '30000', '0'   , '200' , 500  , 1018, 1103),
+(30009, '650000', 30000, '780', '10000', '0'   , '1000', 1000 , 1019, 1106),
+(30010, '650000', 30000, '780', '0'    , '0'   , '500' , 3000 , 1020, 1110);
 
 GO
