@@ -35,15 +35,26 @@ CREATE TABLE tblPeople
 );
 
 INSERT INTO tblPeople VALUES   
-(1001, 'Phil'    ,   'Collins'    ,     '6195559900'),
-(1002, 'Ted'     ,   'Mosley'     ,     '2125554000'),
-(1003, 'Elvis'   ,   'Costello'   ,     '4205550000'),
-(1004, 'Ryan'    ,   'Gosling'    ,     '8225555678'),
-(1005, 'Juan'    ,   'Hornito'    ,     '5605555031'),
-(1006, 'John'    ,   'Legend'     ,     '2845555000'),
-(1007, 'Bill'    ,   'Ernie'      ,     '3455559123'),
-(1008, 'Beyance' ,   'Johnson'    ,     '3345559031'),
-(1009, 'Robert'  ,   'Briggs'     ,     '8585555401');
+(1001, 'Phil'   , 'Collins' , '6195559900'),
+(1002, 'Ted'    , 'Mosley'  , '2125554000'),
+(1003, 'Elvis'  , 'Costello', '4205550000'),
+(1004, 'Ryan'   , 'Gosling' , '8225555678'),
+(1005, 'Juan'   , 'Hornito' , '5605555031'),
+(1006, 'John'   , 'Legend'  , '2845555000'),
+(1007, 'Bill'   , 'Ernie'   , '3455559123'),
+(1008, 'Beyance', 'Johnson' , '3345559031'),
+(1009, 'Robert' , 'Briggs'  , '8585555401'),
+(1010, 'Will'   , 'McGrath' , '6195559221'),
+(1011, 'Jue'    , 'Lie'     , '6195554200'),
+(1012, 'Rahul'  , 'Ambati'  , '4205550210'),
+(1013, 'Emily'  , 'Lam'     , '7655555978'),
+(1014, 'Melissa', 'Yakuta'  , '7605555030'),
+(1015, 'Erik'   , 'Walters' , '6195559810'),
+(1016, 'Bill'   , 'John'    , '3455559003'),
+(1017, 'Freddie', 'Spy'     , '4325555001'),
+(1018, 'Alfred' , 'Hitch'   , '8585558001'),
+(1019, 'Tyrone' , 'Ali'     , '6195552222'),
+(1020, 'Gabe'   , 'Ribali'  , '8585550032');
 
 /*------------------------------------------------------------*/
 /*             Create the REAL ESTATE AGENT table	          */
@@ -57,15 +68,15 @@ CREATE TABLE tblRealEstateAgent
 );
 
 INSERT INTO tblRealEstateAgent VALUES   
-(1001, '#20004559'  ,   'Northeast'    , 10001),  
-(1002, '#30908579'  ,   'Southwest'    , 10001),    
-(1003, '#44004559'  ,   'Central'      , 10003),   
-(1004, '#70024355'  ,   'Southeast'    , 10007),  
-(1005, '#90112456'  ,   'Northwest'    , 10007),    
-(1006, '#10002233'  ,   'Northeast'    , 10004),    
-(1007, '#20003455'  ,   'Mid-Atlantic' , 10010),   
-(1008, '#34556459'  ,   'Northwast'    , 10009), 
-(1009, '#80007411'  ,   'Central'      , 10005);  
+(1001, '#20004559', 'Northeast'   , 10001),  
+(1002, '#30908579', 'Southwest'   , 10001),    
+(1003, '#44004559', 'Central'     , 10003),   
+(1004, '#70024355', 'Southeast'   , 10007),  
+(1005, '#90112456', 'Northwest'   , 10007),    
+(1006, '#10002233', 'Northeast'   , 10004),    
+(1007, '#20003455', 'Mid-Atlantic', 10010),   
+(1008, '#34556459', 'Northwast'   , 10009), 
+(1009, '#80007411', 'Central'     , 10005);  
 
 /*------------------------------------------------------------*/
 /*          Create the BUYING SELLING STAGES table	     	  */
@@ -102,38 +113,38 @@ CREATE TABLE tblListings
 );
 
 INSERT INTO tblListings VALUES
-(1111, 1001, '1111 Banana Avenue, San Diego, 92222'  , '4', '2', 120, 7000 , 1000, 18000, 500),
-(1112, 1002, '2222 Apple Avenue, San Diego, 92212'   , '5', '3', 200, 7500 , 1500, 20500, 517),
-(1113, 1003, '2232 Cat Avenue, San Diego, 92112'     , '2', '1', 100, 2000 , 950 , 16000, 450),
-(1114, 1004, '2332 Peach Avenue, San Diego, 91112'   , '6', '3', 400, 10000, 700 , 30000, 650),
-(1115, 1005, '3000 Pet Avenue, San Diego, 90002'     , '4', '1', 100, 6000 , 990 , 16500, 480),
-(1116, 1006, '4200 PPP Avenue, San Diego, 91002'     , '6', '2', 300, 9500 , 1000, 29000, 620),
-(1117, 1007, '3333 Holiday Avenue, San Diego, 91000' , '2', '2', 120, 4900 , 1100, 18500, 475);
+(1111, 1001, '1111 Banana Avenue, San Diego, 92222' , '4', '2', 120, 7000 , 1000, 18000, 500),
+(1112, 1002, '2222 Apple Avenue, San Diego, 92212'  , '5', '3', 200, 7500 , 1500, 20500, 517),
+(1113, 1003, '2232 Cat Avenue, San Diego, 92112'    , '2', '1', 100, 2000 , 950 , 16000, 450),
+(1114, 1004, '2332 Peach Avenue, San Diego, 91112'  , '6', '3', 400, 10000, 700 , 30000, 650),
+(1115, 1005, '3000 Pet Avenue, San Diego, 90002'    , '4', '1', 100, 6000 , 990 , 16500, 480),
+(1116, 1006, '4200 PPP Avenue, San Diego, 91002'    , '6', '2', 300, 9500 , 1000, 29000, 620),
+(1117, 1007, '3333 Holiday Avenue, San Diego, 91000', '2', '2', 120, 4900 , 1100, 18500, 475);
 
 /*------------------------------------------------------------*/
 /*               Create the CLIENTS table	          		  */
 /*------------------------------------------------------------*/
 CREATE TABLE tblClients
 (
-	ClientID	           int			   PRIMARY KEY REFERENCES tblPEOPLE,
-	DOB                    varchar(64)                                     ,
-	Street       		   varchar(64)	   UNIQUE NOT NULL			       ,
-	City                   varchar(64)                                     ,
-	TheState               varchar(64)                                     ,
-	ZipCode                varchar(64)                                     ,  
-	Region          	   varchar(64)                                     ,
-	Gender                 varchar(64)                                     ,
-	SSN                    varchar(64)     UNIQUE                          ,
-	Income                 int                                             ,
-	PrimaryEmployer        varchar(64)                                     ,
-	JobTitle               varchar(64)                                     ,
-	BuyingIndicator        varchar(64)                                     ,
-	PriceRange             varchar(64)                                     ,
-	CurrentHouseholdSize   int                                             ,
-	TypeofHome             varchar(64)                                     ,
-	PoolInd                varchar(64)                                     ,
-	HOAInd	               varchar(64)                                     ,
-	StageID                int             REFERENCES tblBuyingOrSelling 
+	ClientID	           int			   PRIMARY KEY REFERENCES tblPEOPLE ,
+	DOB                    varchar(64)                                      ,
+	Street       		   varchar(64)	   UNIQUE NOT NULL			        ,
+	City                   varchar(64)                                      ,
+	TheState               varchar(64)                                      ,
+	ZipCode                varchar(64)                                      ,  
+	Region          	   varchar(64)                                      ,
+	Gender                 varchar(64)                                      ,
+	SSN                    varchar(64)     UNIQUE                           ,
+	Income                 int                                              ,
+	PrimaryEmployer        varchar(64)                                      ,
+	JobTitle               varchar(64)                                      ,
+	BuyingIndicator        varchar(64)                                      ,
+	PriceRange             varchar(64)                                      ,
+	CurrentHouseholdSize   int                                              ,
+	TypeofHome             varchar(64)                                      ,
+	PoolInd                varchar(64)                                      ,
+	HOAInd	               varchar(64)                                      ,
+	StageID                int             REFERENCES tblBuyingSellingStages 
 );
 
 INSERT INTO tblClients VALUES
@@ -153,6 +164,19 @@ INSERT INTO tblClients VALUES
 'ViaSat', 'UX Designer', 'Buy', '600,000-700,000', 5, 'Full Size Home', 1, 1,  10016),
 (1017, '03/05/1960', '5031 Richardson Dr', 'Portland', 'OR', '97239', 'Portland', 'M', '000-19-0000', 180000, 
 'Microsoft', 'Hardware Engineer', 'Buy', '800,000-950,000', 3, 'Full Size Home', 1, 1,  10017);
+
+/*------------------------------------------------------------*/
+/*            Create the BUYING OR SELLING table	          */
+/*------------------------------------------------------------*/
+CREATE TABLE tblBuyingOrSelling
+(
+	AgentID 				int 			 PRIMARY KEY REFERENCES tblRealEstateAgent,
+	ClientID 				int 			 REFERENCES tblClients					  ,
+	BuyingOrSellingInd  	varchar(64)
+); 
+
+INSERT INTO tblBuyingOrSelling VALUES
+(); 
 
 /*------------------------------------------------------------*/
 /*              Create the COMPANY table	          		  */
@@ -225,6 +249,27 @@ INSERT INTO tblLocationOfInterestsForClients VALUES
 (1014, 2004, 'Primary Choice');
 
 /*------------------------------------------------------------*/
+/*             Create the SALES CONTRACTS table	              */
+/*------------------------------------------------------------*/
+CREATE TABLE tblSalesContracts 
+(
+	SalesContractID 	int               PRIMARY KEY,
+	PaymentMethod	    varchar (64)      NOT NULL,
+);
+
+INSERT INTO tblSalesContracts VALUES   
+(01001, 'Bank Transfer'),  
+(01002, 'Check'),    
+(01003, 'Wire Transfer'),   
+(01004, 'Cash'),  
+(01005, 'Bank Transfer'),    
+(01006, 'Credit Card'),    
+(01007, 'Bank Transfer'),   
+(01008, 'Check'), 
+(01009, 'Bank Transfer'),
+(01010, 'Bank Transfer');
+
+/*------------------------------------------------------------*/
 /*              Create the OFFERS table	          			  */
 /*------------------------------------------------------------*/
 CREATE TABLE tblOffers 
@@ -248,27 +293,6 @@ INSERT INTO tblOffers VALUES
 (1017, 2314, '670000', 'Submitted'  , 11008),
 (1018, 8683, '830000', 'In Progress', 11009),
 (1019, 0131, '320000', 'Accepted'   , 11010);
-
-/*------------------------------------------------------------*/
-/*             Create the SALES CONTRACTS table	              */
-/*------------------------------------------------------------*/
-CREATE TABLE tblSalesContracts 
-(
-	SalesContractID 	int               PRIMARY KEY,
-	PaymentMethod	    varchar (64)      NOT NULL,
-);
-
-INSERT INTO tblSalesContracts VALUES   
-(01001, 'Bank Transfer'),  
-(01002, 'Check'),    
-(01003, 'Wire Transfer'),   
-(01004, 'Cash'),  
-(01005, 'Bank Transfer'),    
-(01006, 'Credit Card'),    
-(01007, 'Bank Transfer'),   
-(01008, 'Check'), 
-(01009, 'Bank Transfer'),
-(01010, 'Bank Transfer');
 
 /*------------------------------------------------------------*/
 /*             	  Create the LENDERS table	              	  */
@@ -339,18 +363,5 @@ CREATE TABLE tblCreditReports
 
 INSERT INTO tblCreditReports VALUES
 (30001, '100000', '55000', '777', '0', '3000', '1000','', 1010, 20001);
-
-/*------------------------------------------------------------*/
-/*            Create the BUYING OR SELLING table	          */
-/*------------------------------------------------------------*/
-CREATE TABLE tblBuyingOrSelling
-(
-	AgentID 				int 			 PRIMARY KEY REFERENCES tblRealEstateAgent,
-	ClientID 				int 			 REFERENCES tblClients					  ,
-	BuyingOrSellingInd  	varchar(64)
-); 
-
-INSERT INTO tblBuyingOrSelling VALUES
-(); 
 
 GO
