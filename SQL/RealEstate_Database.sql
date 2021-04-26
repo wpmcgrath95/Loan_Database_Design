@@ -155,7 +155,7 @@ INSERT INTO tblListings VALUES
 CREATE TABLE tblClients
 (
 	ClientID	           int			   PRIMARY KEY REFERENCES tblPeople ,
-	DOB                    varchar(64)                                      ,
+	DOB                    date                                             ,
 	Street       		   varchar(64)	   UNIQUE NOT NULL			        ,
 	City                   varchar(64)                                      ,
 	TheState               varchar(64)                                      ,
@@ -176,22 +176,26 @@ CREATE TABLE tblClients
 );
 
 INSERT INTO tblClients VALUES
-(1010, '01/10/1990'            , '123 Olive St'        , 'San Diego'  , 'CA'             , '92101', 'San Diego'     , 'F', '000-12-0000', 50000  , 
+(1011, 1990-01-10              , '123 Olive St'        , 'San Diego'  , 'CA'             , '92101', 'San Diego'     , 'F', '000-12-0000', 50000  , 
 	   'County of SD'          , 'Social Worker'       , 'Buy'        , '500,000-650,000', 2      , 'Townhome'      , 1  , 0            , 100001),
-(1011, '07/28/1982'            , '733 Grand Ave'       , 'Chula Vista', 'CA'             , '91910', 'San Diego'     , 'F', '000-13-0000', 120000 , 
+(1012, 1982-07-28              , '733 Grand Ave'       , 'Chula Vista', 'CA'             , '91910', 'San Diego'     , 'F', '000-13-0000', 120000 , 
 	   'Amazon'                , 'Data Analyst'        , 'Buy'        , '700,000-800,000', 3      , 'Full Size Home', 1  , 1            , 100001),
-(1012, '07/04/1967'            , '3940 Emerald Ln #304', 'Yuma'       , 'AZ'			 , '85364', 'San Diego'     , 'M', '000-14-0000', 60000  , 
+(1013, 1967-07-04              , '3940 Emerald Ln #304', 'Yuma'       , 'AZ'			 , '85364', 'San Diego'     , 'M', '000-14-0000', 60000  , 
 	   'Yuma Medical Center'   , 'Patient Rep'         , 'Buy'	      , '2,000-2,500'	 , 2      , 'Apartment'     , 0  , 0			, 100002),
-(1013, '12/27/1998'            , '134 Manhattan Ave'   , 'New York'   , 'NY'             , '10001', 'New York'      , 'F', '000-15-0000', 70000  , 
+(1014, 1995-02-30              , '134 Manhattan Ave'   , 'New York'   , 'NY'             , '10001', 'New York'      , 'F', '000-15-0000', 70000  , 
 	   'Northwell Health'      , 'Registered Nurse'    , 'Buy'        , '2,000-2,500'    , 1      , 'Apartment'	 	, 0  , 0            , 100003),
-(1014, '08/28/1977'            , '589 Harmony Grove'   , 'Portland'   , 'OR'             , '97219', 'Portland'      , 'F', '000-16-0000', 50000  , 
+(1015, 1977-08-28              , '589 Harmony Grove'   , 'Portland'   , 'OR'             , '97219', 'Portland'      , 'F', '000-16-0000', 50000  , 
 	   'Portland State College', 'Research Assistant'  , 'Buy'        , '1,800-2,000'    , 1      , 'Apartment'		, 1  , 0            , 100004),
-(1015, '04/20/1970'            , '1546 Homan Ave'      , 'Chicago'    , 'IL'             , '60623', 'Chicago'       , 'F', '000-17-0000', 150000 , 
+(1016, 1970-04-20              , '1546 Homan Ave'      , 'Chicago'    , 'IL'             , '60623', 'Chicago'       , 'F', '000-17-0000', 150000 , 
 	   'Chicago Family Health' , 'Physician Assistant' , 'Buy'        , '750,000-850,000', 4      , 'Full Size Home', 1  , 0            , 100001),
-(1016, '04/03/1980'            , '435 Hummingbird Ln'  , 'Carlsbad'   , 'CA'             , '92009', 'San Diego'     , 'M', '000-18-0000', 90000  , 
+(1017, 1980-10-25              , '435 Hummingbird Ln'  , 'Carlsbad'   , 'CA'             , '92009', 'San Diego'     , 'M', '000-18-0000', 90000  , 
 	   'ViaSat'			       , 'UX Designer'         , 'Buy'        , '600,000-700,000', 5      , 'Full Size Home', 1  , 1            , 100005),
-(1017, '03/05/1960'            , '5031 Richardson Dr'  , 'Portland'   , 'OR'             , '97239', 'Portland'      , 'M', '000-19-0000', 180000 , 
-	   'Microsoft'             , 'Hardware Engineer'   , 'Buy'        , '800,000-950,000', 3      , 'Full Size Home', 1  , 1            , 100003);
+(1018, 1978-03-05              , '5031 Richardson Dr'  , 'Portland'   , 'OR'             , '97239', 'Portland'      , 'M', '000-19-0000', 180000 , 
+	   'Microsoft'             , 'Hardware Engineer'   , 'Buy'        , '800,000-950,000', 3      , 'Full Size Home', 1  , 1            , 100003),
+(1019, 1994-12-15              , '1234 Olive Dr'       , 'Los Angeles', 'CA'             , '90001', 'Los Angeles'   , 'M', '000-20-0000', 180000 , 
+	   'Facebook'              , 'Software Engineer'   , 'Buy'        , '800,000-950,000', 2      , 'Full Size Home', 1  , 1            , 100003),
+(1020, 1985-11-20              , '5774 Llamas Dr'      , 'Mira Mesa'  , 'CA'             , '92126', 'San Diego'     , 'F', '000-21-0000', 120000 , 
+	   'Qualcomm'              , 'Data Scientist'      , 'Buy'        , '700,000-900,000', 3      , 'Full Size Home', 1  , 1            , 100003);
 
 /*------------------------------------------------------------*/
 /*            Create the BUYING OR SELLING table	          */
@@ -204,16 +208,16 @@ CREATE TABLE tblBuyingOrSelling
 ); 
 
 INSERT INTO tblBuyingOrSelling VALUES
-(1001, 1010, 1),
-(1002, 1011, 1),
-(1003, 1012, 0),
-(1004, 1013, 0),
-(1005, 1014, 1),
-(1006, 1015, 1),
-(1007, 1016, 0),
-(1008, 1017, 1),
-(1009, 1018, 1),
-(1010, 1019, 1); 
+(1001, 1011, 1),
+(1002, 1012, 1),
+(1003, 1013, 0),
+(1004, 1014, 0),
+(1005, 1015, 1),
+(1006, 1016, 1),
+(1007, 1017, 0),
+(1008, 1018, 1),
+(1009, 1019, 1),
+(1010, 1020, 1); 
 
 /*------------------------------------------------------------*/
 /*     	  	Create the LOCATION OF INTEREST table	          */
@@ -221,7 +225,7 @@ INSERT INTO tblBuyingOrSelling VALUES
 CREATE TABLE tblLocationsOfInterest
 (
 	LocationOfInterestID		int				PRIMARY KEY,	
-	City						varchar(128)	NOT NULL,	
+	City						varchar(128)	NOT NULL   ,	
 	Zipcode						int				NOT NULL
 );
 
@@ -266,7 +270,7 @@ INSERT INTO tblLocationOfInterestsForClients VALUES
 CREATE TABLE tblSalesContracts 
 (
 	SalesContractID 	int               PRIMARY KEY,
-	PaymentMethod	    varchar(64)       NOT NULL,
+	PaymentMethod	    varchar(64)       NOT NULL   ,
 );
 
 INSERT INTO tblSalesContracts VALUES   
