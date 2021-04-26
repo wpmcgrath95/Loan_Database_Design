@@ -229,7 +229,7 @@ CREATE TABLE tblLocationsOfInterest
 (
 	LocationOfInterestID		int				PRIMARY KEY,	
 	City						varchar(64)	    NOT NULL   ,	
-	Zipcode						int				NOT NULL
+	Zipcode					    varchar(64)	    NOT NULL
 );
 
 INSERT INTO tblLocationsOfInterest VALUES
@@ -256,15 +256,15 @@ CREATE TABLE tblLocationOfInterestsForClients
 
 INSERT INTO tblLocationOfInterestsForClients VALUES
 (1011, 2001, 'Primary Choice'),
-(1012, 2005, 'Primary Choice'),
-(1013, 2007, 'Primary Choice'),
-(1014, 2001, 'Secondary Choice'),
-(1015, 2009, 'Primary Choice'),
+(1012, 2002, 'Primary Choice'),
+(1013, 2003, 'Primary Choice'),
+(1014, 2004, 'Secondary Choice'),
+(1015, 2005, 'Primary Choice'),
 (1016, 2006, 'Primary Choice'),
-(1017, 2008, 'Secondary Choice'),
-(1018, 2002, 'Third Choice'),
-(1019, 2003, 'Primary Choice'),
-(1020, 2001, 'Secondary Choice');
+(1017, 2007, 'Secondary Choice'),
+(1018, 2008, 'Third Choice'),
+(1019, 2009, 'Primary Choice'),
+(1020, 2010, 'Secondary Choice');
 
 /*------------------------------------------------------------*/
 /*             Create the SALES CONTRACTS table	              */
@@ -279,13 +279,8 @@ INSERT INTO tblSalesContracts VALUES
 (01001, 'Bank Transfer'),  
 (01002, 'Check'),    
 (01003, 'Wire Transfer'),   
-(01004, 'Cash'),  
-(01005, 'Bank Transfer'),    
-(01006, 'Credit Card'),    
-(01007, 'Bank Transfer'),   
-(01008, 'Check'), 
-(01009, 'Bank Transfer'),
-(01010, 'Bank Transfer');
+(01004, 'Cash'),    
+(01005, 'Credit Card');
 
 /*------------------------------------------------------------*/
 /*              Create the OFFERS table	          			  */
@@ -300,16 +295,16 @@ CREATE TABLE tblOffers
 );
 	 	
 INSERT INTO tblOffers VALUES
-(1011, 1111, '300000', 'In Progress', 11001),
-(1012, 1112, '350000', 'In Progress', 11002),
-(1013, 1113, '600000', 'Closed'     , 11003),
-(1014, 1114, '430000', 'In Progress', 11004),
-(1015, 1115, '250000', 'Closed'     , 11005),
-(1016, 1116, '700000', 'Submitted'  , 11006),
-(1017, 1117, '900000', 'Submitted'  , 11007),
-(1018, 1118, '670000', 'Submitted'  , 11008),
-(1019, 1119, '830000', 'In Progress', 11009),
-(1020, 1120, '320000', 'Accepted'   , 11010);
+(1011, 1111, '300000', 'In Progress', 01001),
+(1012, 1112, '350000', 'In Progress', 01001),
+(1013, 1113, '600000', 'Closed'     , 01002),
+(1014, 1114, '430000', 'In Progress', 01003),
+(1015, 1115, '250000', 'Closed'     , 01004),
+(1016, 1116, '700000', 'Submitted'  , 01005),
+(1017, 1117, '900000', 'Submitted'  , 01003),
+(1018, 1118, '670000', 'Submitted'  , 01003),
+(1019, 1119, '830000', 'In Progress', 01002),
+(1020, 1120, '320000', 'Accepted'   , 01001);
 
 /*------------------------------------------------------------*/
 /*             	  Create the LENDERS table	              	  */
@@ -337,7 +332,7 @@ INSERT INTO tblLenders VALUES
 (1107, 'Adam'   , 'Gilchrist','Silicon Valley Bank', '971 Ryan Dr'       , 'San Diego'  , 'CA', '91913', 'Private'),
 (1108, 'Ian'    , 'Healy'    , 'Chase'             , '747 Calaveras Blvd', 'San Diego'  , 'CA', '91915', 'Commercial'),
 (1109, 'Kayla'  , 'Wright'   , 'Bank of America'   , '111 Apple Ave'     , 'San Diego'  , 'CA', '91913', 'Commercial'),
-(1110, 'Joana'  , 'Quiles'   , 'Chase'             , '320 New Rd'        , 'Los Angeles', 'CA', '90001', 'Commercial');
+(1110, 'Joana'  , 'Quiles'   , 'Chase'             , '320 Classic Rd'    , 'Los Angeles', 'CA', '90001', 'Commercial');
 
 /*------------------------------------------------------------*/
 /*              Create the LOANS table	          			  */
@@ -346,7 +341,7 @@ CREATE TABLE tblLoans
 (
 	LoanID	              int			  PRIMARY KEY				  ,
 	InterestRate          decimal(4,2)              				  ,
-	TypeofLoan            varchar(64)     NOT NULL   				  , --Business Rules state must be fully documented
+	TypeOfLoan            varchar(64)     NOT NULL   				  , --Business Rules state must be fully documented
 	Amount                int             NOT NULL   				  , --Business Rules state must be fully documented
 	ExpirationDate        date            NOT NULL   				  , --Business Rules state must be fully documented
 	MortgageType          varchar(64)     NOT NULL   				  , --Business Rules state must be fully documented
@@ -355,20 +350,20 @@ CREATE TABLE tblLoans
 	DownPayment           int             NOT NULL   				  , --Business Rules state must be fully documented
 	PMI                   int                           			  ,
 	SalesContractID       int             REFERENCES tblSalesContracts,
-	LenderID              int             REFERENCES tblLender
+	LenderID              int             REFERENCES tblLenders
 );
 
 INSERT INTO tblLoans VALUES
-(10105, 08.25, 'Mortgage', 550000 , '2049-02-04', 'Fixed Rate'   , '2019-02-04', '2019-04-01', 110000, 0   , 01001, 1103),
-(10106, 06.50, 'Mortgage', 300000 , '2049-03-21', 'Fixed Rate'   , '2019-03-20', '2019-05-20', 75000 , 0   , 01002, 1102),
-(10107, 07.45, 'Mortgage', 1225000, '2049-06-14', 'Fixed Rate'   , '2019-06-14', '2019-07-20', 183750, 500 , 01003, 1108),
-(10108, 06.50, 'Mortgage', 650000 , '2034-06-20', 'FHA'          , '2019-06-18', '2019-08-25', 110000, 0   , 01004, 1107),
-(10109, 10.00, 'Mortgage', 825000 , '2034-08-15', 'Interest Only', '2019-08-15', '2019-09-15', 0     , 0   , 01005, 1108),
-(10110, 04.25, 'Mortgage', 250000 , '2050-01-05', 'Fixed Rate'   , '2020-01-04', '2020-04-01', 12500 , 1000, 01006, 1102),
-(10111, 04.50, 'Mortgage', 750000 , '2050-04-20', 'Fixed Rate'   , '2020-04-17', '2020-05-08', 150000, 0   , 01007, 1105),
-(10112, 03.25, 'Mortgage', 945000 , '2050-07-28', 'Fixed Rate'   , '2020-07-28', '2020-08-21', 9450  , 1200, 01008, 1103),
-(10113, 05.00, 'Mortgage', 600000 , '2050-10-25', 'VA'           , '2020-10-24', '2020-12-01', 30000 , 0   , 01009, 1109),
-(10114, 03.00, 'Mortgage', 250000 , '2051-01-04', 'FHA'          , '2021-01-04', '2021-04-01', 62500 , 0   , 01010, 1102);
+(50101, 08.25, 'Mortgage', 550000 , '2049-02-04', 'Fixed Rate'   , '2019-02-04', '2019-04-01', 110000, 0   , 01001, 1101),
+(50102, 06.50, 'Mortgage', 300000 , '2049-03-21', 'Fixed Rate'   , '2019-03-20', '2019-05-20', 75000 , 0   , 01003, 1102),
+(50103, 07.45, 'Mortgage', 1225000, '2049-06-14', 'Fixed Rate'   , '2019-06-14', '2019-07-20', 183750, 500 , 01003, 1103),
+(50104, 06.50, 'Mortgage', 650000 , '2034-06-20', 'FHA'          , '2019-06-18', '2019-08-25', 110000, 0   , 01002, 1104),
+(50105, 10.00, 'Mortgage', 825000 , '2034-08-15', 'Interest Only', '2019-08-15', '2019-09-15', 0     , 0   , 01005, 1105),
+(50106, 04.25, 'Mortgage', 250000 , '2050-01-05', 'Fixed Rate'   , '2020-01-04', '2020-04-01', 12500 , 1000, 01003, 1106),
+(50107, 04.50, 'Mortgage', 750000 , '2050-04-20', 'Fixed Rate'   , '2020-04-17', '2020-05-08', 150000, 0   , 01001, 1107),
+(50108, 03.25, 'Mortgage', 945000 , '2050-07-28', 'Fixed Rate'   , '2020-07-28', '2020-08-21', 9450  , 1200, 01003, 1108),
+(50109, 05.00, 'Mortgage', 600000 , '2050-10-25', 'VA'           , '2020-10-24', '2020-12-01', 30000 , 0   , 01001, 1109),
+(50110, 03.00, 'Mortgage', 250000 , '2051-01-04', 'FHA'          , '2021-01-04', '2021-04-01', 62500 , 0   , 01002, 1110);
 
 /*------------------------------------------------------------*/
 /*              Create the CREDIT REPORTS table	              */
@@ -384,20 +379,20 @@ CREATE TABLE tblCreditReports
 	OtherLinesOfSupport    varchar(64) 		                      ,
 	CurrentBalance         int                                    ,
 	ClientID               int  			 REFERENCES tblClients,
-	LenderID               int  			 REFERENCES tblLender ,
+	LenderID               int  			 REFERENCES tblLenders,
 
 );
 
 INSERT INTO tblCreditReports VALUES
 (30001, '100000', 55000, '777', '0'    , '3000', '1000', 10000, 1011, 1101),
-(30002, '200000', 15000, '790', '20000', '0'   , '500' , 2000 , 1012, 1108),
-(30003, '150000', 50000, '700', '0'    , '1000', '700' , 15000, 1013, 1102),
+(30002, '200000', 15000, '790', '20000', '0'   , '500' , 2000 , 1012, 1102),
+(30003, '150000', 50000, '700', '0'    , '1000', '700' , 15000, 1013, 1103),
 (30004, '400000', 40000, '792', '10000', '500' , '1000', 25000, 1014, 1104),
 (30005, '125000', 25000, '698', '0'    , '0'   , '0'   , 7000 , 1015, 1105),
-(30006, '500000', 45000, '715', '50000', '0'   , '600' , 17000, 1016, 1107),
-(30007, '650000', 30000, '780', '25000', '0'   , '200' , 5500 , 1017, 1109),
-(30008, '650000', 30000, '780', '30000', '0'   , '200' , 500  , 1018, 1103),
-(30009, '650000', 30000, '780', '10000', '0'   , '1000', 1000 , 1019, 1106),
+(30006, '500000', 45000, '715', '50000', '0'   , '600' , 17000, 1016, 1106),
+(30007, '650000', 30000, '780', '25000', '0'   , '200' , 5500 , 1017, 1107),
+(30008, '650000', 30000, '780', '30000', '0'   , '200' , 500  , 1018, 1108),
+(30009, '650000', 30000, '780', '10000', '0'   , '1000', 1000 , 1019, 1109),
 (30010, '650000', 30000, '780', '0'    , '0'   , '500' , 3000 , 1020, 1110);
 
 GO
