@@ -57,17 +57,42 @@ INSERT INTO tblPeople VALUES
 (1020, 'Gabe'   , 'Ribali'  , '8585550032');
 
 /*------------------------------------------------------------*/
+/*              Create the COMPANY table	          		  */
+/*------------------------------------------------------------*/
+CREATE TABLE tblCompany	
+(
+	CompanyID		int				 PRIMARY KEY    ,	
+	CompanyName		varchar(128)				    ,	
+	Street   		varchar(128)	 UNIQUE	NOT NULL,
+	City			varchar(128)				    ,
+	TheState	    varchar(128)				    ,
+	Zipcode		    varchar(128)				    ,
+);
+
+INSERT INTO tblCompany VALUES
+(10001, 'Best Real Estate'   , '15746 Star Ave'  , 'Fremont'  , 'CA', '85748'),
+(10002, 'Best Homes'         , '75847 Home St'   , 'Burbank'  , 'CA', '84547'), 
+(10003, 'Corn Housing'       , '64520 Mask Blvd' , 'Houston'  , 'TX', '18446'),
+(10004, 'Housing for Free'   , '45712 Great Ave' , 'Miami'    ,	'FL', '75487'),
+(10005, 'Forever Homes'      , '74126 Up St'     , 'Seattle'  , 'WA', '74581'),
+(10006, 'No More Paying Rent', '65849 Roof Blvd' , 'Portland' , 'OR', '84751'),
+(10007, 'San Diego Homes'    , '5500 Camp St'    , 'San Diego',	'CA', '95219'),
+(10008, 'Roof Over'          , '54154 Oregon Ave', 'Phoenix'  ,	'AZ', '95421'),
+(10009, 'Agency For You'     , '24812 Bat St'    , 'Sedona'   , 'AZ', '94572'),
+(10010, 'Balloon Homes'      , '22750 Part Blvd' , 'Las Vegas', 'NV', '78421');
+
+/*------------------------------------------------------------*/
 /*             Create the REAL ESTATE AGENT table	          */
 /*------------------------------------------------------------*/
 CREATE TABLE tblRealEstateAgent
 (
-	AgentID 	int              PRIMARY KEY        REFERENCES tblPEOPLE  , -- Setup a column and designate it as primary key
-	RSLicenseNo	varchar(64)      UNIQUE NOT NULL                          , -- Alternative Key
-	Region 	    varchar(128)	                                          , 
-	CompanyID   int	                                REFERENCES tblCOMPANY		
+	AgentID 	int              PRIMARY KEY        REFERENCES tblPeople , -- Setup a column and designate it as primary key
+	RSLicenseNo	varchar(64)      UNIQUE NOT NULL                         , -- Alternative Key
+	Region 	    varchar(128)	                                         , 
+	CompanyID   int	                                REFERENCES tblCompany		
 );
 
-INSERT INTO tblRealEstateAgent VALUES   
+INSERT INTO tblRealEstateAgent VALUES  
 (1001, '#20004559', 'Northeast'   , 10001),  
 (1002, '#30908579', 'Southwest'   , 10001),    
 (1003, '#44004559', 'Central'     , 10003),   
@@ -89,11 +114,11 @@ CREATE TABLE tblBuyingSellingStages
 );
 
 INSERT INTO tblBuyingSellingStages VALUES
-(1000, 'Started'),
-(2000, 'Processing'),
-(3000, 'Approved'),
-(4000, 'Closed'),
-(5000, 'Denied');
+(100001, 'Started'),
+(100002, 'Processing'),
+(100003, 'Approved'),
+(100004, 'Closed'),
+(100005, 'Denied');
 
 /*------------------------------------------------------------*/
 /*               Create the LISTINGS table	     	 		  */
@@ -116,20 +141,20 @@ CREATE TABLE tblListings
 );
 
 INSERT INTO tblListings VALUES
-(1111, 1001, '1111 Banana Avenue, San Diego, 92222' , '4', '2', 120, 7000 , 1000, 18000, 500),
-(1112, 1002, '2222 Apple Avenue, San Diego, 92212'  , '5', '3', 200, 7500 , 1500, 20500, 517),
-(1113, 1003, '2232 Cat Avenue, San Diego, 92112'    , '2', '1', 100, 2000 , 950 , 16000, 450),
-(1114, 1004, '2332 Peach Avenue, San Diego, 91112'  , '6', '3', 400, 10000, 700 , 30000, 650),
-(1115, 1005, '3000 Pet Avenue, San Diego, 90002'    , '4', '1', 100, 6000 , 990 , 16500, 480),
-(1116, 1006, '4200 PPP Avenue, San Diego, 91002'    , '6', '2', 300, 9500 , 1000, 29000, 620),
-(1117, 1007, '3333 Holiday Avenue, San Diego, 91000', '2', '2', 120, 4900 , 1100, 18500, 475);
+(1111, 1001, '1111 Banana Ave' , 'San Diego', 'CA', '92222', '4', '2', 120, 7000 , 1000, 18000, 500),
+(1112, 1002, '2222 Apple Ave'  , 'San Diego', 'CA', '92212', '5', '3', 200, 7500 , 1500, 20500, 517),
+(1113, 1003, '2232 Cat Ave'    , 'San Diego', 'CA', '92112', '2', '1', 100, 2000 , 950 , 16000, 450),
+(1114, 1004, '2332 Peach Ave'  , 'San Diego', 'CA', '91112', '6', '3', 400, 10000, 700 , 30000, 650),
+(1115, 1005, '3000 Pet Ave'    , 'San Diego', 'CA', '90002', '4', '1', 100, 6000 , 990 , 16500, 480),
+(1116, 1006, '4200 Pile Ave'   , 'San Diego', 'CA', '91002', '6', '2', 300, 9500 , 1000, 29000, 620),
+(1117, 1007, '3333 Holiday Ave', 'San Diego', 'CA', '91000', '2', '2', 120, 4900 , 1100, 18500, 475);
 
 /*------------------------------------------------------------*/
 /*               Create the CLIENTS table	          		  */
 /*------------------------------------------------------------*/
 CREATE TABLE tblClients
 (
-	ClientID	           int			   PRIMARY KEY REFERENCES tblPEOPLE ,
+	ClientID	           int			   PRIMARY KEY REFERENCES tblPeople ,
 	DOB                    varchar(64)                                      ,
 	Street       		   varchar(64)	   UNIQUE NOT NULL			        ,
 	City                   varchar(64)                                      ,
@@ -151,22 +176,22 @@ CREATE TABLE tblClients
 );
 
 INSERT INTO tblClients VALUES
-(1010, '01/10/1990', '123 Olive St’, ’San Diego', 'CA', '92101', 'San Diego', 'F', '000-12-0000', 50000, 
-'County of SD', 'Social Worker','Buy', '500,000-650,000', 2, 'Townhome', 1, 0,  10010),
-(1011, '07/28/1982', '733 Grand Ave’, ‘Chula Vista', 'CA', '91910', 'San Diego', 'F', '000-13-0000', 120000, 
-'Amazon', 'Data Analyst', 'Buy', '700,000-800,000', 3, 'Full Size Home', 1, 1,  10011),
-(1012, '07/04/1967', '3940 Emerald Ln #304', 'Yuma', 'AZ', '85364', 'Yuma', 'M', '000-14-0000', 60000, 
-'Yuma Medical Center', 'Patient Rep', 'Rent', '2,000-2,500', 2, 'Apartment’', 0, 0,  10012),
-(1013, '12/27/1998', '134 Manhattan Ave', 'New York', 'NY', '10001', 'New York', 'F', '000-15-0000', 70000, 
-'Northwell Health', 'Registered Nurse', 'Rent', '2,000-2,500', 1, 'Apartment', 0, 0,  10013),
-(1014, '08/28/1977', '589 Harmony Grove', 'Portland', 'OR', '97219', 'Portland', 'F', '000-16-0000', 50000, 
-'Lewis and Clark College', 'Research Assistant', 'Rent', '1,800-2,000', 1, 'Apartment', 1, 0,  10014),
-(1015, '04/20/1970', '1546 Homan Ave', 'Chicago', 'IL', '60623', 'Chicago', 'F', '000-17-0000', 150000, 
-'Chicago Family Health', 'Physician Assistant', 'Buy', '750,000-850,000', 4, 'Full Size Home', 1, 0,  10015),
-(1016, '04/03/1980', '435 Hummingbird Ln', 'Carlsbad', 'CA', '92009', 'San Diego', 'M', '000-18-0000', 90000, 
-'ViaSat', 'UX Designer', 'Buy', '600,000-700,000', 5, 'Full Size Home', 1, 1,  10016),
-(1017, '03/05/1960', '5031 Richardson Dr', 'Portland', 'OR', '97239', 'Portland', 'M', '000-19-0000', 180000, 
-'Microsoft', 'Hardware Engineer', 'Buy', '800,000-950,000', 3, 'Full Size Home', 1, 1,  10017);
+(1010, '01/10/1990'            , '123 Olive St'        , 'San Diego'  , 'CA'             , '92101', 'San Diego'     , 'F', '000-12-0000', 50000  , 
+	   'County of SD'          , 'Social Worker'       , 'Buy'        , '500,000-650,000', 2      , 'Townhome'      , 1  , 0            , 100001),
+(1011, '07/28/1982'            , '733 Grand Ave'       , 'Chula Vista', 'CA'             , '91910', 'San Diego'     , 'F', '000-13-0000', 120000 , 
+	   'Amazon'                , 'Data Analyst'        , 'Buy'        , '700,000-800,000', 3      , 'Full Size Home', 1  , 1            , 100001),
+(1012, '07/04/1967'            , '3940 Emerald Ln #304', 'Yuma'       , 'AZ'			 , '85364', 'San Diego'     , 'M', '000-14-0000', 60000  , 
+	   'Yuma Medical Center'   , 'Patient Rep'         , 'Buy'	      , '2,000-2,500'	 , 2      , 'Apartment'     , 0  , 0			, 100002),
+(1013, '12/27/1998'            , '134 Manhattan Ave'   , 'New York'   , 'NY'             , '10001', 'New York'      , 'F', '000-15-0000', 70000  , 
+	   'Northwell Health'      , 'Registered Nurse'    , 'Buy'        , '2,000-2,500'    , 1      , 'Apartment'	 	, 0  , 0            , 100003),
+(1014, '08/28/1977'            , '589 Harmony Grove'   , 'Portland'   , 'OR'             , '97219', 'Portland'      , 'F', '000-16-0000', 50000  , 
+	   'Portland State College', 'Research Assistant'  , 'Buy'        , '1,800-2,000'    , 1      , 'Apartment'		, 1  , 0            , 100004),
+(1015, '04/20/1970'            , '1546 Homan Ave'      , 'Chicago'    , 'IL'             , '60623', 'Chicago'       , 'F', '000-17-0000', 150000 , 
+	   'Chicago Family Health' , 'Physician Assistant' , 'Buy'        , '750,000-850,000', 4      , 'Full Size Home', 1  , 0            , 100001),
+(1016, '04/03/1980'            , '435 Hummingbird Ln'  , 'Carlsbad'   , 'CA'             , '92009', 'San Diego'     , 'M', '000-18-0000', 90000  , 
+	   'ViaSat'			       , 'UX Designer'         , 'Buy'        , '600,000-700,000', 5      , 'Full Size Home', 1  , 1            , 100005),
+(1017, '03/05/1960'            , '5031 Richardson Dr'  , 'Portland'   , 'OR'             , '97239', 'Portland'      , 'M', '000-19-0000', 180000 , 
+	   'Microsoft'             , 'Hardware Engineer'   , 'Buy'        , '800,000-950,000', 3      , 'Full Size Home', 1  , 1            , 100003);
 
 /*------------------------------------------------------------*/
 /*            Create the BUYING OR SELLING table	          */
@@ -189,31 +214,6 @@ INSERT INTO tblBuyingOrSelling VALUES
 (1008, 1017, 1),
 (1009, 1018, 1),
 (1010, 1019, 1); 
-
-/*------------------------------------------------------------*/
-/*              Create the COMPANY table	          		  */
-/*------------------------------------------------------------*/
-CREATE TABLE tblCompany	
-(
-	CompanyID		int				 PRIMARY KEY    ,	
-	CompanyName		varchar(128)				    ,	
-	Street   		varchar(128)	 UNIQUE	NOT NULL,
-	City			varchar(128)				    ,
-	TheState	    varchar(128)				    ,
-	Zipcode		    varchar(128)				    ,
-);
-
-INSERT INTO tblCompany VALUES
-(1, 'Best Real Estate'   , '15746 Star Ave'  , 'Fremont'  , 'CA', '85748'),
-(2, 'Best Homes'         , '75847 Home St'   , 'Burbank'  , 'CA', '84547'), 
-(3, 'Corn Housing'       , '64520 Mask Blvd' , 'Houston'  , 'TX', '18446'),
-(4, 'Housing for Free'   , '45712 Great Ave' , 'Miami'    ,	'FL', '75487'),
-(5, 'Forever Homes'      , '74126 Up St'     , 'Seattle'  , 'WA', '74581'),
-(6, 'No More Paying Rent', '65849 Roof Blvd' , 'Portland' , 'OR', '84751'),
-(7, 'San Diego Homes'    , '5500 Camp St'    , 'San Diego',	'CA', '95219'),
-(8, 'Roof Over'          , '54154 Oregon Ave', 'Phoenix'  ,	'AZ', '95421'),
-(9, 'Agency For You'     , '24812 Bat St'    , 'Sedona'   , 'AZ', '94572'),
-(10, 'Balloon Homes'     , '22750 Part Blvd' , 'Las Vegas', 'NV', '78421');
 
 /*------------------------------------------------------------*/
 /*     	  	Create the LOCATION OF INTEREST table	          */
@@ -242,8 +242,8 @@ INSERT INTO tblLocationsOfInterest VALUES
 /*------------------------------------------------------------*/
 CREATE TABLE tblLocationOfInterestsForClients
 (
-	ClientID	               int		      PRIMARY KEY REFERENCES tblClients            ,
-	LocationofInterestID       int            PRIMARY KEY REFERENCES tblLocationsOfInterest,
+	ClientID	               int		      PRIMARY KEY REFERENCES tblClients,
+	LocationOfInterestID       int            REFERENCES tblLocationsOfInterest, 
 	InterestRank               varchar(64)    NOT NULL
 );
 
@@ -371,12 +371,12 @@ INSERT INTO tblLoans VALUES
 CREATE TABLE tblCreditReports 
 (
 	CreditReportID	       int		 		 PRIMARY KEY          ,
-	Creditline             varchar(64)                            ,
+	CreditLine             varchar(64)                            ,
 	TotalDebt              int                                    ,
-	Creditscore            varchar(64)                            ,
+	CreditScore            varchar(64)                            ,
 	CurrentMortgage        varchar(64)                            ,
-	Childsupport           varchar(64)       NULL                 ,
-	Otherlinesofsupport    varchar(64) 		 NULL                 ,
+	ChildSupport           varchar(64)                     		  ,
+	OtherLinesOfSupport    varchar(64) 		                      ,
 	CurrentBalance         int                                    ,
 	ClientID               int  			 REFERENCES tblClients,
 	LenderID               int  			 REFERENCES tblLender ,
