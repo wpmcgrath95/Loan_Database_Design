@@ -141,13 +141,16 @@ CREATE TABLE tblListings
 );
 
 INSERT INTO tblListings VALUES
-(1111, 1001, '1111 Banana Ave' , 'San Diego', 'CA', '92222', '4', '2', 120, 7000 , 1000, 18000, 500),
-(1112, 1002, '2222 Apple Ave'  , 'San Diego', 'CA', '92212', '5', '3', 200, 7500 , 1500, 20500, 517),
-(1113, 1003, '2232 Cat Ave'    , 'San Diego', 'CA', '92112', '2', '1', 100, 2000 , 950 , 16000, 450),
-(1114, 1004, '2332 Peach Ave'  , 'San Diego', 'CA', '91112', '6', '3', 400, 10000, 700 , 30000, 650),
-(1115, 1005, '3000 Pet Ave'    , 'San Diego', 'CA', '90002', '4', '1', 100, 6000 , 990 , 16500, 480),
-(1116, 1006, '4200 Pile Ave'   , 'San Diego', 'CA', '91002', '6', '2', 300, 9500 , 1000, 29000, 620),
-(1117, 1007, '3333 Holiday Ave', 'San Diego', 'CA', '91000', '2', '2', 120, 4900 , 1100, 18500, 475);
+(1111, 1001, '1111 Banana Ave' , 'San Diego', 'CA', '92222', '4', '2', 1200, 7000 , 1000, 18000, 5000),
+(1112, 1002, '2222 Apple Rd'   , 'San Diego', 'CA', '92212', '5', '3', 2000, 7500 , 1500, 20500, 4000),
+(1113, 1003, '2232 Cat Ave'    , 'San Diego', 'CA', '92112', '2', '1', 1000, 2000 , 950 , 16000, 3000),
+(1114, 1004, '2332 Peach Ave'  , 'San Diego', 'CA', '91112', '6', '3', 4000, 10000, 700 , 30000, 2000),
+(1115, 1005, '3000 Pet Ct'     , 'San Diego', 'CA', '92091', '4', '1', 1000, 6000 , 990 , 16500, 1200),
+(1116, 1006, '4200 Pile Ave'   , 'San Diego', 'CA', '91002', '6', '2', 3000, 9500 , 1000, 29000, 1500),
+(1117, 1007, '3333 Holiday Dr' , 'San Diego', 'CA', '91913', '2', '2', 1200, 4900 , 1100, 18500, 2000),
+(1118, 1008, '1641 Orange Ave' , 'San Diego', 'CA', '91000', '2', '2', 1100, 5000 , 1000, 19500, 1500),
+(1119, 1009, '231 Harvard Ave' , 'San Diego', 'CA', '91913', '2', '2', 1200, 4900 , 1100, 18500, 1000),
+(1120, 1010, '3421 Anderson Dr', 'San Diego', 'CA', '91910', '2', '3', 1200, 7000 , 1100, 20000, 2000);
 
 /*------------------------------------------------------------*/
 /*               Create the CLIENTS table	          		  */
@@ -176,25 +179,25 @@ CREATE TABLE tblClients
 );
 
 INSERT INTO tblClients VALUES
-(1011, 1990-01-10              , '123 Olive St'        , 'San Diego'  , 'CA'             , '92101', 'San Diego'     , 'F', '000-12-0000', 50000  , 
+(1011, '1990-01-10'            , '123 Olive St'        , 'San Diego'  , 'CA'             , '92101', 'San Diego'     , 'F', '000-12-0000', 50000  , 
 	   'County of SD'          , 'Social Worker'       , 'Buy'        , '500,000-650,000', 2      , 'Townhome'      , 1  , 0            , 100001),
-(1012, 1982-07-28              , '733 Grand Ave'       , 'Chula Vista', 'CA'             , '91910', 'San Diego'     , 'F', '000-13-0000', 120000 , 
+(1012, '1982-07-28'            , '733 Grand Ave'       , 'Chula Vista', 'CA'             , '91910', 'San Diego'     , 'F', '000-13-0000', 120000 , 
 	   'Amazon'                , 'Data Analyst'        , 'Buy'        , '700,000-800,000', 3      , 'Full Size Home', 1  , 1            , 100001),
-(1013, 1967-07-04              , '3940 Emerald Ln #304', 'Yuma'       , 'AZ'			 , '85364', 'San Diego'     , 'M', '000-14-0000', 60000  , 
+(1013, '1967-07-04'            , '3940 Emerald Ln #304', 'Yuma'       , 'AZ'			 , '85364', 'San Diego'     , 'M', '000-14-0000', 60000  , 
 	   'Yuma Medical Center'   , 'Patient Rep'         , 'Buy'	      , '2,000-2,500'	 , 2      , 'Apartment'     , 0  , 0			, 100002),
-(1014, 1995-02-30              , '134 Manhattan Ave'   , 'New York'   , 'NY'             , '10001', 'New York'      , 'F', '000-15-0000', 70000  , 
+(1014, '1995-02-13'            , '134 Manhattan Ave'   , 'New York'   , 'NY'             , '10001', 'New York'      , 'F', '000-15-0000', 70000  , 
 	   'Northwell Health'      , 'Registered Nurse'    , 'Buy'        , '2,000-2,500'    , 1      , 'Apartment'	 	, 0  , 0            , 100003),
-(1015, 1977-08-28              , '589 Harmony Grove'   , 'Portland'   , 'OR'             , '97219', 'Portland'      , 'F', '000-16-0000', 50000  , 
+(1015, '1977-08-28'            , '589 Harmony Grove'   , 'Portland'   , 'OR'             , '97219', 'Portland'      , 'F', '000-16-0000', 50000  , 
 	   'Portland State College', 'Research Assistant'  , 'Buy'        , '1,800-2,000'    , 1      , 'Apartment'		, 1  , 0            , 100004),
-(1016, 1970-04-20              , '1546 Homan Ave'      , 'Chicago'    , 'IL'             , '60623', 'Chicago'       , 'F', '000-17-0000', 150000 , 
+(1016, '1970-04-20'            , '1546 Homan Ave'      , 'Chicago'    , 'IL'             , '60623', 'Chicago'       , 'F', '000-17-0000', 150000 , 
 	   'Chicago Family Health' , 'Physician Assistant' , 'Buy'        , '750,000-850,000', 4      , 'Full Size Home', 1  , 0            , 100001),
-(1017, 1980-10-25              , '435 Hummingbird Ln'  , 'Carlsbad'   , 'CA'             , '92009', 'San Diego'     , 'M', '000-18-0000', 90000  , 
+(1017, '1980-10-25'            , '435 Hummingbird Ln'  , 'Carlsbad'   , 'CA'             , '92009', 'San Diego'     , 'M', '000-18-0000', 90000  , 
 	   'ViaSat'			       , 'UX Designer'         , 'Buy'        , '600,000-700,000', 5      , 'Full Size Home', 1  , 1            , 100005),
-(1018, 1978-03-05              , '5031 Richardson Dr'  , 'Portland'   , 'OR'             , '97239', 'Portland'      , 'M', '000-19-0000', 180000 , 
+(1018, '1978-03-05'            , '5031 Richardson Dr'  , 'Portland'   , 'OR'             , '97239', 'Portland'      , 'M', '000-19-0000', 180000 , 
 	   'Microsoft'             , 'Hardware Engineer'   , 'Buy'        , '800,000-950,000', 3      , 'Full Size Home', 1  , 1            , 100003),
-(1019, 1994-12-15              , '1234 Olive Dr'       , 'Los Angeles', 'CA'             , '90001', 'Los Angeles'   , 'M', '000-20-0000', 180000 , 
+(1019, '1994-12-15'            , '1234 Olive Dr'       , 'Los Angeles', 'CA'             , '90001', 'Los Angeles'   , 'M', '000-20-0000', 180000 , 
 	   'Facebook'              , 'Software Engineer'   , 'Buy'        , '800,000-950,000', 2      , 'Full Size Home', 1  , 1            , 100003),
-(1020, 1985-11-20              , '5774 Llamas Dr'      , 'Mira Mesa'  , 'CA'             , '92126', 'San Diego'     , 'F', '000-21-0000', 120000 , 
+(1020, '1985-11-20'            , '5774 Llamas Dr'      , 'Mira Mesa'  , 'CA'             , '92126', 'San Diego'     , 'F', '000-21-0000', 120000 , 
 	   'Qualcomm'              , 'Data Scientist'      , 'Buy'        , '700,000-900,000', 3      , 'Full Size Home', 1  , 1            , 100003);
 
 /*------------------------------------------------------------*/
@@ -225,7 +228,7 @@ INSERT INTO tblBuyingOrSelling VALUES
 CREATE TABLE tblLocationsOfInterest
 (
 	LocationOfInterestID		int				PRIMARY KEY,	
-	City						varchar(128)	NOT NULL   ,	
+	City						varchar(64)	    NOT NULL   ,	
 	Zipcode						int				NOT NULL
 );
 
@@ -252,17 +255,16 @@ CREATE TABLE tblLocationOfInterestsForClients
 );
 
 INSERT INTO tblLocationOfInterestsForClients VALUES
-(1010, 2001, 'Primary Choice'),
-(1001, 2005, 'Primary Choice'),
-(1008, 2007, 'Primary Choice'),
-(1008, 2001, 'Secondary Choice'),
-(1006, 2009, 'Primary Choice'),
-(1003, 2006, 'Primary Choice'),
-(1003, 2008, 'Secondary Choice'),
-(1003, 2002, 'Third Choice'),
-(1017, 2003, 'Primary Choice'),
-(1017, 2001, 'Secondary Choice'),
-(1014, 2004, 'Primary Choice');
+(1011, 2001, 'Primary Choice'),
+(1012, 2005, 'Primary Choice'),
+(1013, 2007, 'Primary Choice'),
+(1014, 2001, 'Secondary Choice'),
+(1015, 2009, 'Primary Choice'),
+(1016, 2006, 'Primary Choice'),
+(1017, 2008, 'Secondary Choice'),
+(1018, 2002, 'Third Choice'),
+(1019, 2003, 'Primary Choice'),
+(1020, 2001, 'Secondary Choice');
 
 /*------------------------------------------------------------*/
 /*             Create the SALES CONTRACTS table	              */
@@ -297,18 +299,17 @@ CREATE TABLE tblOffers
 	SalesContractID		int  			REFERENCES 				tblSalesContracts
 );
 	 	
--- NEED TO CHANGE VALUES
 INSERT INTO tblOffers VALUES
-(1010, 1234, '300000', 'In Progress', 11001),
-(1011, 5678, '350000', 'In Progress', 11002),
-(1012, 1324, '600000', 'Closed'     , 11003),
-(1013, 4352, '430000', 'In Progress', 11004),
-(1014, 4897, '250000', 'Closed'     , 11005),
-(1015, 9074, '700000', 'Submitted'  , 11006),
-(1016, 0901, '900000', 'Submitted'  , 11007),
-(1017, 2314, '670000', 'Submitted'  , 11008),
-(1018, 8683, '830000', 'In Progress', 11009),
-(1019, 0131, '320000', 'Accepted'   , 11010);
+(1011, 1111, '300000', 'In Progress', 11001),
+(1012, 1112, '350000', 'In Progress', 11002),
+(1013, 1113, '600000', 'Closed'     , 11003),
+(1014, 1114, '430000', 'In Progress', 11004),
+(1015, 1115, '250000', 'Closed'     , 11005),
+(1016, 1116, '700000', 'Submitted'  , 11006),
+(1017, 1117, '900000', 'Submitted'  , 11007),
+(1018, 1118, '670000', 'Submitted'  , 11008),
+(1019, 1119, '830000', 'In Progress', 11009),
+(1020, 1120, '320000', 'Accepted'   , 11010);
 
 /*------------------------------------------------------------*/
 /*             	  Create the LENDERS table	              	  */
@@ -335,7 +336,7 @@ INSERT INTO tblLenders VALUES
 (1106, 'Chris'  , 'Murphy'   , 'US Bank'           , '1654 Ranch Dr'     , 'San Diego'  , 'CA', '91913', 'Commercial'),
 (1107, 'Adam'   , 'Gilchrist','Silicon Valley Bank', '971 Ryan Dr'       , 'San Diego'  , 'CA', '91913', 'Private'),
 (1108, 'Ian'    , 'Healy'    , 'Chase'             , '747 Calaveras Blvd', 'San Diego'  , 'CA', '91915', 'Commercial'),
-(1109, 'Kayla'  , 'Wright'   , 'Bank of America'   , '111 Fig Ave'       , 'San Diego'  , 'CA', '91913', 'Commercial'),
+(1109, 'Kayla'  , 'Wright'   , 'Bank of America'   , '111 Apple Ave'     , 'San Diego'  , 'CA', '91913', 'Commercial'),
 (1110, 'Joana'  , 'Quiles'   , 'Chase'             , '320 New Rd'        , 'Los Angeles', 'CA', '90001', 'Commercial');
 
 /*------------------------------------------------------------*/
@@ -358,16 +359,16 @@ CREATE TABLE tblLoans
 );
 
 INSERT INTO tblLoans VALUES
-(10105, 08.25, 'Mortgage', 550000 , 2049-02-04, 'Fixed Rate'   , 2019-02-04, 2019-04-01, 110000, 0   , 01001, 1103),
-(10106, 06.50, 'Mortgage', 300000 , 2049-03-21, 'Fixed Rate'   , 2019-03-20, 2019-05-20, 75000 , 0   , 01002, 1102),
-(10107, 07.45, 'Mortgage', 1225000, 2049-06-14, 'Fixed Rate'   , 2019-06-14, 2019-07-20, 183750, 500 , 01003, 1108),
-(10108, 06.50, 'Mortgage', 650000 , 2034-06-20, 'FHA'          , 2019-06-18, 2019-08-25, 110000, 0   , 01004, 1107),
-(10109, 10.00, 'Mortgage', 825000 , 2034-08-15, 'Interest Only', 2019-08-15, 2019-09-15, 0     , 0   , 01005, 1108),
-(10110, 04.25, 'Mortgage', 250000 , 2050-01-05, 'Fixed Rate'   , 2020-01-04, 2020-04-01, 12500 , 1000, 01006, 1102),
-(10111, 04.50, 'Mortgage', 750000 , 2050-04-20, 'Fixed Rate'   , 2020-04-17, 2020-05-08, 150000, 0   , 01007, 1105),
-(10112, 03.25, 'Mortgage', 945000 , 2050-07-28, 'Fixed Rate'   , 2020-07-28, 2020-08-21, 9450  , 1200, 01008, 1103),
-(10113, 05.00, 'Mortgage', 600000 , 2050-10-25, 'VA'           , 2020-10-24, 2020-12-01, 30000 , 0   , 01009, 1109),
-(10114, 03.00, 'Mortgage', 250000 , 2051-01-04, 'FHA'          , 2021-01-04, 2021-04-01, 62500 , 0   , 01010, 1102);
+(10105, 08.25, 'Mortgage', 550000 , '2049-02-04', 'Fixed Rate'   , '2019-02-04', '2019-04-01', 110000, 0   , 01001, 1103),
+(10106, 06.50, 'Mortgage', 300000 , '2049-03-21', 'Fixed Rate'   , '2019-03-20', '2019-05-20', 75000 , 0   , 01002, 1102),
+(10107, 07.45, 'Mortgage', 1225000, '2049-06-14', 'Fixed Rate'   , '2019-06-14', '2019-07-20', 183750, 500 , 01003, 1108),
+(10108, 06.50, 'Mortgage', 650000 , '2034-06-20', 'FHA'          , '2019-06-18', '2019-08-25', 110000, 0   , 01004, 1107),
+(10109, 10.00, 'Mortgage', 825000 , '2034-08-15', 'Interest Only', '2019-08-15', '2019-09-15', 0     , 0   , 01005, 1108),
+(10110, 04.25, 'Mortgage', 250000 , '2050-01-05', 'Fixed Rate'   , '2020-01-04', '2020-04-01', 12500 , 1000, 01006, 1102),
+(10111, 04.50, 'Mortgage', 750000 , '2050-04-20', 'Fixed Rate'   , '2020-04-17', '2020-05-08', 150000, 0   , 01007, 1105),
+(10112, 03.25, 'Mortgage', 945000 , '2050-07-28', 'Fixed Rate'   , '2020-07-28', '2020-08-21', 9450  , 1200, 01008, 1103),
+(10113, 05.00, 'Mortgage', 600000 , '2050-10-25', 'VA'           , '2020-10-24', '2020-12-01', 30000 , 0   , 01009, 1109),
+(10114, 03.00, 'Mortgage', 250000 , '2051-01-04', 'FHA'          , '2021-01-04', '2021-04-01', 62500 , 0   , 01010, 1102);
 
 /*------------------------------------------------------------*/
 /*              Create the CREDIT REPORTS table	              */
