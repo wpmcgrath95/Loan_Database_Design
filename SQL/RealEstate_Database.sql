@@ -11,6 +11,7 @@ USE MASTER;
 /*---------------------------------------------------------------------*/	 
 /* If the RealEstate Database exists, DROP it so the lesson can begin  */
 /*---------------------------------------------------------------------*/
+
 IF EXISTS (SELECT * FROM Master.dbo.sysdatabases WHERE NAME = 'RealEstate')
 DROP DATABASE RealEstate;
 GO
@@ -18,6 +19,7 @@ GO
 /*------------------------------------------------------------*/
 /*             Create the REAL ESTATE Database                */
 /*------------------------------------------------------------*/
+
 CREATE DATABASE RealEstate;
 GO 
 
@@ -26,7 +28,9 @@ USE RealEstate;
 /*------------------------------------------------------------*/
 /*              Create the PEOPLE table						  */
 /*------------------------------------------------------------*/
-CREATE TABLE tblPeople
+-- schema: PEOPLE (PersonID, FirstName, LastName, PhoneNumber)
+
+CREATE TABLE tblPeople 
 (
 	PersonID	int             PRIMARY KEY,
 	FirstName	varchar(64)     NOT NULL   ,
@@ -34,6 +38,7 @@ CREATE TABLE tblPeople
 	PhoneNumber varchar(64)	
 );
 
+-- Insert data into the PEOPLE table
 INSERT INTO tblPeople VALUES   
 (1001, 'Phil'   , 'Collins' , '6195559900'),
 (1002, 'Ted'    , 'Mosley'  , '2125554000'),
@@ -59,6 +64,9 @@ INSERT INTO tblPeople VALUES
 /*------------------------------------------------------------*/
 /*              Create the COMPANY table	          		  */
 /*------------------------------------------------------------*/
+-- schema: COMPANY (CompanyID, CompanyName, Street, City, TheState, Zipcode)
+-- 		   UNIQUE NOT NULL (Street)
+
 CREATE TABLE tblCompany	
 (
 	CompanyID		int				 PRIMARY KEY    ,	
@@ -69,6 +77,7 @@ CREATE TABLE tblCompany
 	Zipcode		    varchar(128)				    ,
 );
 
+-- Insert data into the COMPANY table
 INSERT INTO tblCompany VALUES
 (10001, 'Best Real Estate'   , '15746 Star Ave'  , 'Fremont'  , 'CA', '85748'),
 (10002, 'Best Homes'         , '75847 Home St'   , 'Burbank'  , 'CA', '84547'), 
@@ -84,6 +93,11 @@ INSERT INTO tblCompany VALUES
 /*------------------------------------------------------------*/
 /*             Create the REAL ESTATE AGENT table	          */
 /*------------------------------------------------------------*/
+-- schema: REAL_ESTATE_AGENT (AgentID, AK(RSLicenseNo), Region, CompanyID)
+-- 		   FK AgentID references PEOPLE 
+-- 		   FK CompanyID references COMPANY 
+-- 		   UNIQUE NOT NULL (RSLicenseNo)
+
 CREATE TABLE tblRealEstateAgent
 (
 	AgentID 	int              PRIMARY KEY        REFERENCES tblPeople , -- Setup a column and designate it as primary key
@@ -92,6 +106,7 @@ CREATE TABLE tblRealEstateAgent
 	CompanyID   int	                                REFERENCES tblCompany		
 );
 
+-- Insert data into the REAL ESTATE AGENT table
 INSERT INTO tblRealEstateAgent VALUES  
 (1001, '#20004559', 'Northeast'   , 10001),  
 (1002, '#30908579', 'Southwest'   , 10001),    
@@ -107,12 +122,15 @@ INSERT INTO tblRealEstateAgent VALUES
 /*------------------------------------------------------------*/
 /*          Create the BUYING SELLING STAGES table	     	  */
 /*------------------------------------------------------------*/
+-- schema: BUYING_SELLING_STAGES (StageID, Stage) 
+
 CREATE TABLE tblBuyingSellingStages
 (   
 	StageID		  int		        PRIMARY KEY,
 	Stage         varchar(64)
 );
 
+-- Insert data into the BUYING SELLING STAGES table
 INSERT INTO tblBuyingSellingStages VALUES
 (100001, 'Started'),
 (100002, 'Processing'),
@@ -123,6 +141,11 @@ INSERT INTO tblBuyingSellingStages VALUES
 /*------------------------------------------------------------*/
 /*               Create the LISTINGS table	     	 		  */
 /*------------------------------------------------------------*/
+-- schema: LISTINGS (ListingID, AgentID, Street, City, TheState, Zip Code, NoBedrooms, NoBaths, SquareFt, PropetyTax, HOAFee, 
+--                   EstClosingCost, AppraisalAmount)
+-- 		   FK AgentID references REAL_ESTATE_AGENT
+-- 		   UNIQUE NOT NULL (Street)
+
 CREATE TABLE tblListings
 (	
 	ListingID		   int  			 PRIMARY KEY							  ,
@@ -140,6 +163,7 @@ CREATE TABLE tblListings
 	AppraisalAmount    int
 );
 
+-- Insert data into the LISTINGS table
 INSERT INTO tblListings VALUES
 (1111, 1001, '1111 Banana Ave' , 'San Diego', 'CA', '92222', '4', '2', 1200, 7000 , 1000, 18000, 5000),
 (1112, 1002, '2222 Apple Rd'   , 'San Diego', 'CA', '92212', '5', '3', 2000, 7500 , 1500, 20500, 4000),
@@ -155,6 +179,13 @@ INSERT INTO tblListings VALUES
 /*------------------------------------------------------------*/
 /*               Create the CLIENTS table	          		  */
 /*------------------------------------------------------------*/
+-- schema: CLIENTS (ClientID, DOB, Street, City, TheState, ZipCode, Region, Gender, SSN, Income, PrimaryEmployer, JobTitle, 
+--				    BuyingIndicator, PriceRange, CurrentHouseholdSize, TypeOfHome, PoolInd, HOAInd, StageID)
+-- 		   FK ClientID references PEOPLE 
+--         FK StageID references BUYING_SELLING_STAGES
+--         UNIQUE (SSN)
+--         UNIQUE NOT NULL (Street)
+
 CREATE TABLE tblClients
 (
 	ClientID	           int			   PRIMARY KEY REFERENCES tblPeople ,
@@ -178,6 +209,7 @@ CREATE TABLE tblClients
 	StageID                int             REFERENCES tblBuyingSellingStages 
 );
 
+-- Insert data into the CLIENTS table
 INSERT INTO tblClients VALUES
 (1011, '1990-01-10'            , '123 Olive St'        , 'San Diego'  , 'CA'             , '92101', 'San Diego'     , 'F', '000-12-0000', 50000  , 
 	   'County of SD'          , 'Social Worker'       , 'Buy'        , '500,000-650,000', 2      , 'Townhome'      , 1  , 0            , 100001),
@@ -203,6 +235,10 @@ INSERT INTO tblClients VALUES
 /*------------------------------------------------------------*/
 /*            Create the BUYING OR SELLING table	          */
 /*------------------------------------------------------------*/
+-- schema: BUYING_OR_SELLING (AgentID, ClientID, BuyingOrSellingInd)
+-- 	       FK AgentID references REAL_ESTATE_AGENT
+--         FK ClientID references CLIENTS 
+
 CREATE TABLE tblBuyingOrSelling
 (
 	AgentID 				int 			 PRIMARY KEY REFERENCES tblRealEstateAgent,
@@ -210,6 +246,7 @@ CREATE TABLE tblBuyingOrSelling
 	BuyingOrSellingInd  	varchar(64)
 ); 
 
+-- Insert data into the BUYING OR SELLING table
 INSERT INTO tblBuyingOrSelling VALUES
 (1001, 1011, 1),
 (1002, 1012, 1),
@@ -225,6 +262,9 @@ INSERT INTO tblBuyingOrSelling VALUES
 /*------------------------------------------------------------*/
 /*     	  	Create the LOCATION OF INTEREST table	          */
 /*------------------------------------------------------------*/
+-- schema: LOCATIONS_OF_ INTEREST (LocationOfInterestID, City, ZipCode)
+-- 		   NOT NULL (City, ZipCode)
+
 CREATE TABLE tblLocationsOfInterest
 (
 	LocationOfInterestID		int				PRIMARY KEY,	
@@ -232,6 +272,7 @@ CREATE TABLE tblLocationsOfInterest
 	Zipcode					    varchar(64)	    NOT NULL
 );
 
+-- Insert data into the LOCATION OF INTEREST table
 INSERT INTO tblLocationsOfInterest VALUES
 (2001, 'Seattle'  , '58125'),
 (2002, 'San Diego', '91282'), 
@@ -247,6 +288,11 @@ INSERT INTO tblLocationsOfInterest VALUES
 /*------------------------------------------------------------*/
 /*     Create the LOCATION OF INTEREST FOR CLIENTS table	  */
 /*------------------------------------------------------------*/
+-- schema: LOCATIONS_OF_INTEREST_FOR_CLIENTS (ClientID, LocationOfInterestID, InterestRank)
+-- 		   FK ClientID references CLIENTS
+--         FK LocationOfInterestID references LOCATIONS_OF_INTEREST
+--         NOT NULL (InterestRank)
+
 CREATE TABLE tblLocationOfInterestsForClients
 (
 	ClientID	               int		      PRIMARY KEY REFERENCES tblClients,
@@ -254,6 +300,7 @@ CREATE TABLE tblLocationOfInterestsForClients
 	InterestRank               varchar(64)    NOT NULL
 );
 
+-- Insert data into the LOCATION OF INTEREST FOR CLIENTS table
 INSERT INTO tblLocationOfInterestsForClients VALUES
 (1011, 2001, 'Primary Choice'),
 (1012, 2002, 'Primary Choice'),
@@ -269,12 +316,16 @@ INSERT INTO tblLocationOfInterestsForClients VALUES
 /*------------------------------------------------------------*/
 /*             Create the SALES CONTRACTS table	              */
 /*------------------------------------------------------------*/
+-- schema: SALES_CONTRACTS (SalesContractID, PaymentMethod)
+--         NOT NULL (PaymentMethod)
+
 CREATE TABLE tblSalesContracts 
 (
 	SalesContractID 	int               PRIMARY KEY,
 	PaymentMethod	    varchar(64)       NOT NULL   ,
 );
 
+-- Insert data into the SALES CONTRACTS table
 INSERT INTO tblSalesContracts VALUES   
 (01001, 'Bank Transfer'),  
 (01002, 'Check'),    
@@ -285,6 +336,12 @@ INSERT INTO tblSalesContracts VALUES
 /*------------------------------------------------------------*/
 /*              Create the OFFERS table	          			  */
 /*------------------------------------------------------------*/
+-- schema: OFFERS (ClientID, ListingID, OfferAmount, OfferStatus, SalesContractID)
+-- foreign key ClientID references CLIENTS
+-- foreign key ListingID references LISTINGS
+-- foreign key SalesContractID references SALES_CONTRACTS
+-- NOT NULL (OfferStatus)
+
 CREATE TABLE tblOffers 
 (
 	ClientID      		int   			PRIMARY KEY REFERENCES  	   tblClients, 
@@ -293,7 +350,8 @@ CREATE TABLE tblOffers
 	OfferStatus   		varchar(64)		NOT NULL								 ,
 	SalesContractID		int  			REFERENCES 				tblSalesContracts
 );
-	 	
+
+-- Insert data into the OFFERS table 	
 INSERT INTO tblOffers VALUES
 (1011, 1111, '300000', 'In Progress', 01001),
 (1012, 1112, '350000', 'In Progress', 01001),
@@ -309,6 +367,10 @@ INSERT INTO tblOffers VALUES
 /*------------------------------------------------------------*/
 /*             	  Create the LENDERS table	              	  */
 /*------------------------------------------------------------*/
+-- schema: LENDERS (LenderID, LenderFirstName, LenderLastName, BankName, Street, City, TheState, ZipCode, BankType) 
+-- 		   UNIQUE NOT NULL (Street)
+--         NOT NULL (BankName, BankType)
+
 CREATE TABLE tblLenders
 (
 	LenderID 	   		 int              PRIMARY KEY    ,
@@ -322,6 +384,7 @@ CREATE TABLE tblLenders
 	BankType			 varchar(64)	  NOT NULL       ,
 );
 
+-- Insert data into the LENDERS table
 INSERT INTO tblLenders VALUES
 (1101, 'Bill'   , 'Myers'    , 'Bank Of America'    , '111 Fig Ave'       , 'San Diego'  , 'CA', '91913', 'Commercial'),
 (1102, 'John'   , 'Newman'   , 'Old Bank'           , '100 Old Rd'        , 'San Diego'  , 'CA', '91910', 'Commercial'),
@@ -337,6 +400,12 @@ INSERT INTO tblLenders VALUES
 /*------------------------------------------------------------*/
 /*              Create the LOANS table	          			  */
 /*------------------------------------------------------------*/
+-- schema: LOANS (LoanID, InterestRate, TypeOfLoan, Amount, ExpirationDate, MortgageType, DateOfSanction, DateofDisbursement, 
+--                DownPayment, PMI, SalesContractID, LenderID)
+-- 		   FK SalesContractID references SALES_CONTRACTS
+--         FK LenderID references LENDER
+--         NOT NULL (TypeOfLoan, Amount, ExpirationDate, MortgageType, DateOfSanction, DateofDisbursement, DownPayment)
+
 CREATE TABLE tblLoans 
 (
 	LoanID	              int			  PRIMARY KEY				  ,
@@ -353,6 +422,7 @@ CREATE TABLE tblLoans
 	LenderID              int             REFERENCES tblLenders
 );
 
+-- Insert data into the LOANS table
 INSERT INTO tblLoans VALUES
 (50101, 08.25, 'Mortgage', 550000 , '2049-02-04', 'Fixed Rate'   , '2019-02-04', '2019-04-01', 110000, 0   , 01001, 1101),
 (50102, 06.50, 'Mortgage', 300000 , '2049-03-21', 'Fixed Rate'   , '2019-03-20', '2019-05-20', 75000 , 0   , 01003, 1102),
@@ -373,6 +443,11 @@ INSERT INTO tblLoans VALUES
 /*------------------------------------------------------------*/
 /*              Create the CREDIT REPORTS table	              */
 /*------------------------------------------------------------*/
+-- schema: CREDIT_REPORTS (CreditReportID, CreditLine, TotalDebt, CreditScore, CurrentMortgage, ChildSupport, OtherLinesOfSupport, 
+--                         CurrentBalance, ClientID, LenderID)
+-- 		   FK ClientID references CLIENTS 
+-- 		   FK LenderID references LENDER
+
 CREATE TABLE tblCreditReports 
 (
 	CreditReportID	       int		 		 PRIMARY KEY          ,
@@ -388,6 +463,7 @@ CREATE TABLE tblCreditReports
 
 );
 
+-- Insert data into the CREDIT REPORTS table
 INSERT INTO tblCreditReports VALUES
 (30001, '100000', 55000, 777, '0'    , '3000', '1000', 10000, 1011, 1101),
 (30002, '200000', 15000, 790, '20000', '0'   , '500' , 2000 , 1012, 1102),
@@ -406,3 +482,7 @@ INSERT INTO tblCreditReports VALUES
 (30015, '650000', 30000, 630, '0'    , '0'   , '500' , 3000 , 1020, 1110);
 
 GO
+
+/*---------------------------------------------------------------------*/	 
+/* 					 		Add Queries						  		   */
+/*---------------------------------------------------------------------*/
