@@ -490,9 +490,8 @@ INSERT INTO tblCreditReports VALUES
 -- lesson 6.2 (week 13)
 -- choose based on attribute you by filter a lot 
 
--- Each Real Estate agent is responsible for a certain region and is constantly searching by their region to find all 
--- clients and listings in their region. 
--- Region column was indexed to speed up these searches
+-- Each Real Estate agent is responsible for a certain region and is constantly searching by their region 
+-- to find all clients and listings in their region. Region column was indexed to speed up these searches.
 
 CREATE INDEX ndx_tblClients_Regions ON tblClients(Region);
 
@@ -502,7 +501,8 @@ CREATE INDEX ndx_tblClients_Regions ON tblClients(Region);
 CREATE INDEX ndx_tblListings_ZipCode ON tblListings(ZipCode);
 
 -- Agents are looking up which banks have the lowest interest rates to recommend to their clients. 
- 
+-- Indexing the bank names will speed up a lot of searches. 
+
 CREATE INDEX ndx_tblLenders_BankName ON tblLenders(BankName);
 
 /*---------------------------------------------------------------------*/	 
