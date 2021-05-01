@@ -488,9 +488,171 @@ GO
 /*---------------------------------------------------------------------*/
 -- lesson 6.2 (week 13)
 -- add one more index
+-- choose based on attribute u filter a lot 
+
+-- Each Real Estate agent is responsible for a certain region and is constantly searching by their region to find all 
+-- clients and listings in their region. 
+-- Region column was indexed to speed up these searches
+
+CREATE INDEX ndx_tblClients_Regions ON tblClients(Region);
+
+-- Agents are constantly searching for listings by zip code as they look for new available houses to sell. 
+-- As they can be many listings in the database indexing the zip code which speed up the system considerably. 
+
+CREATE INDEX ndx_tblListings_ZipCode ON tblListings(ZipCode);
+
+-- 
+ 
+CREATE INDEX ndx_tblLenders_BankName ON tblLenders(BankName);
 
 /*---------------------------------------------------------------------*/	 
 /* 					 		Add Queries						  		   */
 /*---------------------------------------------------------------------*/
 -- add one more query with business question
 -- add to query dictionary 
+-- SELECT * FROM INFORMATION_SCHEMA.columns  (gets metadata from table for data dictionary)
+-- WHERE Table_Name = 'tblClients';
+
+SELECT FirstName, LastName, CreditScore
+FROM tblCreditReports c
+JOIN tblPeople p ON p.personID =c.clientID
+WHERE CreditScore > 740
+ORDER BY CreditScore DESC
+
+SELECT DISTINCT l.LenderID, LenderFirstName, LenderLasttName, BankName, CreditScore, 
+	(SELECT AVG(CreditScore) FROM tblCreditReports) as AverageCreditScore
+FROM tblLenders l
+JOIN tblCreditReports c ON l.LenderID = c.LenderID
+JOIN tblLoans lo ON lo.LenderID = l.LenderID
+WHERE l.LenderID IN (SELECT LenderID FROM tblLoans)
+ORDER BY CreditScore;
+
+-- Business Question: Real Estate Agent has expertise dealing with young families and wants to see what clients
+-- meet his/her target group. 
+-- Which clients were born after 1980 and have a Current Household Size greater than 1?
+
+SELECT CONCAT(LastName, ', ', FirstName) AS FullName, DOB, CurrentHouseholdSize
+FROM tblPeople P
+JOIN tblClients C ON P.PersonID = C.ClientID
+WHERE Year(DOB) > '1980' AND CurrentHouseholdSize > 1
+ORDER BY FullName;
+
+-- LOOK AT THIS ONE MORE 
+
+-- Business Question: Real Estate Agent wants information on companies and individual agents that work outside of the 
+-- regions they typically cover in Arizona and California. 
+-- What Real Estate Agents and companies are outside of California or Arizona?  
+
+SELECT R.AgentID, FirstName, LastName, C.CompanyID, CompanyName, C.TheState 
+FROM tblPeople P
+FULL JOIN tblRealEstateAgent R ON P.PersonID = R.AgentID
+FULL JOIN tblCompany C ON R.CompanyID = C.CompanyID
+WHERE C.TheState NOT LIKE 'CA' AND C.TheState NOT LIKE 'AZ';  --
+
+-- What is the average income of clients looking for homes in San Diego?
+
+SELECT avg(Income) AvgIncome
+FROM tblClients c
+JOIN tblLocationOfInterestsForClients ci ON c.ClientID = ci.ClientID
+JOIN tblLocationsofInterest li ON ci.LocationofInterestID= li.LocationofInterestID
+WHERE c.Region = 'San Diego';
+
+--What are the client rank selections for San Diego in the DB?
+
+SELECT InterestRank 
+FROM tblLocationOfInterestsForClients ci
+JOIN tblLocationsOfInterest li ON ci.LocationOfInterest = li.LocationOfInterest
+WHERE City= 'San Diego';
+
+--Business Question: What clients have very good credit scores over 740? Order by score with highest score first
+ 
+SELECT FirstName, LastName, CreditScore
+FROM tblCreditReports c
+JOIN tblPeople p ON p.personID =c.clientID
+WHERE CreditScore > 740
+ORDER BY CreditScore DESC;
+
+ -- Business Question: What lenders are more likely to provide loans to clients with lower credit scores? 
+ -- What is the Average Credit Scores for approved loans for each individual lender? How do the lenders compare? 
+ -- Show lenders who have approved clients with lowest scores first
+
+SELECT DISTINCT l.LenderID, LenderFirstName, LenderLasttName, BankName, CreditScore, 
+	(SELECT AVG(CreditScore) FROM tblCreditReports) as AverageCreditScore
+FROM tblLenders l
+JOIN tblCreditReports c ON l.LenderID = c.LenderID
+JOIN tblLoans lo ON lo.LenderID = l.LenderID
+WHERE l.LenderID IN (SELECT LenderID FROM tblLoans)
+ORDER BY CreditScore;
+
+/* Display customers with Totaldebt>= 25000 from the TblCreditReports*/ -- Names of Customer to Query 
+
+SELECT TotalDebt
+FROM tblCreditReports
+WHERE TotalDebt >=25000
+ORDER BY TotalDebt DESC;
+
+/* Display all customers data from the TblLoans and display InterestRate in ascending order */
+
+SELECT LoanID, InterestRate, TypeOfLoan, Amount, ExpirationDate, MortgageType, DateOfSanction, DateOfDisbursement, 
+		DownPayment, SalesContractID, LenderID
+FROM tblLoans
+ORDER BY InterestRate ASC;
+
+/* Display all customers data from TblListings and NoBedrooms >= 3 AND NoBaths >= 2 AND SquareFt >= 1200 in desc order */
+-- What listings do we have for big houses? 
+
+SELECT Street,City, TheState, ZipCode, NoBedrooms,NoBaths,SquareFt,PropetyTax,HOAFee,EstClosingCost,AppraisalAmount
+FROM tblListings
+WHERE NoBedrooms >= 3 AND NoBaths >= 2 AND SquareFt >= 1200
+ORDER BY SquareFt DESC;
+
+/*which clients Estimated Closing Cost is larger than Average Est Closing Cost?*/
+
+Select distinct C.ClientID, P.FirstName, P.LastName, L.EstClosingCost, (Select avg(EstClosingCost) from tblListings) AVGEstClosingCost
+from tblClients C 
+join tblOffers O on C.ClientID = O.ClientID
+join tblListings L on O.ListingID = L.ListingID
+join tblPeople P on C.ClientID=P.PersonID
+where EstClosingCost > (Select avg(EstClosingCost) from tblListings);
+
+
+/*How many clients income is larger than Average Income?*/
+
+Select distinct C.ClientID, P.FirstName, P.LastName, C.Income, (Select avg(Income) from tblClients) AVGIncome
+from tblClients C 
+join tblPeople P on C.ClientID=P.PersonID
+where Income > (Select avg(Income) from tblClients)
+ORDER BY Income DESC;
+
+
+/*Does it seem like most denied loans are for clients with lower then average incomes? 
+-- Whether Income is the reason that Clients are denied?*/
+
+Select distinct C.ClientID, P.FirstName, P.LastName, C.StageID, ST.Stage, C.Income, (select AVG(Income) from tblClients) AVGINCOME
+from tblClients C 
+join tblPeople P on C.ClientID=P.PersonID
+join tblBuyingSellingStages ST on ST.StageID = C.StageID
+where ST.Stage = 'Denied'; 
+
+/* Real estate agents are interested in finding out which clients are interested in purchasing a house 
+   in a specific location but end up not buying a house there? They can then follow up with these clients 
+   to find out why they ended up not purchasing in this area. What clients were initially interested in 
+   San Diego but did not end up buying a house in San Diego? 
+-- What to know that client who are not interested in San diego but buy house in San Diego finally*/
+
+Select S.ClientID, P.FirstName, P.LastName
+from (Select C.ClientID
+from tblClients C
+join tblLocationOfInterestsForClients LC on C.ClientID = LC.ClientID
+Join tblLocationsOfInterest L on LC.LocationOfInterestID = L.LocationOfInterestID
+where L.City = 'San Diego') S
+JOIN
+(Select C.ClientID
+from tblClients C
+join tblOffers O on C.ClientID = O.ClientID
+Join tblListings LS on O.ListingID = LS.ListingID
+where LS.City <> 'San Diego') D on S.ClientID = D.ClientID
+Join
+tblPeople P on S.ClientID = P.PersonID;
+
+-- For this to work we need more variety in listings then having them all just be San Diego 
