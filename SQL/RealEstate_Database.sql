@@ -537,9 +537,9 @@ WHERE Year(DOB) > '1980' AND CurrentHouseholdSize > 1
 ORDER BY FullName;
 
 -- LOOK AT THIS ONE MORE 
--- Business Question: Real Estate Agent wants information on companies and individual agents that work outside of the 
+-- Business Question: Real estate agents want information on companies and individual agents that work outside of the 
 -- regions they typically cover in Arizona and California. 
--- What Real Estate Agents and companies are outside of California or Arizona?  
+-- What real estate agents and companies are outside of California or Arizona?  
 
 SELECT R.AgentID, FirstName, LastName, C.CompanyID, CompanyName, C.TheState 
 FROM tblPeople P
@@ -563,7 +563,7 @@ JOIN tblLocationsOfInterest li ON ci.LocationOfInterestID = li.LocationOfInteres
 WHERE City = 'San Diego'
 GROUP BY InterestRank;
 
--- Business Question: What clients have very good credit scores over 740? Order by score with highest score first
+-- Business Question: What clients have very good credit scores over 740? Ordered by score with highest score first.
  
 SELECT p.FirstName, p.LastName, cr.CreditScore
 FROM tblCreditReports cr
@@ -572,7 +572,7 @@ WHERE cr.CreditScore > 740
 ORDER BY cr.CreditScore DESC;
 
 -- Business Question: What lenders are more likely to provide loans to clients with lower credit scores? 
--- What is the Average Credit Scores for approved loans for each individual lender? How do the lenders compare? 
+-- What is the average credit scores for approved loans for each individual lender? How do the lenders compare? 
 -- Show lenders who have approved clients with lowest scores first.
 
 SELECT DISTINCT l.LenderID, LenderFirstName, LenderLastName, BankName, CreditScore, 
@@ -609,7 +609,7 @@ JOIN tblListings l ON o.ListingID = l.ListingID
 JOIN tblPeople p ON c.ClientID = p.PersonID
 WHERE EstClosingCost > (SELECT AVG(EstClosingCost) FROM tblListings);
 
--- Business Question: How many clients income is larger than the average income for all the clients? 
+-- Business Question: How many clients' income is larger than the average income for all the clients? 
 
 SELECT DISTINCT c.ClientID, p.FirstName, p.LastName, c.Income, (SELECT AVG(Income) FROM tblClients) AS AvgIncome
 FROM tblClients c 
@@ -632,7 +632,7 @@ a house in a specific location but end up not buying a house there? They can the
 to find out why they ended up not purchasing in this area. What clients were initially interested in 
 San Diego but did not end up buying a house in San Diego?
 
-What to know that client who are not interested in San diego but do end up buying a property in San Diego
+What to know which clients are not interested in San diego propertoes but do end up buying a property in San Diego. 
 */
 
 SELECT a.ClientID, p.FirstName, p.LastName
