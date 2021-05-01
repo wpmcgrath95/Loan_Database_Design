@@ -488,8 +488,7 @@ INSERT INTO tblCreditReports VALUES
 /* 					 		Add Indexes						  		   */
 /*---------------------------------------------------------------------*/
 -- lesson 6.2 (week 13)
--- add one more index
--- choose based on attribute u filter a lot 
+-- choose based on attribute you by filter a lot 
 
 -- Each Real Estate agent is responsible for a certain region and is constantly searching by their region to find all 
 -- clients and listings in their region. 
@@ -502,12 +501,12 @@ CREATE INDEX ndx_tblClients_Regions ON tblClients(Region);
 
 CREATE INDEX ndx_tblListings_ZipCode ON tblListings(ZipCode);
 
--- Agents are looking up which banks for their clients to go to with the lowest interest rates
+-- Agents are looking up which banks have the lowest interest rates to recommend to their clients. 
  
 CREATE INDEX ndx_tblLenders_BankName ON tblLenders(BankName);
 
 /*---------------------------------------------------------------------*/	 
-/* 					 		Add Queries						  		   */
+/* 					 		Add Queries						  		   */ 
 /*---------------------------------------------------------------------*/
 -- add one more query with business question
 -- add to query dictionary 
