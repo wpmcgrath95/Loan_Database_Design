@@ -1,6 +1,6 @@
 /*
-create sql database with sql
-create docker container that creates sql database and lets user query through database
+Create sql database with sql
+Create docker container that creates sql database and lets user query through database
 */
 
 USE MASTER; 
@@ -274,16 +274,16 @@ CREATE TABLE tblLocationsOfInterest
 
 -- Insert data into the LOCATION OF INTEREST table
 INSERT INTO tblLocationsOfInterest VALUES
-(2001, 'Seattle'  , '58125'),
-(2002, 'San Diego', '91282'), 
-(2003, 'Riverside',	'92154'),		
-(2004, 'Portland' , '51248'),		
-(2005, 'Burbank'  , '44571'),
-(2006, 'Miami'    , '21054'),	
-(2007, 'Las Vegas', '57521'), 	
-(2008, 'Sedona'   , '51672'),		
-(2009, 'Phoenix'  , '51214'),		
-(2010, 'San Diego', '92414');
+(2001, 'Bonita'     , '91902'),
+(2002, 'San Diego'  , '92101'), 
+(2003, 'La Jolla'   , '92037'),		
+(2004, 'Bonita'     , '91902'),		
+(2005, 'Chula Vista', '91913'),
+(2006, 'San Diego'  , '92101'),	
+(2007, 'Las Vegas'  , '89101'), 	
+(2008, 'Los Angeles', '90001'),		
+(2009, 'Phoenix'    , '85001'),		
+(2010, 'San Diego'  , '92101');
 
 /*------------------------------------------------------------*/
 /*     Create the LOCATION OF INTEREST FOR CLIENTS table	  */
@@ -410,13 +410,13 @@ CREATE TABLE tblLoans
 (
 	LoanID	              int			  PRIMARY KEY				  ,
 	InterestRate          decimal(4,2)              				  ,
-	TypeOfLoan            varchar(64)     NOT NULL   				  , --Business Rules state must be fully documented
-	Amount                int             NOT NULL   				  , --Business Rules state must be fully documented
-	ExpirationDate        date            NOT NULL   				  , --Business Rules state must be fully documented
-	MortgageType          varchar(64)     NOT NULL   				  , --Business Rules state must be fully documented
-	DateOfSanction        date            NOT NULL   				  , --Business Rules state must be fully documented
-	DateOfDisbursement    date            NOT NULL   				  , --Business Rules state must be fully documented
-	DownPayment           int             NOT NULL   				  , --Business Rules state must be fully documented
+	TypeOfLoan            varchar(64)     NOT NULL   				  , -- Business Rules state must be fully documented
+	Amount                int             NOT NULL   				  , -- Business Rules state must be fully documented
+	ExpirationDate        date            NOT NULL   				  , -- Business Rules state must be fully documented
+	MortgageType          varchar(64)     NOT NULL   				  , -- Business Rules state must be fully documented
+	DateOfSanction        date            NOT NULL   				  , -- Business Rules state must be fully documented
+	DateOfDisbursement    date            NOT NULL   				  , -- Business Rules state must be fully documented
+	DownPayment           int             NOT NULL   				  , -- Business Rules state must be fully documented
 	PMI                   int                           			  ,
 	SalesContractID       int             REFERENCES tblSalesContracts,
 	LenderID              int             REFERENCES tblLenders
@@ -433,12 +433,14 @@ INSERT INTO tblLoans VALUES
 (50107, 04.75, 'Mortgage', 750000 , '2050-04-20', 'Fixed Rate'   , '2020-04-17', '2020-05-08', 150000, 0   , 01001, 1107),
 (50108, 03.25, 'Mortgage', 945000 , '2050-07-28', 'Fixed Rate'   , '2020-07-28', '2020-08-21', 9450  , 1200, 01003, 1108),
 (50109, 05.00, 'Mortgage', 600000 , '2050-10-25', 'VA'           , '2020-10-24', '2020-12-01', 30000 , 0   , 01001, 1109),
-(50110, 03.00, 'Mortgage', 250000 , '2051-01-04', 'FHA'          , '2021-01-04', '2021-04-01', 62500 , 0   , 01002, 1110),
+(50110, 03.00, 'Mortgage', 250000 , '2051-01-04', 'FHA'          , '2021-01-04', '2021-04-01', 62500 , 0   , 01002, 1110);
+/*
 (50111, 03.50, 'Mortgage', 500000 , '2050-02-05', 'FHA'          , '2020-02-04', '2020-04-01', 50000 , 0   , 01002, 1105),
 (50112, 02.80, 'Mortgage', 630000 , '2051-03-15', 'Fixed Rate'   , '2021-03-14', '2021-04-15', 62000 , 1100, 01001, 1106),
 (50113, 04.25, 'Mortgage', 600000 , '2051-03-04', 'FHA'          , '2021-03-03', '2021-04-05', 60000 , 0   , 01003, 1102),
 (50114, 03.20, 'Mortgage', 430000 , '2050-11-10', 'Interest Only', '2020-11-10', '2021-01-03', 40000 , 0   , 01003, 1101),
-(50115, 05.50, 'Mortgage', 575000 , '2050-09-20', 'VA'           , '2020-09-19', '2020-11-01', 55000 , 700 , 01002, 1110); 
+(50115, 05.50, 'Mortgage', 575000 , '2050-09-20', 'VA'           , '2020-09-19', '2020-11-01', 55000 , 700 , 01002, 1110);
+*/ 
 
 /*------------------------------------------------------------*/
 /*              Create the CREDIT REPORTS table	              */
@@ -460,7 +462,6 @@ CREATE TABLE tblCreditReports
 	CurrentBalance         int                                    ,
 	ClientID               int  			 REFERENCES tblClients,
 	LenderID               int  			 REFERENCES tblLenders,
-
 );
 
 -- Insert data into the CREDIT REPORTS table
@@ -472,16 +473,16 @@ INSERT INTO tblCreditReports VALUES
 (30005, '125000', 25000, 698, '0'    , '0'   , '0'   , 7000 , 1015, 1105),
 (30006, '500000', 45000, 715, '50000', '0'   , '600' , 17000, 1016, 1106),
 (30007, '650000', 30000, 780, '25000', '0'   , '200' , 5500 , 1017, 1107),
-(30008, '650000', 30000, 780, '30000', '0'   , '200' , 500  , 1018, 1108),
-(30009, '650000', 30000, 780, '10000', '0'   , '1000', 1000 , 1019, 1109),
-(30010, '650000', 30000, 780, '0'    , '0'   , '500' , 3000 , 1020, 1110),
+(30008, '300000', 30000, 780, '30000', '0'   , '200' , 500  , 1018, 1108),
+(30009, '100000', 30000, 780, '10000', '0'   , '1000', 1000 , 1019, 1109),
+(30010, '85000' , 30000, 780, '0'    , '0'   , '500' , 3000 , 1020, 1110);
+/*
 (30011, '650000', 30000, 570, '0'    , '0'   , '500' , 3000 , 1020, 1105),
 (30012, '650000', 30000, 710, '0'    , '0'   , '500' , 3000 , 1020, 1106),
 (30013, '650000', 30000, 720, '0'    , '0'   , '500' , 3000 , 1020, 1102),
 (30014, '650000', 30000, 690, '0'    , '0'   , '500' , 3000 , 1020, 1101),
 (30015, '650000', 30000, 630, '0'    , '0'   , '500' , 3000 , 1020, 1110);
-
-GO
+*/
 
 /*---------------------------------------------------------------------*/	 
 /* 					 		Add Indexes						  		   */
@@ -501,7 +502,7 @@ CREATE INDEX ndx_tblClients_Regions ON tblClients(Region);
 
 CREATE INDEX ndx_tblListings_ZipCode ON tblListings(ZipCode);
 
--- 
+-- Agents are looking up which banks for their clients to go to with the lowest interest rates
  
 CREATE INDEX ndx_tblLenders_BankName ON tblLenders(BankName);
 
@@ -515,11 +516,11 @@ CREATE INDEX ndx_tblLenders_BankName ON tblLenders(BankName);
 
 SELECT FirstName, LastName, CreditScore
 FROM tblCreditReports c
-JOIN tblPeople p ON p.personID =c.clientID
+JOIN tblPeople p ON p.personID = c.clientID
 WHERE CreditScore > 740
 ORDER BY CreditScore DESC
 
-SELECT DISTINCT l.LenderID, LenderFirstName, LenderLasttName, BankName, CreditScore, 
+SELECT DISTINCT l.LenderID, LenderFirstName, LenderLastName, BankName, CreditScore, 
 	(SELECT AVG(CreditScore) FROM tblCreditReports) as AverageCreditScore
 FROM tblLenders l
 JOIN tblCreditReports c ON l.LenderID = c.LenderID
@@ -527,8 +528,7 @@ JOIN tblLoans lo ON lo.LenderID = l.LenderID
 WHERE l.LenderID IN (SELECT LenderID FROM tblLoans)
 ORDER BY CreditScore;
 
--- Business Question: Real Estate Agent has expertise dealing with young families and wants to see what clients
--- meet his/her target group. 
+-- Business Question: Agent has expertise dealing with young families and wants to see what clients meet their target group.
 -- Which clients were born after 1980 and have a Current Household Size greater than 1?
 
 SELECT CONCAT(LastName, ', ', FirstName) AS FullName, DOB, CurrentHouseholdSize
@@ -538,7 +538,6 @@ WHERE Year(DOB) > '1980' AND CurrentHouseholdSize > 1
 ORDER BY FullName;
 
 -- LOOK AT THIS ONE MORE 
-
 -- Business Question: Real Estate Agent wants information on companies and individual agents that work outside of the 
 -- regions they typically cover in Arizona and California. 
 -- What Real Estate Agents and companies are outside of California or Arizona?  
@@ -547,112 +546,105 @@ SELECT R.AgentID, FirstName, LastName, C.CompanyID, CompanyName, C.TheState
 FROM tblPeople P
 FULL JOIN tblRealEstateAgent R ON P.PersonID = R.AgentID
 FULL JOIN tblCompany C ON R.CompanyID = C.CompanyID
-WHERE C.TheState NOT LIKE 'CA' AND C.TheState NOT LIKE 'AZ';  --
+WHERE C.TheState NOT LIKE 'CA' AND C.TheState NOT LIKE 'AZ'; 
 
--- What is the average income of clients looking for homes in San Diego?
+-- Business Question: What is the average income of clients looking for homes in San Diego?
 
-SELECT avg(Income) AvgIncome
+SELECT AVG(Income) AS AvgIncome
 FROM tblClients c
 JOIN tblLocationOfInterestsForClients ci ON c.ClientID = ci.ClientID
-JOIN tblLocationsofInterest li ON ci.LocationofInterestID= li.LocationofInterestID
+JOIN tblLocationsofInterest li ON ci.LocationofInterestID = li.LocationofInterestID
 WHERE c.Region = 'San Diego';
 
---What are the client rank selections for San Diego in the DB?
+-- Business Question: What is the client rank selections distribution for San Diego in the DB?
 
-SELECT InterestRank 
+SELECT InterestRank, COUNT(*) AS Count
 FROM tblLocationOfInterestsForClients ci
-JOIN tblLocationsOfInterest li ON ci.LocationOfInterest = li.LocationOfInterest
-WHERE City= 'San Diego';
+JOIN tblLocationsOfInterest li ON ci.LocationOfInterestID = li.LocationOfInterestID
+WHERE City = 'San Diego'
+GROUP BY InterestRank;
 
---Business Question: What clients have very good credit scores over 740? Order by score with highest score first
+-- Business Question: What clients have very good credit scores over 740? Order by score with highest score first
  
-SELECT FirstName, LastName, CreditScore
-FROM tblCreditReports c
-JOIN tblPeople p ON p.personID =c.clientID
-WHERE CreditScore > 740
-ORDER BY CreditScore DESC;
+SELECT p.FirstName, p.LastName, cr.CreditScore
+FROM tblCreditReports cr
+JOIN tblPeople p ON p.PersonID = cr.ClientID
+WHERE cr.CreditScore > 740
+ORDER BY cr.CreditScore DESC;
 
- -- Business Question: What lenders are more likely to provide loans to clients with lower credit scores? 
- -- What is the Average Credit Scores for approved loans for each individual lender? How do the lenders compare? 
- -- Show lenders who have approved clients with lowest scores first
+-- Business Question: What lenders are more likely to provide loans to clients with lower credit scores? 
+-- What is the Average Credit Scores for approved loans for each individual lender? How do the lenders compare? 
+-- Show lenders who have approved clients with lowest scores first.
 
-SELECT DISTINCT l.LenderID, LenderFirstName, LenderLasttName, BankName, CreditScore, 
-	(SELECT AVG(CreditScore) FROM tblCreditReports) as AverageCreditScore
+SELECT DISTINCT l.LenderID, LenderFirstName, LenderLastName, BankName, CreditScore, 
+	(SELECT AVG(CreditScore) FROM tblCreditReports) as AvgCreditScore
 FROM tblLenders l
 JOIN tblCreditReports c ON l.LenderID = c.LenderID
 JOIN tblLoans lo ON lo.LenderID = l.LenderID
 WHERE l.LenderID IN (SELECT LenderID FROM tblLoans)
 ORDER BY CreditScore;
 
-/* Display customers with Totaldebt>= 25000 from the TblCreditReports*/ -- Names of Customer to Query 
+/* Display clients with Totaldebt >= 25000 from the TblCreditReports */
+-- Business Question: Which clients have a total debt of $25,000 or more?
 
-SELECT TotalDebt
-FROM tblCreditReports
-WHERE TotalDebt >=25000
-ORDER BY TotalDebt DESC;
+SELECT p.FirstName, p.LastName, cr.TotalDebt
+FROM tblCreditReports cr
+JOIN tblPeople p ON p.PersonID = cr.ClientID
+WHERE cr.TotalDebt >= 25000
+ORDER BY cr.TotalDebt DESC;
 
-/* Display all customers data from the TblLoans and display InterestRate in ascending order */
-
-SELECT LoanID, InterestRate, TypeOfLoan, Amount, ExpirationDate, MortgageType, DateOfSanction, DateOfDisbursement, 
-		DownPayment, SalesContractID, LenderID
-FROM tblLoans
-ORDER BY InterestRate ASC;
-
-/* Display all customers data from TblListings and NoBedrooms >= 3 AND NoBaths >= 2 AND SquareFt >= 1200 in desc order */
--- What listings do we have for big houses? 
+/* Display all clients data from TblListings and NoBedrooms >= 3 AND NoBaths >= 2 AND SquareFt >= 1200 in desc order */
+-- Business Question: What listings do we have for big houses? 
 
 SELECT Street,City, TheState, ZipCode, NoBedrooms,NoBaths,SquareFt,PropetyTax,HOAFee,EstClosingCost,AppraisalAmount
 FROM tblListings
 WHERE NoBedrooms >= 3 AND NoBaths >= 2 AND SquareFt >= 1200
 ORDER BY SquareFt DESC;
 
-/*which clients Estimated Closing Cost is larger than Average Est Closing Cost?*/
+-- Business Question: Which clients estimated closing cost is larger than the average estimated closing cost for all clients? 
 
-Select distinct C.ClientID, P.FirstName, P.LastName, L.EstClosingCost, (Select avg(EstClosingCost) from tblListings) AVGEstClosingCost
-from tblClients C 
-join tblOffers O on C.ClientID = O.ClientID
-join tblListings L on O.ListingID = L.ListingID
-join tblPeople P on C.ClientID=P.PersonID
-where EstClosingCost > (Select avg(EstClosingCost) from tblListings);
+SELECT DISTINCT c.ClientID, p.FirstName, p.LastName, l.EstClosingCost, (SELECT AVG(EstClosingCost) FROM tblListings) AS AvgEstClosingCost
+FROM tblClients c 
+JOIN tblOffers o ON c.ClientID = o.ClientID
+JOIN tblListings l ON o.ListingID = l.ListingID
+JOIN tblPeople p ON c.ClientID = p.PersonID
+WHERE EstClosingCost > (SELECT AVG(EstClosingCost) FROM tblListings);
 
+-- Business Question: How many clients income is larger than the average income for all the clients? 
 
-/*How many clients income is larger than Average Income?*/
-
-Select distinct C.ClientID, P.FirstName, P.LastName, C.Income, (Select avg(Income) from tblClients) AVGIncome
-from tblClients C 
-join tblPeople P on C.ClientID=P.PersonID
-where Income > (Select avg(Income) from tblClients)
+SELECT DISTINCT c.ClientID, p.FirstName, p.LastName, c.Income, (SELECT AVG(Income) FROM tblClients) AS AvgIncome
+FROM tblClients c 
+JOIN tblPeople p ON c.ClientID = p.PersonID
+WHERE Income > (SELECT AVG(Income) FROM tblClients)
 ORDER BY Income DESC;
 
+-- Business Question: Does it seem like most denied loans are for clients with lower than average incomes? 
+-- Whether income is the reason that clients are denied
 
-/*Does it seem like most denied loans are for clients with lower then average incomes? 
--- Whether Income is the reason that Clients are denied?*/
+SELECT DISTINCT c.ClientID, p.FirstName, p.LastName, c.StageID, st.Stage, c.Income, (SELECT AVG(Income) FROM tblClients) AS AvgIncome
+FROM tblClients c 
+JOIN tblPeople p ON c.ClientID = p.PersonID
+JOIN tblBuyingSellingStages st ON st.StageID = c.StageID
+WHERE st.Stage = 'Denied'; 
 
-Select distinct C.ClientID, P.FirstName, P.LastName, C.StageID, ST.Stage, C.Income, (select AVG(Income) from tblClients) AVGINCOME
-from tblClients C 
-join tblPeople P on C.ClientID=P.PersonID
-join tblBuyingSellingStages ST on ST.StageID = C.StageID
-where ST.Stage = 'Denied'; 
+/* 
+Business Question: Real estate agents are interested in finding out which clients are interested in purchasing 
+a house in a specific location but end up not buying a house there? They can then follow up with these clients 
+to find out why they ended up not purchasing in this area. What clients were initially interested in 
+San Diego but did not end up buying a house in San Diego?
 
-/* Real estate agents are interested in finding out which clients are interested in purchasing a house 
-   in a specific location but end up not buying a house there? They can then follow up with these clients 
-   to find out why they ended up not purchasing in this area. What clients were initially interested in 
-   San Diego but did not end up buying a house in San Diego? 
--- What to know that client who are not interested in San diego but buy house in San Diego finally*/
+What to know that client who are not interested in San diego but do end up buying a property in San Diego
+*/
 
-Select S.ClientID, P.FirstName, P.LastName
-from (Select C.ClientID
-from tblClients C
-join tblLocationOfInterestsForClients LC on C.ClientID = LC.ClientID
-Join tblLocationsOfInterest L on LC.LocationOfInterestID = L.LocationOfInterestID
-where L.City = 'San Diego') S
-JOIN
-(Select C.ClientID
-from tblClients C
-join tblOffers O on C.ClientID = O.ClientID
-Join tblListings LS on O.ListingID = LS.ListingID
-where LS.City <> 'San Diego') D on S.ClientID = D.ClientID
-Join
-tblPeople P on S.ClientID = P.PersonID;
-
--- For this to work we need more variety in listings then having them all just be San Diego 
+SELECT a.ClientID, p.FirstName, p.LastName
+FROM (SELECT c.ClientID
+	  FROM tblClients c
+	  JOIN tblLocationOfInterestsForClients lc ON c.ClientID = lc.ClientID
+	  JOIN tblLocationsOfInterest li ON lc.LocationOfInterestID = li.LocationOfInterestID
+	  WHERE li.City = 'San Diego') a
+JOIN (SELECT c.ClientID
+	  FROM tblClients c
+	  JOIN tblOffers o ON c.ClientID = o.ClientID
+	  JOIN tblListings l ON o.ListingID = l.ListingID
+	  WHERE l.City <> 'San Diego') b ON a.ClientID = b.ClientID
+JOIN tblPeople p ON a.ClientID = p.PersonID;
