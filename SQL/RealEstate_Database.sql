@@ -3,13 +3,11 @@ Create sql database with sql
 Create docker container that creates sql database and lets user query through database
 */
 
+-- Set context to master
 USE MASTER; 
 
-/*********************************************************************/
-/* !!!!  SELECT THE CODE TO REFRESH THE DATABASE STARTING HERE  !!!! */
-/*********************************************************************/
 /*---------------------------------------------------------------------*/	 
-/* If the RealEstate Database exists, DROP it so the lesson can begin  */
+/* If the RealEstate database exists, DROP it so database can run	   */
 /*---------------------------------------------------------------------*/
 
 IF EXISTS (SELECT * FROM Master.dbo.sysdatabases WHERE NAME = 'RealEstate')
@@ -62,12 +60,12 @@ INSERT INTO tblPeople VALUES
 (1020, 'Gabe'   , 'Ribali'  , '8585550032');
 
 /*------------------------------------------------------------*/
-/*              Create the COMPANY table	          		  */
+/*             Create the COMPANIES table	          		  */
 /*------------------------------------------------------------*/
--- schema: COMPANY (CompanyID, CompanyName, Street, City, TheState, Zipcode)
+-- schema: COMPANIES (CompanyID, CompanyName, Street, City, TheState, Zipcode)
 -- 		   UNIQUE NOT NULL (Street)
 
-CREATE TABLE tblCompany	
+CREATE TABLE tblCompanies	
 (
 	CompanyID		int				 PRIMARY KEY    ,	
 	CompanyName		varchar(128)				    ,	
@@ -77,8 +75,8 @@ CREATE TABLE tblCompany
 	Zipcode		    varchar(128)				    ,
 );
 
--- Insert data into the COMPANY table
-INSERT INTO tblCompany VALUES
+-- Insert data into the COMPANIES table
+INSERT INTO tblCompanies VALUES
 (10001, 'Best Real Estate'   , '15746 Star Ave'  , 'Fremont'  , 'CA', '85748'),
 (10002, 'Best Homes'         , '75847 Home St'   , 'Burbank'  , 'CA', '84547'), 
 (10003, 'Corn Housing'       , '64520 Mask Blvd' , 'Houston'  , 'TX', '18446'),
@@ -91,23 +89,23 @@ INSERT INTO tblCompany VALUES
 (10010, 'Balloon Homes'      , '22750 Part Blvd' , 'Las Vegas', 'NV', '78421');
 
 /*------------------------------------------------------------*/
-/*             Create the REAL ESTATE AGENT table	          */
+/*            Create the REAL ESTATE AGENTS table	          */
 /*------------------------------------------------------------*/
--- schema: REAL_ESTATE_AGENT (AgentID, AK(RSLicenseNo), Region, CompanyID)
+-- schema: REAL_ESTATE_AGENTS (AgentID, AK(RSLicenseNo), Region, CompanyID)
 -- 		   FK AgentID references PEOPLE 
--- 		   FK CompanyID references COMPANY 
+-- 		   FK CompanyID references COMPANIES 
 -- 		   UNIQUE NOT NULL (RSLicenseNo)
 
-CREATE TABLE tblRealEstateAgent
+CREATE TABLE tblRealEstateAgents
 (
-	AgentID 	int              PRIMARY KEY        REFERENCES tblPeople , -- Setup a column and designate it as primary key
-	RSLicenseNo	varchar(64)      UNIQUE NOT NULL                         , -- Alternative Key
-	Region 	    varchar(128)	                                         , 
-	CompanyID   int	                                REFERENCES tblCompany		
+	AgentID 	int              PRIMARY KEY        REFERENCES tblPeople   , -- Setup a column and designate it as primary key
+	RSLicenseNo	varchar(64)      UNIQUE NOT NULL                           , -- Alternative Key
+	Region 	    varchar(128)	                                           , 
+	CompanyID   int	                                REFERENCES tblCompanies		
 );
 
--- Insert data into the REAL ESTATE AGENT table
-INSERT INTO tblRealEstateAgent VALUES  
+-- Insert data into the REAL ESTATE AGENTS table
+INSERT INTO tblRealEstateAgents VALUES  
 (1001, '#20004559', 'Northeast'   , 10001),  
 (1002, '#30908579', 'Southwest'   , 10001),    
 (1003, '#44004559', 'Central'     , 10003),   
@@ -115,7 +113,7 @@ INSERT INTO tblRealEstateAgent VALUES
 (1005, '#90112456', 'Northwest'   , 10007),    
 (1006, '#10002233', 'Northeast'   , 10004),    
 (1007, '#20003455', 'Mid-Atlantic', 10010),   
-(1008, '#34556459', 'Northwast'   , 10009), 
+(1008, '#34556459', 'Northwest'   , 10009), 
 (1009, '#80007411', 'Central'     , 10005),
 (1010, '#98217411', 'Central'     , 10008);  
 
@@ -132,34 +130,34 @@ CREATE TABLE tblBuyingSellingStages
 
 -- Insert data into the BUYING SELLING STAGES table
 INSERT INTO tblBuyingSellingStages VALUES
-(100001, 'Started'),
+(100001, 'Started'   ),
 (100002, 'Processing'),
-(100003, 'Approved'),
-(100004, 'Closed'),
-(100005, 'Denied');
+(100003, 'Approved'  ),
+(100004, 'Closed'    ),
+(100005, 'Denied'    );
 
 /*------------------------------------------------------------*/
 /*               Create the LISTINGS table	     	 		  */
 /*------------------------------------------------------------*/
 -- schema: LISTINGS (ListingID, AgentID, Street, City, TheState, Zip Code, NoBedrooms, NoBaths, SquareFt, PropetyTax, HOAFee, 
 --                   EstClosingCost, AppraisalAmount)
--- 		   FK AgentID references REAL_ESTATE_AGENT
+-- 		   FK AgentID references REAL_ESTATE_AGENTS
 -- 		   UNIQUE NOT NULL (Street)
 
 CREATE TABLE tblListings
 (	
-	ListingID		   int  			 PRIMARY KEY							  ,
-	AgentID            int               FOREIGN KEY REFERENCES tblRealEstateAgent,
-	Street             varchar(64)		 UNIQUE	NOT NULL						  ,
-	City               varchar(64)                                                ,
-	TheState           varchar(64)                                                ,
-	ZipCode            varchar(64)                                                ,  
-	NoBedrooms		   varchar(64)											      ,
-	NoBaths			   varchar(64)												  ,
-	SquareFt           int														  ,
-	PropetyTax		   int														  ,
-	HOAFee			   int														  ,
-	EstClosingCost     int														  ,
+	ListingID		   int  			 PRIMARY KEY							   ,
+	AgentID            int               FOREIGN KEY REFERENCES tblRealEstateAgents,
+	Street             varchar(64)		 UNIQUE	NOT NULL						   ,
+	City               varchar(64)                                                 ,
+	TheState           varchar(64)                                                 ,
+	ZipCode            varchar(64)                                                 ,  
+	NoBedrooms		   varchar(64)											       ,
+	NoBaths			   varchar(64)												   ,
+	SquareFt           int														   ,
+	PropetyTax		   int														   ,
+	HOAFee			   int														   ,
+	EstClosingCost     int														   ,
 	AppraisalAmount    int
 );
 
@@ -236,13 +234,13 @@ INSERT INTO tblClients VALUES
 /*            Create the BUYING OR SELLING table	          */
 /*------------------------------------------------------------*/
 -- schema: BUYING_OR_SELLING (AgentID, ClientID, BuyingOrSellingInd)
--- 	       FK AgentID references REAL_ESTATE_AGENT
+-- 	       FK AgentID references REAL_ESTATE_AGENTS
 --         FK ClientID references CLIENTS 
 
 CREATE TABLE tblBuyingOrSelling
 (
-	AgentID 				int 			 PRIMARY KEY REFERENCES tblRealEstateAgent,
-	ClientID 				int 			 REFERENCES tblClients					  ,
+	AgentID 				int 			 PRIMARY KEY REFERENCES tblRealEstateAgents,
+	ClientID 				int 			 REFERENCES tblClients					   ,
 	BuyingOrSellingInd  	varchar(64)
 ); 
 
@@ -260,7 +258,7 @@ INSERT INTO tblBuyingOrSelling VALUES
 (1010, 1020, 1); 
 
 /*------------------------------------------------------------*/
-/*     	  	Create the LOCATION OF INTEREST table	          */
+/*     	  	Create the LOCATIONS OF INTEREST table	          */
 /*------------------------------------------------------------*/
 -- schema: LOCATIONS_OF_ INTEREST (LocationOfInterestID, City, ZipCode)
 -- 		   NOT NULL (City, ZipCode)
@@ -272,7 +270,7 @@ CREATE TABLE tblLocationsOfInterest
 	Zipcode					    varchar(64)	    NOT NULL
 );
 
--- Insert data into the LOCATION OF INTEREST table
+-- Insert data into the LOCATIONS OF INTEREST table
 INSERT INTO tblLocationsOfInterest VALUES
 (2001, 'Bonita'     , '91902'),
 (2002, 'San Diego'  , '92101'), 
@@ -286,31 +284,31 @@ INSERT INTO tblLocationsOfInterest VALUES
 (2010, 'San Diego'  , '92101');
 
 /*------------------------------------------------------------*/
-/*     Create the LOCATION OF INTEREST FOR CLIENTS table	  */
+/*     Create the LOCATIONS OF INTEREST FOR CLIENTS table	  */
 /*------------------------------------------------------------*/
 -- schema: LOCATIONS_OF_INTEREST_FOR_CLIENTS (ClientID, LocationOfInterestID, InterestRank)
 -- 		   FK ClientID references CLIENTS
 --         FK LocationOfInterestID references LOCATIONS_OF_INTEREST
 --         NOT NULL (InterestRank)
 
-CREATE TABLE tblLocationOfInterestsForClients
+CREATE TABLE tblLocationsOfInterestForClients
 (
 	ClientID	               int		      PRIMARY KEY REFERENCES tblClients,
 	LocationOfInterestID       int            REFERENCES tblLocationsOfInterest, 
 	InterestRank               varchar(64)    NOT NULL
 );
 
--- Insert data into the LOCATION OF INTEREST FOR CLIENTS table
-INSERT INTO tblLocationOfInterestsForClients VALUES
-(1011, 2001, 'Primary Choice'),
-(1012, 2002, 'Primary Choice'),
-(1013, 2003, 'Primary Choice'),
+-- Insert data into the LOCATIONS OF INTEREST FOR CLIENTS table
+INSERT INTO tblLocationsOfInterestForClients VALUES
+(1011, 2001, 'Primary Choice'  ),
+(1012, 2002, 'Primary Choice'  ),
+(1013, 2003, 'Primary Choice'  ),
 (1014, 2004, 'Secondary Choice'),
-(1015, 2005, 'Primary Choice'),
-(1016, 2006, 'Primary Choice'),
+(1015, 2005, 'Primary Choice'  ),
+(1016, 2006, 'Primary Choice'  ),
 (1017, 2007, 'Secondary Choice'),
-(1018, 2008, 'Third Choice'),
-(1019, 2009, 'Primary Choice'),
+(1018, 2008, 'Third Choice'    ),
+(1019, 2009, 'Primary Choice'  ),
 (1020, 2010, 'Secondary Choice');
 
 /*------------------------------------------------------------*/
@@ -328,10 +326,10 @@ CREATE TABLE tblSalesContracts
 -- Insert data into the SALES CONTRACTS table
 INSERT INTO tblSalesContracts VALUES   
 (01001, 'Bank Transfer'),  
-(01002, 'Check'),    
+(01002, 'Check'        ),    
 (01003, 'Wire Transfer'),   
-(01004, 'Cash'),    
-(01005, 'Credit Card');
+(01004, 'Cash'         ),    
+(01005, 'Credit Card'  );
 
 /*------------------------------------------------------------*/
 /*              Create the OFFERS table	          			  */
@@ -386,16 +384,16 @@ CREATE TABLE tblLenders
 
 -- Insert data into the LENDERS table
 INSERT INTO tblLenders VALUES
-(1101, 'Bill'   , 'Myers'    , 'Bank Of America'    , '111 Fig Ave'       , 'San Diego'  , 'CA', '91913', 'Commercial'),
-(1102, 'John'   , 'Newman'   , 'Old Bank'           , '100 Old Rd'        , 'San Diego'  , 'CA', '91910', 'Commercial'),
-(1103, 'Sarah'  , 'Johnson'  , 'Chase'              , '320 New Rd'        , 'Los Angeles', 'CA', '90001', 'Commercial'),
-(1104, 'Liana'  , 'McMann'   , 'New Bank'           , '823 Banana Ave'    , 'San Diego'  , 'CA', '91913', 'Private'),
-(1105, 'Michael', 'Jordan'   , 'Wells Fargo'        , '145 Adams Ave'     , 'San Diego'  , 'CA', '91913', 'Commercial'),
-(1106, 'Chris'  , 'Murphy'   , 'US Bank'            , '1654 Ranch Dr'     , 'San Diego'  , 'CA', '91913', 'Commercial'),
-(1107, 'Adam'   , 'Gilchrist', 'Silicon Valley Bank', '971 Ryan Dr'       , 'San Diego'  , 'CA', '91913', 'Private'),
-(1108, 'Ian'    , 'Healy'    , 'Chase'              , '747 Calaveras Blvd', 'San Diego'  , 'CA', '91915', 'Commercial'),
-(1109, 'Kayla'  , 'Wright'   , 'Bank of America'    , '111 Apple Ave'     , 'San Diego'  , 'CA', '91913', 'Commercial'),
-(1110, 'Joana'  , 'Quiles'   , 'Chase'              , '320 Classic Rd'    , 'Los Angeles', 'CA', '90001', 'Commercial');
+(1101, 'Bill'   , 'Myers'    , 'Bank Of America'    , '111 Fig Ave'       , 'San Diego'  , 'CA', '91913', 'Retail'      ),
+(1102, 'John'   , 'Newman'   , 'Old Bank'           , '100 Old Rd'        , 'San Diego'  , 'CA', '91910', 'Retail'      ),
+(1103, 'Sarah'  , 'Johnson'  , 'Chase'              , '320 New Rd'        , 'Los Angeles', 'CA', '90001', 'Credit Union'),
+(1104, 'Liana'  , 'McMann'   , 'New Bank'           , '823 Banana Ave'    , 'San Diego'  , 'CA', '91913', 'Retail'      ),
+(1105, 'Michael', 'Jordan'   , 'Wells Fargo'        , '145 Adams Ave'     , 'San Diego'  , 'CA', '91913', 'Retail'      ),
+(1106, 'Chris'  , 'Murphy'   , 'US Bank'            , '1654 Ranch Dr'     , 'San Diego'  , 'CA', '91913', 'Credit Union'),
+(1107, 'Adam'   , 'Gilchrist', 'Silicon Valley Bank', '971 Ryan Dr'       , 'San Diego'  , 'CA', '91913', 'Credit Union'),
+(1108, 'Ian'    , 'Healy'    , 'Chase'              , '747 Calaveras Blvd', 'San Diego'  , 'CA', '91915', 'Credit Union'),
+(1109, 'Kayla'  , 'Wright'   , 'Bank of America'    , '111 Apple Ave'     , 'San Diego'  , 'CA', '91913', 'Retail'      ),
+(1110, 'Joana'  , 'Quiles'   , 'Chase'              , '320 Classic Rd'    , 'Los Angeles', 'CA', '90001', 'Credit Union');
 
 /*------------------------------------------------------------*/
 /*              Create the LOANS table	          			  */
@@ -403,7 +401,7 @@ INSERT INTO tblLenders VALUES
 -- schema: LOANS (LoanID, InterestRate, TypeOfLoan, Amount, ExpirationDate, MortgageType, DateOfSanction, DateofDisbursement, 
 --                DownPayment, PMI, SalesContractID, LenderID)
 -- 		   FK SalesContractID references SALES_CONTRACTS
---         FK LenderID references LENDER
+--         FK LenderID references LENDERS
 --         NOT NULL (TypeOfLoan, Amount, ExpirationDate, MortgageType, DateOfSanction, DateofDisbursement, DownPayment)
 
 CREATE TABLE tblLoans 
@@ -434,13 +432,6 @@ INSERT INTO tblLoans VALUES
 (50108, 03.25, 'Mortgage', 945000 , '2050-07-28', 'Fixed Rate'   , '2020-07-28', '2020-08-21', 9450  , 1200, 01003, 1108),
 (50109, 05.00, 'Mortgage', 600000 , '2050-10-25', 'VA'           , '2020-10-24', '2020-12-01', 30000 , 0   , 01001, 1109),
 (50110, 03.00, 'Mortgage', 250000 , '2051-01-04', 'FHA'          , '2021-01-04', '2021-04-01', 62500 , 0   , 01002, 1110);
-/*
-(50111, 03.50, 'Mortgage', 500000 , '2050-02-05', 'FHA'          , '2020-02-04', '2020-04-01', 50000 , 0   , 01002, 1105),
-(50112, 02.80, 'Mortgage', 630000 , '2051-03-15', 'Fixed Rate'   , '2021-03-14', '2021-04-15', 62000 , 1100, 01001, 1106),
-(50113, 04.25, 'Mortgage', 600000 , '2051-03-04', 'FHA'          , '2021-03-03', '2021-04-05', 60000 , 0   , 01003, 1102),
-(50114, 03.20, 'Mortgage', 430000 , '2050-11-10', 'Interest Only', '2020-11-10', '2021-01-03', 40000 , 0   , 01003, 1101),
-(50115, 05.50, 'Mortgage', 575000 , '2050-09-20', 'VA'           , '2020-09-19', '2020-11-01', 55000 , 700 , 01002, 1110);
-*/ 
 
 /*------------------------------------------------------------*/
 /*              Create the CREDIT REPORTS table	              */
@@ -448,7 +439,7 @@ INSERT INTO tblLoans VALUES
 -- schema: CREDIT_REPORTS (CreditReportID, CreditLine, TotalDebt, CreditScore, CurrentMortgage, ChildSupport, OtherLinesOfSupport, 
 --                         CurrentBalance, ClientID, LenderID)
 -- 		   FK ClientID references CLIENTS 
--- 		   FK LenderID references LENDER
+-- 		   FK LenderID references LENDERS
 
 CREATE TABLE tblCreditReports 
 (
@@ -476,40 +467,43 @@ INSERT INTO tblCreditReports VALUES
 (30008, '300000', 30000, 780, '30000', '0'   , '200' , 500  , 1018, 1108),
 (30009, '100000', 30000, 780, '10000', '0'   , '1000', 1000 , 1019, 1109),
 (30010, '85000' , 30000, 780, '0'    , '0'   , '500' , 3000 , 1020, 1110);
-/*
-(30011, '650000', 30000, 570, '0'    , '0'   , '500' , 3000 , 1020, 1105),
-(30012, '650000', 30000, 710, '0'    , '0'   , '500' , 3000 , 1020, 1106),
-(30013, '650000', 30000, 720, '0'    , '0'   , '500' , 3000 , 1020, 1102),
-(30014, '650000', 30000, 690, '0'    , '0'   , '500' , 3000 , 1020, 1101),
-(30015, '650000', 30000, 630, '0'    , '0'   , '500' , 3000 , 1020, 1110);
-*/
 
 /*---------------------------------------------------------------------*/	 
 /* 					 		Add Indexes						  		   */
 /*---------------------------------------------------------------------*/
--- lesson 6.2 (week 13)
 -- choose based on attribute you by filter a lot 
 
--- Each Real Estate agent is responsible for a certain region and is constantly searching by their region 
--- to find all clients and listings in their region. Region column was indexed to speed up these searches.
+/*
+Index Name: ndx_tblClients_Region
+Indexed Column: Region
+Purpose of Index: This index improves performance by allowing information to be retrieved more quickly 
+when a real estate agent searches for listings and clients in their assigned region. 
+*/
 
 CREATE INDEX ndx_tblClients_Regions ON tblClients(Region);
 
--- Agents are constantly searching for listings by zip code as they look for new available houses to sell. 
--- As they can be many listings in the database indexing the zip code which speed up the system considerably. 
+/*
+Index Name: ndx_tblListings_ZipCode
+Indexed Column: ZipCode
+Purpose of Index: This index improves performance by allowing the zip codes to be retrieved more quickly 
+when a real estate agent wants to look up certain listing information or client interest information.
+Agents are constantly searching for listings by zip code as they look for new available houses to sell. 
+*/
 
 CREATE INDEX ndx_tblListings_ZipCode ON tblListings(ZipCode);
 
--- Agents are looking up which banks have the lowest interest rates to recommend to their clients. 
--- Indexing the bank names will speed up a lot of searches. 
+/*
+Index Name: ndx_tblLenders_BankName
+Indexed Column: BankName
+Purpose of Index: This index improves performance by allowing real estate agents to look up banks with 
+the lowest interest rates for loans in order to recommend these banks to their clients. 
+*/
 
 CREATE INDEX ndx_tblLenders_BankName ON tblLenders(BankName);
 
 /*---------------------------------------------------------------------*/	 
 /* 					 		Add Queries						  		   */ 
 /*---------------------------------------------------------------------*/
--- add one more query with business question
--- add to query dictionary 
 -- SELECT * FROM INFORMATION_SCHEMA.columns  (gets metadata from table for data dictionary)
 -- WHERE Table_Name = 'tblClients';
 
@@ -536,29 +530,28 @@ JOIN tblClients C ON P.PersonID = C.ClientID
 WHERE Year(DOB) > '1980' AND CurrentHouseholdSize > 1
 ORDER BY FullName;
 
--- LOOK AT THIS ONE MORE 
 -- Business Question: Real estate agents want information on companies and individual agents that work outside of the 
 -- regions they typically cover in Arizona and California. 
 -- What real estate agents and companies are outside of California or Arizona?  
 
 SELECT R.AgentID, FirstName, LastName, C.CompanyID, CompanyName, C.TheState 
 FROM tblPeople P
-FULL JOIN tblRealEstateAgent R ON P.PersonID = R.AgentID
-FULL JOIN tblCompany C ON R.CompanyID = C.CompanyID
+FULL JOIN tblRealEstateAgents R ON P.PersonID = R.AgentID
+FULL JOIN tblCompanies C ON R.CompanyID = C.CompanyID
 WHERE C.TheState NOT LIKE 'CA' AND C.TheState NOT LIKE 'AZ'; 
 
 -- Business Question: What is the average income of clients looking for homes in San Diego?
 
 SELECT AVG(Income) AS AvgIncome
 FROM tblClients c
-JOIN tblLocationOfInterestsForClients ci ON c.ClientID = ci.ClientID
+JOIN tblLocationsOfInterestForClients ci ON c.ClientID = ci.ClientID
 JOIN tblLocationsofInterest li ON ci.LocationofInterestID = li.LocationofInterestID
 WHERE c.Region = 'San Diego';
 
 -- Business Question: What is the client rank selections distribution for San Diego in the DB?
 
 SELECT InterestRank, COUNT(*) AS Count
-FROM tblLocationOfInterestsForClients ci
+FROM tblLocationsOfInterestForClients ci
 JOIN tblLocationsOfInterest li ON ci.LocationOfInterestID = li.LocationOfInterestID
 WHERE City = 'San Diego'
 GROUP BY InterestRank;
@@ -638,7 +631,7 @@ What to know which clients are not interested in San diego propertoes but do end
 SELECT a.ClientID, p.FirstName, p.LastName
 FROM (SELECT c.ClientID
 	  FROM tblClients c
-	  JOIN tblLocationOfInterestsForClients lc ON c.ClientID = lc.ClientID
+	  JOIN tblLocationsOfInterestForClients lc ON c.ClientID = lc.ClientID
 	  JOIN tblLocationsOfInterest li ON lc.LocationOfInterestID = li.LocationOfInterestID
 	  WHERE li.City = 'San Diego') a
 JOIN (SELECT c.ClientID
@@ -647,3 +640,4 @@ JOIN (SELECT c.ClientID
 	  JOIN tblListings l ON o.ListingID = l.ListingID
 	  WHERE l.City <> 'San Diego') b ON a.ClientID = b.ClientID
 JOIN tblPeople p ON a.ClientID = p.PersonID;
+
