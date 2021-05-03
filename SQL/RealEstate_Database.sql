@@ -3,7 +3,9 @@ Create sql database with sql
 Create docker container that creates sql database and lets user query through database
 */
 
--- Set context to master
+/*---------------------------------------------------------------------*/	 
+/*				 	    Set context to master	  					   */
+/*---------------------------------------------------------------------*/
 USE MASTER; 
 
 /*---------------------------------------------------------------------*/	 
@@ -45,7 +47,7 @@ INSERT INTO tblPeople VALUES
 (1005, 'Juan'   , 'Hornito' , '5605555031'),
 (1006, 'John'   , 'Legend'  , '2845555000'),
 (1007, 'Bill'   , 'Ernie'   , '3455559123'),
-(1008, 'Beyance', 'Johnson' , '3345559031'),
+(1008, 'Beyonce', 'Johnson' , '3345559031'),
 (1009, 'Robert' , 'Briggs'  , '8585555401'),
 (1010, 'Will'   , 'McGrath' , '6195559221'),
 (1011, 'Jue'    , 'Lie'     , '6195554200'),
@@ -625,7 +627,7 @@ a house in a specific location but end up not buying a house there? They can the
 to find out why they ended up not purchasing in this area. What clients were initially interested in 
 San Diego but did not end up buying a house in San Diego?
 
-What to know which clients are not interested in San diego propertoes but do end up buying a property in San Diego. 
+What to know which clients are not interested in San diego properties but do end up buying a property in San Diego. 
 */
 
 SELECT a.ClientID, p.FirstName, p.LastName
