@@ -410,13 +410,13 @@ CREATE TABLE tblLoans
 (
 	LoanID	              int			  PRIMARY KEY				  ,
 	InterestRate          decimal(4,2)              				  ,
-	TypeOfLoan            varchar(64)     NOT NULL   				  , -- Business Rules state must be fully documented
-	Amount                int             NOT NULL   				  , -- Business Rules state must be fully documented
-	ExpirationDate        date            NOT NULL   				  , -- Business Rules state must be fully documented
-	MortgageType          varchar(64)     NOT NULL   				  , -- Business Rules state must be fully documented
-	DateOfSanction        date            NOT NULL   				  , -- Business Rules state must be fully documented
-	DateOfDisbursement    date            NOT NULL   				  , -- Business Rules state must be fully documented
-	DownPayment           int             NOT NULL   				  , -- Business Rules state must be fully documented
+	TypeOfLoan            varchar(64)     NOT NULL   				  , 
+	Amount                int             NOT NULL   				  , 
+	ExpirationDate        date            NOT NULL   				  , 
+	MortgageType          varchar(64)     NOT NULL   				  , 
+	DateOfSanction        date            NOT NULL   				  , 
+	DateOfDisbursement    date            NOT NULL   				  , 
+	DownPayment           int             NOT NULL   				  , 
 	PMI                   int                           			  ,
 	SalesContractID       int             REFERENCES tblSalesContracts,
 	LenderID              int             REFERENCES tblLenders
@@ -488,8 +488,9 @@ CREATE INDEX ndx_tblClients_Regions ON tblClients(Region);
 Index Name: ndx_tblListings_ZipCode
 Indexed Column: ZipCode
 Purpose of Index: This index improves performance by allowing the zip codes to be retrieved more quickly 
-when a real estate agent wants to look up certain listing information or client interest information.
-Agents are constantly searching for listings by zip code as they look for new available houses to sell. 
+				  when a real estate agent wants to look up certain listing information or client interest 
+				  information. Agents are constantly searching for listings by zip code as they look for 
+				  new available houses to sell. 
 */
 
 CREATE INDEX ndx_tblListings_ZipCode ON tblListings(ZipCode);
@@ -498,7 +499,7 @@ CREATE INDEX ndx_tblListings_ZipCode ON tblListings(ZipCode);
 Index Name: ndx_tblLenders_BankName
 Indexed Column: BankName
 Purpose of Index: This index improves performance by allowing real estate agents to look up banks with 
-the lowest interest rates for loans in order to recommend these banks to their clients. 
+				  the lowest interest rates for loans in order to recommend these banks to their clients. 
 */
 
 CREATE INDEX ndx_tblLenders_BankName ON tblLenders(BankName);
@@ -506,9 +507,10 @@ CREATE INDEX ndx_tblLenders_BankName ON tblLenders(BankName);
 /*---------------------------------------------------------------------*/	 
 /* 					 		Add Queries						  		   */ 
 /*---------------------------------------------------------------------*/
--- SELECT * FROM INFORMATION_SCHEMA.columns  (gets metadata from table for data dictionary)
--- WHERE Table_Name = 'tblClients';
+-- NOTE: SELECT * FROM INFORMATION_SCHEMA.columns (gets metadata from table for data dictionary)
+-- 		 WHERE Table_Name = 'tblClients';
 
+/*
 SELECT FirstName, LastName, CreditScore
 FROM tblCreditReports c
 JOIN tblPeople p ON p.personID = c.clientID
@@ -522,9 +524,13 @@ JOIN tblCreditReports c ON l.LenderID = c.LenderID
 JOIN tblLoans lo ON lo.LenderID = l.LenderID
 WHERE l.LenderID IN (SELECT LenderID FROM tblLoans)
 ORDER BY CreditScore;
+*/
 
--- Business Question: Agent has expertise dealing with young families and wants to see what clients meet their target group.
--- Which clients were born after 1980 and have a Current Household Size greater than 1?
+-- BUSINESS QUESTION 1 REF BV3: Real estate agent has expertise dealing with young families and wants to see what clients
+--         						meet his/her target group. Which clients were born after 1980 & have a current household 
+-- 								size greater than 1?
+-- SHOW: Last Name, First Name as FullName, DOB, Current Household Size
+-- ORGANIZE BY: Full Name in ascending order 
 
 SELECT CONCAT(LastName, ', ', FirstName) AS FullName, DOB, CurrentHouseholdSize
 FROM tblPeople P
@@ -532,15 +538,18 @@ JOIN tblClients C ON P.PersonID = C.ClientID
 WHERE Year(DOB) > '1980' AND CurrentHouseholdSize > 1
 ORDER BY FullName;
 
--- Business Question: Real estate agents want information on companies and individual agents that work outside of the 
--- regions they typically cover in Arizona and California. 
--- What real estate agents and companies are outside of California or Arizona?  
+-- BUSINESS QUESTION 2 REF BV2: Real estate agents want information on companies and individual agents that work outside 
+-- 								of the regions they typically cover (which is Arizona and California). What real estate 
+-- 								agents and companies are outside of California or Arizona?  
+-- SHOW: Agent ID, First Name, Last Name, Company ID, Company Name, the State
+-- ORGANIZE BY: TheState in ascending order 
 
 SELECT R.AgentID, FirstName, LastName, C.CompanyID, CompanyName, C.TheState 
 FROM tblPeople P
 FULL JOIN tblRealEstateAgents R ON P.PersonID = R.AgentID
 FULL JOIN tblCompanies C ON R.CompanyID = C.CompanyID
-WHERE C.TheState NOT LIKE 'CA' AND C.TheState NOT LIKE 'AZ'; 
+WHERE C.TheState NOT LIKE 'CA' AND C.TheState NOT LIKE 'AZ'
+ORDER BY TheState; 
 
 -- Business Question: What is the average income of clients looking for homes in San Diego?
 
@@ -558,25 +567,29 @@ JOIN tblLocationsOfInterest li ON ci.LocationOfInterestID = li.LocationOfInteres
 WHERE City = 'San Diego'
 GROUP BY InterestRank;
 
--- Business Question: What clients have very good credit scores over 740? Ordered by score with highest score first.
- 
+-- BUSINESS QUESTION 9 REF BV4: What clients have very good credit scores over 740? 
+-- SHOW: Client First Name, Client Last Name, Credit Score
+-- ORGANIZE BY: Credit Score in descending order	
+
 SELECT p.FirstName, p.LastName, cr.CreditScore
 FROM tblCreditReports cr
 JOIN tblPeople p ON p.PersonID = cr.ClientID
 WHERE cr.CreditScore > 740
 ORDER BY cr.CreditScore DESC;
 
--- Business Question: What lenders are more likely to provide loans to clients with lower credit scores? 
--- What is the average credit scores for approved loans for each individual lender? How do the lenders compare? 
--- Show lenders who have approved clients with lowest scores first.
+-- BUSINESS QUESTION 10 REF BV5: What lenders are most likely to provide loans to clients with lower credit scores? 
+-- SHOW: Lender First Name, Lender Last Name, Bank Name, Average Credit Score for each Lender as LenderAvgCreditScore,
+--	     Average Credit Score for approved loans as AvgCreditScore and do not show duplicate rows
+-- ORGANIZE BY: LenderAvgCreditScore in ascending order 
 
-SELECT DISTINCT l.LenderID, LenderFirstName, LenderLastName, BankName, CreditScore, 
+SELECT DISTINCT l.LenderID, LenderFirstName, LenderLastName, BankName, 
+	AVG(CreditScore) OVER(PARTITION BY l.LenderID) AS LenderAvgCreditScore, 
 	(SELECT AVG(CreditScore) FROM tblCreditReports) as AvgCreditScore
 FROM tblLenders l
-JOIN tblCreditReports c ON l.LenderID = c.LenderID
+JOIN tblCreditReports cr ON l.LenderID = cr.LenderID
 JOIN tblLoans lo ON lo.LenderID = l.LenderID
 WHERE l.LenderID IN (SELECT LenderID FROM tblLoans)
-ORDER BY CreditScore;
+ORDER BY LenderAvgCreditScore;
 
 /* Display clients with Totaldebt >= 25000 from the TblCreditReports */
 -- Business Question: Which clients have a total debt of $25,000 or more?
