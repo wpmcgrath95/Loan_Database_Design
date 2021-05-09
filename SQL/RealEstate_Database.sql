@@ -141,6 +141,8 @@ INSERT INTO tblBuyingSellingStages VALUES
 /*------------------------------------------------------------*/
 /*               Create the LISTINGS table	     	 		  */
 /*------------------------------------------------------------*/
+-- BUSINESS NEED: The company needs to have street address for all listings and ensure no duplicate listings in database. 
+
 -- schema: LISTINGS (ListingID, AgentID, Street, City, TheState, Zip Code, NoBedrooms, NoBaths, SquareFt, PropetyTax, HOAFee, 
 --                   EstClosingCost, AppraisalAmount)
 -- 		   FK AgentID references REAL_ESTATE_AGENTS
@@ -400,6 +402,8 @@ INSERT INTO tblLenders VALUES
 /*------------------------------------------------------------*/
 /*              Create the LOANS table	          			  */
 /*------------------------------------------------------------*/
+-- BUSINESS NEED: The company needs to have full records for all loans in the database.
+
 -- schema: LOANS (LoanID, InterestRate, TypeOfLoan, Amount, ExpirationDate, MortgageType, DateOfSanction, DateofDisbursement, 
 --                DownPayment, PMI, SalesContractID, LenderID)
 -- 		   FK SalesContractID references SALES_CONTRACTS
@@ -516,7 +520,7 @@ JOIN tblClients C ON P.PersonID = C.ClientID
 WHERE Year(DOB) > '1980' AND CurrentHouseholdSize > 1
 ORDER BY FullName;
 
--- BUSINESS QUESTION 2 REF BV2: Real estate agents want information on companies and individual agents that work outside 
+-- BUSINESS QUESTION 2 REF BV2: Real estate agent wants information on companies and individual agents that work outside 
 -- 								of the regions they typically cover (which is Arizona and California). What real estate 
 -- 								agents and companies are outside of California or Arizona?  
 -- SHOW: Agent ID, First Name, Last Name, Company ID, Company Name, the State
@@ -541,7 +545,7 @@ WHERE c.Region = 'San Diego';
 -- BUSINESS QUESTION 4 REF BV3: How do clients rank their real estate preferences in San Diego? (Primary choice of real 
 --								estate or secondary choice?)
 -- SHOW: Interest Rank count as Cnt
--- Group By: InterestRank
+-- GROUP BY: InterestRank
 
 SELECT InterestRank, COUNT(*) AS Cnt
 FROM tblLocationsOfInterestForClients ci
@@ -595,6 +599,7 @@ ORDER BY SquareFt DESC;
 
 -- BUSINESS QUESTION 9 REF BV4: Which clients have estimated closing costs larger than the average estimated closing cost?
 -- SHOW: Client ID, First Name, Last Name, Est Closing Cost, Average Est Closing Cost as AvgEstClosingCost
+-- ORGANIZE BY: Estimated Closing Cost in Descending Order 
 
 SELECT DISTINCT c.ClientID, p.FirstName, p.LastName, l.EstClosingCost, 
 	(SELECT AVG(EstClosingCost) FROM tblListings) AS AvgEstClosingCost
@@ -602,10 +607,12 @@ FROM tblClients c
 JOIN tblOffers o ON c.ClientID = o.ClientID
 JOIN tblListings l ON o.ListingID = l.ListingID
 JOIN tblPeople p ON c.ClientID = p.PersonID
-WHERE EstClosingCost > (SELECT AVG(EstClosingCost) FROM tblListings);
+WHERE EstClosingCost > (SELECT AVG(EstClosingCost) FROM tblListings)
+ORDER BY EstClosingCost DESC;
 
 -- BUSINESS QUESTION 10 REF BV4: How many clients' income is larger than the average income for all the clients?
 -- SHOW: Client ID, First Name, Last Name, Income, Average of Income as AvgIncome
+-- ORGANIZE BY: Income in Descending Order 
 
 SELECT DISTINCT c.ClientID, p.FirstName, p.LastName, c.Income, (SELECT AVG(Income) FROM tblClients) AS AvgIncome
 FROM tblClients c 
@@ -623,7 +630,7 @@ JOIN tblPeople p ON c.ClientID = p.PersonID
 JOIN tblBuyingSellingStages st ON st.StageID = c.StageID
 WHERE st.Stage = 'Denied'; 
 
--- BUSINESS QUESTION 12 REF BV5: Which clients are interested in purchasing a house in Chula Vista but end up not buying
+-- BUSINESS QUESTION 12 REF BV5: Which clients are interested in purchasing houses in Chula Vista ended up not buying
 --								 a house there? 
 -- SHOW: Client ID, First Name, Last Name, City as BoughtCity
 
