@@ -508,11 +508,11 @@ CREATE INDEX ndx_tblLenders_BankName ON tblLenders(BankName);
 -- NOTE: SELECT * FROM INFORMATION_SCHEMA.columns (gets metadata from table for data dictionary)
 -- 		 WHERE Table_Name = 'tblClients';
 
--- BUSINESS QUESTION 1 REF BV3: Real estate agent has expertise dealing with young families and wants to see what clients
+-- BUSINESS QUESTION 1 REF BR2: Real estate agent has expertise dealing with young families and wants to see what clients
 --         						meet his/her target group. Which clients were born after 1980 & have a current household 
 -- 								size greater than 1?
--- SHOW: Last Name, First Name as FullName, DOB, Current Household Size
--- ORGANIZE BY: Full Name in ascending order 
+-- SHOW: LastName, FirstName as FullName, DOB, CurrentHouseholdSize
+-- ORGANIZE BY: FullName in ascending order
 
 SELECT CONCAT(LastName, ', ', FirstName) AS FullName, DOB, CurrentHouseholdSize
 FROM tblPeople P
@@ -520,10 +520,10 @@ JOIN tblClients C ON P.PersonID = C.ClientID
 WHERE Year(DOB) > '1980' AND CurrentHouseholdSize > 1
 ORDER BY FullName;
 
--- BUSINESS QUESTION 2 REF BV2: Real estate agent wants information on companies and individual agents that work outside 
+-- BUSINESS QUESTION 2 REF BR2: Real estate agent wants information on companies and individual agents that work outside 
 -- 								of the regions they typically cover (which is Arizona and California). What real estate 
 -- 								agents and companies are outside of California or Arizona?  
--- SHOW: Agent ID, First Name, Last Name, Company ID, Company Name, the State
+-- SHOW: AgentID, FirstName, LastName, CompanyID, CompanyName, TheState
 -- ORGANIZE BY: TheState in ascending order 
 
 SELECT R.AgentID, FirstName, LastName, C.CompanyID, CompanyName, C.TheState 
@@ -533,7 +533,7 @@ FULL JOIN tblCompanies C ON R.CompanyID = C.CompanyID
 WHERE C.TheState NOT LIKE 'CA' AND C.TheState NOT LIKE 'AZ'
 ORDER BY TheState; 
 
--- BUSINESS QUESTION 3 REF BV3: What is the average income of clients looking for homes in the San Diego region? 
+-- BUSINESS QUESTION 3 REF BR3: What is the average income of clients looking for homes in the San Diego region? 
 -- SHOW: Average income as AvgIncome
 
 SELECT AVG(Income) AS AvgIncome
@@ -542,9 +542,9 @@ JOIN tblLocationsOfInterestForClients ci ON c.ClientID = ci.ClientID
 JOIN tblLocationsofInterest li ON ci.LocationofInterestID = li.LocationofInterestID
 WHERE c.Region = 'San Diego';
 
--- BUSINESS QUESTION 4 REF BV3: How do clients rank their real estate preferences in San Diego? (Primary choice of real 
+-- BUSINESS QUESTION 4 REF BR3: How do clients rank their real estate preferences in San Diego? (Primary choice of real 
 --								estate or secondary choice?)
--- SHOW: Interest Rank count as Cnt
+-- SHOW: InterestRank count as Cnt
 -- GROUP BY: InterestRank
 
 SELECT InterestRank, COUNT(*) AS Cnt
@@ -553,9 +553,9 @@ JOIN tblLocationsOfInterest li ON ci.LocationOfInterestID = li.LocationOfInteres
 WHERE City = 'San Diego'
 GROUP BY InterestRank;
 
--- BUSINESS QUESTION 5 REF BV4: What clients have very good credit scores over 740? 
--- SHOW: Client First Name, Client Last Name, Credit Score
--- ORGANIZE BY: Credit Score in descending order	
+-- BUSINESS QUESTION 5 REF BR2: What clients have very good credit scores over 740? 
+-- SHOW: FirstName, LastName, CreditScore
+-- ORGANIZE BY: CreditScore in descending order, highest credit score first	
 
 SELECT p.FirstName, p.LastName, cr.CreditScore
 FROM tblCreditReports cr
@@ -563,10 +563,10 @@ JOIN tblPeople p ON p.PersonID = cr.ClientID
 WHERE cr.CreditScore > 740
 ORDER BY cr.CreditScore DESC;
 
--- BUSINESS QUESTION 6 REF BV5: What lenders are most likely to provide loans to clients with lower credit scores? 
--- SHOW: Lender First Name, Lender Last Name, Bank Name, Average Credit Score for each Lender as LenderAvgCreditScore,
---	     Average Credit Score for approved loans as AvgCreditScore and do not show duplicate rows
--- ORGANIZE BY: LenderAvgCreditScore in ascending order 
+-- BUSINESS QUESTION 6 REF BR2: What lenders are most likely to provide loans to clients with lower credit scores? 
+-- SHOW: LenderID, LenderFirstName, LenderLastName, BankName, Average Credit Score approved for each Lender as LenderAvgCreditScore,
+--       Average Credit Score of approved loan as AvgCreditScore and do not show duplicate rows
+-- ORGANIZE BY: LenderAvgCreditScore in ascending order, lowest approved average credit score first
 
 SELECT DISTINCT l.LenderID, LenderFirstName, LenderLastName, BankName, 
 	AVG(CreditScore) OVER(PARTITION BY l.LenderID) AS LenderAvgCreditScore, 
@@ -577,9 +577,9 @@ JOIN tblLoans lo ON lo.LenderID = l.LenderID
 WHERE l.LenderID IN (SELECT LenderID FROM tblLoans)
 ORDER BY LenderAvgCreditScore;
 
--- BUSINESS QUESTION 7 REF BV5: Which clients have a total debt of $25,000 or more?
--- SHOW: First Name, Last Name, Total Debt
--- ORGANIZE BY: Total Debt in the descending order
+-- BUSINESS QUESTION 7 REF BR2: Which clients have a total debt of $25,000 or more?
+-- SHOW: FirstName, LastName, TotalDebt
+-- ORGANIZE BY: TotalDebt in descending order
 
 SELECT p.FirstName, p.LastName, cr.TotalDebt
 FROM tblCreditReports cr
@@ -587,19 +587,18 @@ JOIN tblPeople p ON p.PersonID = cr.ClientID
 WHERE cr.TotalDebt >= 25000
 ORDER BY cr.TotalDebt DESC;
 
--- BUSINESS QUESTION 8 REF BV5: What listings do we have for big houses with SFt >=1200? 
--- SHOW: Street, City, State, Zip Code, Number Bedrooms, Number baths, Square Ft, Propety Tax, HOA Fee, Est Closing Cost, 
---       Appraisal Amount
--- ORGANIZE BY: SquareFt in descending order
+-- BUSINESS QUESTION 8 REF BR2: What listings (and their details) do we have for large houses with square footage over 1200?
+-- SHOW: Street, City, TheState, ZipCode, NoBedrooms, NoBaths, SquareFt, PropertyTax, HOAFee, EstClosingCost, AppraisalAmount
+-- ORGANIZE BY: SquareFt in descending order with largest house first
 
 SELECT Street, City, TheState, ZipCode, NoBedrooms, NoBaths, SquareFt, PropetyTax, HOAFee, EstClosingCost, AppraisalAmount
 FROM tblListings
 WHERE NoBedrooms >= 3 AND NoBaths >= 2 AND SquareFt >= 1200
 ORDER BY SquareFt DESC;
 
--- BUSINESS QUESTION 9 REF BV4: Which clients have estimated closing costs larger than the average estimated closing cost?
--- SHOW: Client ID, First Name, Last Name, Est Closing Cost, Average Est Closing Cost as AvgEstClosingCost
--- ORGANIZE BY: Estimated Closing Cost in Descending Order 
+-- BUSINESS QUESTION 9 REF BR2: Which clients have estimated closing costs larger than the average estimated closing cost?
+-- SHOW: ClientID, FirstName, LastName, EstClosingCost, Average Estimated Closing Cost as AvgEstClosingCost
+-- ORGANIZE BY: EstClosingCost in descending order, largest cost first
 
 SELECT DISTINCT c.ClientID, p.FirstName, p.LastName, l.EstClosingCost, 
 	(SELECT AVG(EstClosingCost) FROM tblListings) AS AvgEstClosingCost
@@ -610,9 +609,9 @@ JOIN tblPeople p ON c.ClientID = p.PersonID
 WHERE EstClosingCost > (SELECT AVG(EstClosingCost) FROM tblListings)
 ORDER BY EstClosingCost DESC;
 
--- BUSINESS QUESTION 10 REF BV4: How many clients' income is larger than the average income for all the clients?
--- SHOW: Client ID, First Name, Last Name, Income, Average of Income as AvgIncome
--- ORGANIZE BY: Income in Descending Order 
+-- BUSINESS QUESTION 10 REF BR2: Which clients have incomes larger than average client income?
+-- SHOW: ClientID, FirstName, LastName, Income, Average Income as AvgIncome
+-- ORGANIZE BY: Income in descending order, largest income first
 
 SELECT DISTINCT c.ClientID, p.FirstName, p.LastName, c.Income, (SELECT AVG(Income) FROM tblClients) AS AvgIncome
 FROM tblClients c 
@@ -620,8 +619,8 @@ JOIN tblPeople p ON c.ClientID = p.PersonID
 WHERE Income > (SELECT AVG(Income) FROM tblClients)
 ORDER BY Income DESC;
 
--- BUSINESS QUESTION 11 REF BV3: Does it seem like most denied loans are for clients with lower than average incomes?
--- SHOW: Client ID, First Name, Last Name, Stage ID, Stage, Income, Average Income as AvgIncome
+-- BUSINESS QUESTION 11 REF BR3: Does it seem like most denied loans are for clients with lower than average incomes?
+-- SHOW: ClientID, FirstName, LastName, StageID, Stage, Income, Average Income as AvgIncome
 
 SELECT DISTINCT c.ClientID, p.FirstName, p.LastName, c.StageID, st.Stage, c.Income, 
 	(SELECT AVG(Income) FROM tblClients) AS AvgIncome
@@ -630,9 +629,9 @@ JOIN tblPeople p ON c.ClientID = p.PersonID
 JOIN tblBuyingSellingStages st ON st.StageID = c.StageID
 WHERE st.Stage = 'Denied'; 
 
--- BUSINESS QUESTION 12 REF BV5: Which clients are interested in purchasing houses in Chula Vista ended up not buying
+-- BUSINESS QUESTION 12 REF BR2: Which clients are interested in purchasing houses in Chula Vista ended up not buying
 --								 a house there? 
--- SHOW: Client ID, First Name, Last Name, City as BoughtCity
+-- SHOW: Client ID, FirstName, LastName, City as BoughtCity
 
 SELECT a.ClientID, p.FirstName, p.LastName, City AS BoughtCity
 FROM (SELECT c.ClientID
