@@ -515,8 +515,8 @@ CREATE INDEX ndx_tblLenders_BankName ON tblLenders(BankName);
 -- ORGANIZE BY: FullName in ascending order
 
 SELECT CONCAT(LastName, ', ', FirstName) AS FullName, DOB, CurrentHouseholdSize
-FROM tblPeople P
-JOIN tblClients C ON P.PersonID = C.ClientID
+FROM tblPeople AS p
+JOIN tblClients AS c ON p.PersonID = c.ClientID
 WHERE Year(DOB) > '1980' AND CurrentHouseholdSize > 1
 ORDER BY FullName;
 
@@ -526,20 +526,20 @@ ORDER BY FullName;
 -- SHOW: AgentID, FirstName, LastName, CompanyID, CompanyName, TheState
 -- ORGANIZE BY: TheState in ascending order 
 
-SELECT R.AgentID, FirstName, LastName, C.CompanyID, CompanyName, C.TheState 
-FROM tblPeople P
-FULL JOIN tblRealEstateAgents R ON P.PersonID = R.AgentID
-FULL JOIN tblCompanies C ON R.CompanyID = C.CompanyID
-WHERE C.TheState NOT LIKE 'CA' AND C.TheState NOT LIKE 'AZ'
+SELECT r.AgentID, FirstName, LastName, c.CompanyID, CompanyName, c.TheState 
+FROM tblPeople AS p
+FULL JOIN tblRealEstateAgents AS r ON p.PersonID = r.AgentID
+FULL JOIN tblCompanies AS c ON r.CompanyID = c.CompanyID
+WHERE c.TheState NOT LIKE 'CA' AND c.TheState NOT LIKE 'AZ'
 ORDER BY TheState; 
 
 -- BUSINESS QUESTION 3 REF BR3: What is the average income of clients looking for homes in the San Diego region? 
 -- SHOW: Average income as AvgIncome
 
 SELECT AVG(Income) AS AvgIncome
-FROM tblClients c
-JOIN tblLocationsOfInterestForClients ci ON c.ClientID = ci.ClientID
-JOIN tblLocationsofInterest li ON ci.LocationofInterestID = li.LocationofInterestID
+FROM tblClients AS c
+JOIN tblLocationsOfInterestForClients AS ci ON c.ClientID = ci.ClientID
+JOIN tblLocationsofInterest AS li ON ci.LocationofInterestID = li.LocationofInterestID
 WHERE c.Region = 'San Diego';
 
 -- BUSINESS QUESTION 4 REF BR3: How do clients rank their real estate preferences in San Diego? (Primary choice of real 
@@ -548,8 +548,8 @@ WHERE c.Region = 'San Diego';
 -- GROUP BY: InterestRank
 
 SELECT InterestRank, COUNT(*) AS Cnt
-FROM tblLocationsOfInterestForClients ci
-JOIN tblLocationsOfInterest li ON ci.LocationOfInterestID = li.LocationOfInterestID
+FROM tblLocationsOfInterestForClients AS ci
+JOIN tblLocationsOfInterest AS li ON ci.LocationOfInterestID = li.LocationOfInterestID
 WHERE City = 'San Diego'
 GROUP BY InterestRank;
 
@@ -558,8 +558,8 @@ GROUP BY InterestRank;
 -- ORGANIZE BY: CreditScore in descending order, highest credit score first	
 
 SELECT p.FirstName, p.LastName, cr.CreditScore
-FROM tblCreditReports cr
-JOIN tblPeople p ON p.PersonID = cr.ClientID
+FROM tblCreditReports AS cr
+JOIN tblPeople AS p ON p.PersonID = cr.ClientID
 WHERE cr.CreditScore > 740
 ORDER BY cr.CreditScore DESC;
 
@@ -571,9 +571,9 @@ ORDER BY cr.CreditScore DESC;
 SELECT DISTINCT l.LenderID, LenderFirstName, LenderLastName, BankName, 
 	AVG(CreditScore) OVER(PARTITION BY l.LenderID) AS LenderAvgCreditScore, 
 	(SELECT AVG(CreditScore) FROM tblCreditReports) as AvgCreditScore
-FROM tblLenders l
-JOIN tblCreditReports cr ON l.LenderID = cr.LenderID
-JOIN tblLoans lo ON lo.LenderID = l.LenderID
+FROM tblLenders AS l
+JOIN tblCreditReports AS cr ON l.LenderID = cr.LenderID
+JOIN tblLoans AS lo ON lo.LenderID = l.LenderID
 WHERE l.LenderID IN (SELECT LenderID FROM tblLoans)
 ORDER BY LenderAvgCreditScore;
 
@@ -582,8 +582,8 @@ ORDER BY LenderAvgCreditScore;
 -- ORGANIZE BY: TotalDebt in descending order
 
 SELECT p.FirstName, p.LastName, cr.TotalDebt
-FROM tblCreditReports cr
-JOIN tblPeople p ON p.PersonID = cr.ClientID
+FROM tblCreditReports AS cr
+JOIN tblPeople AS p ON p.PersonID = cr.ClientID
 WHERE cr.TotalDebt >= 25000
 ORDER BY cr.TotalDebt DESC;
 
@@ -602,10 +602,10 @@ ORDER BY SquareFt DESC;
 
 SELECT DISTINCT c.ClientID, p.FirstName, p.LastName, l.EstClosingCost, 
 	(SELECT AVG(EstClosingCost) FROM tblListings) AS AvgEstClosingCost
-FROM tblClients c 
-JOIN tblOffers o ON c.ClientID = o.ClientID
-JOIN tblListings l ON o.ListingID = l.ListingID
-JOIN tblPeople p ON c.ClientID = p.PersonID
+FROM tblClients AS c 
+JOIN tblOffers AS o ON c.ClientID = o.ClientID
+JOIN tblListings AS l ON o.ListingID = l.ListingID
+JOIN tblPeople AS p ON c.ClientID = p.PersonID
 WHERE EstClosingCost > (SELECT AVG(EstClosingCost) FROM tblListings)
 ORDER BY EstClosingCost DESC;
 
@@ -614,8 +614,8 @@ ORDER BY EstClosingCost DESC;
 -- ORGANIZE BY: Income in descending order, largest income first
 
 SELECT DISTINCT c.ClientID, p.FirstName, p.LastName, c.Income, (SELECT AVG(Income) FROM tblClients) AS AvgIncome
-FROM tblClients c 
-JOIN tblPeople p ON c.ClientID = p.PersonID
+FROM tblClients AS c 
+JOIN tblPeople AS p ON c.ClientID = p.PersonID
 WHERE Income > (SELECT AVG(Income) FROM tblClients)
 ORDER BY Income DESC;
 
@@ -624,9 +624,9 @@ ORDER BY Income DESC;
 
 SELECT DISTINCT c.ClientID, p.FirstName, p.LastName, c.StageID, st.Stage, c.Income, 
 	(SELECT AVG(Income) FROM tblClients) AS AvgIncome
-FROM tblClients c 
-JOIN tblPeople p ON c.ClientID = p.PersonID
-JOIN tblBuyingSellingStages st ON st.StageID = c.StageID
+FROM tblClients AS c 
+JOIN tblPeople AS p ON c.ClientID = p.PersonID
+JOIN tblBuyingSellingStages AS st ON st.StageID = c.StageID
 WHERE st.Stage = 'Denied'; 
 
 -- BUSINESS QUESTION 12 REF BR2: Which clients are interested in purchasing houses in Chula Vista ended up not buying
@@ -635,13 +635,13 @@ WHERE st.Stage = 'Denied';
 
 SELECT a.ClientID, p.FirstName, p.LastName, City AS BoughtCity
 FROM (SELECT c.ClientID
-	  FROM tblClients c
-	  JOIN tblLocationsOfInterestForClients lc ON c.ClientID = lc.ClientID
-	  JOIN tblLocationsOfInterest li ON lc.LocationOfInterestID = li.LocationOfInterestID
-	  WHERE li.City = 'Chula Vista') a
+	  FROM tblClients AS c
+	  JOIN tblLocationsOfInterestForClients AS lc ON c.ClientID = lc.ClientID
+	  JOIN tblLocationsOfInterest AS li ON lc.LocationOfInterestID = li.LocationOfInterestID
+	  WHERE li.City = 'Chula Vista') AS a
 JOIN (SELECT c.ClientID, l.City
-	  FROM tblClients c
-	  JOIN tblOffers o ON c.ClientID = o.ClientID
-	  JOIN tblListings l ON o.ListingID = l.ListingID
-	  WHERE l.City <> 'Chula Vista') b ON a.ClientID = b.ClientID
-JOIN tblPeople p ON a.ClientID = p.PersonID;
+	  FROM tblClients AS c
+	  JOIN tblOffers AS o ON c.ClientID = o.ClientID
+	  JOIN tblListings AS l ON o.ListingID = l.ListingID
+	  WHERE l.City <> 'Chula Vista') AS b ON a.ClientID = b.ClientID
+JOIN tblPeople AS p ON a.ClientID = p.PersonID;
