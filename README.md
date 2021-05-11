@@ -1,6 +1,6 @@
 # Designing a Logical Database Using Loan Data
 
-The purpose of this project is to create a database from scratch using best practices such as normalization. This includes: a proposal, a problem statement, a data model, a logical database design, a data dictionary, and a query dictionary. This project was a team effort designed for MIS 686 at SDSU. All data used is created and for educational purposes. Please see the documentation below.
+The purpose of this project is to create a database from scratch for a specific business use-case (a company with a database for real estate agents). Additionally, we tried to use best practices in creating, managing, and querying a database, such as normalization. This also includes: a proposal, a problem statement, a data model, a logical database design, a data dictionary, and a query dictionary. This project was a team effort designed for MIS 686 at SDSU. All data used is created and for educational purposes. Please see the documentation below.
 
 # Setup for developement:
 
