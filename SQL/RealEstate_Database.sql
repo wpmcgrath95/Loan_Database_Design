@@ -10,7 +10,7 @@ USE MASTER;
 
 /*---------------------------------------------------------------------*/	 
 /* If the RealEstate database exists, DROP it so database can run	   */
-/*---------------------------------------------------------------------*/
+/*--------------------------- ------------------------------------------*/
 
 IF EXISTS (SELECT * FROM Master.dbo.sysdatabases WHERE NAME = 'RealEstate')
 DROP DATABASE RealEstate;
