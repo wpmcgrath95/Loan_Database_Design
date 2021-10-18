@@ -89,6 +89,8 @@ jupyterlab==2.2.10
     # via -r requirements.dev.in
 jupyterlab-server==1.2.0
     # via jupyterlab
+jupyterlab>=2.2.10
+    # via -r requirements.dev.in
 markupsafe==1.1.1
     # via jinja2
 mccabe==0.6.1
@@ -206,7 +208,7 @@ typed-ast==1.4.1
     # via black
 typing-extensions==3.7.4.3
     # via black
-urllib3==1.25.10
+urllib3>=1.26.5
     # via requests
 virtualenv==20.0.31
     # via pre-commit
